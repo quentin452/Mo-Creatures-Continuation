@@ -3,6 +3,8 @@ package drzhark.mocreatures;
 import java.util.ArrayList;
 import java.util.List;
 
+import drzhark.customspawner.utils.CMSUtils;
+import drzhark.mocreatures.utils.MoCLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -23,8 +25,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import drzhark.customspawner.utils.CMSUtils;
-import drzhark.mocreatures.utils.MoCLog;
 
 public class MoCDespawner {
 
@@ -34,18 +34,13 @@ public class MoCDespawner {
     public List<BiomeGenBase> biomeList = new ArrayList<BiomeGenBase>();
     private List<Class> vanillaClassList;
 
-    public MoCDespawner()
-    {
+    public MoCDespawner() {
         biomeList = new ArrayList<BiomeGenBase>();
-        try
-        {
-            for (BiomeGenBase biomegenbase : BiomeGenBase.getBiomeGenArray())
-            {
-                if (biomegenbase == null)
-                {
+        try {
+            for (BiomeGenBase biomegenbase : BiomeGenBase.getBiomeGenArray()) {
+                if (biomegenbase == null) {
                     continue;
                 }
-
                 biomeList.add(biomegenbase);
             }
 
@@ -59,134 +54,101 @@ public class MoCDespawner {
             vanillaClassList.add(EntityOcelot.class);
             vanillaClassList.add(EntityBat.class);
             vanillaClassList.add(EntityHorse.class);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
 
     //New DesPawner stuff
-    protected final static int entityDespawnCheck(WorldServer worldObj, EntityLiving entityliving, int minDespawnLightLevel, int maxDespawnLightLevel)
-    {
+    protected final static int entityDespawnCheck(WorldServer worldObj, EntityLiving entityliving, int minDespawnLightLevel, int maxDespawnLightLevel) {
         if (entityliving instanceof EntityWolf && ((EntityWolf) entityliving).isTamed()) { return 0; }
         if (entityliving instanceof EntityOcelot && ((EntityOcelot) entityliving).isTamed()) { return 0; }
         if (!isValidDespawnLightLevel(entityliving, worldObj, minDespawnLightLevel, maxDespawnLightLevel)) { return 0; }
 
         EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(entityliving, -1D);
-        if (entityplayer != null) //entityliving.canDespawn() && 
-        {
+        if (entityplayer != null) { //entityliving.canDespawn() && 
             double d = ((Entity) (entityplayer)).posX - entityliving.posX;
             double d1 = ((Entity) (entityplayer)).posY - entityliving.posY;
             double d2 = ((Entity) (entityplayer)).posZ - entityliving.posZ;
             double d3 = d * d + d1 * d1 + d2 * d2;
-            if (d3 > 16384D)
-            {
+            if (d3 > 16384D) {
                 entityliving.setDead();
                 return 1;
-            }
-            if (entityliving.getAge() > 600 && worldObj.rand.nextInt(800) == 0)
-            {
-                if (d3 < 1024D)
-                {
-                    //entityliving.attackEntityFrom(DamageSource.generic, 0);
-                }
-                else
-                {
-                    entityliving.setDead();
-                    return 1;
-                }
+            } if (d3 >= 1024D && entityliving.getAge() > 600 && worldObj.rand.nextInt(800) == 0) {
+                entityliving.setDead();
+                return 1;
             }
         }
         return 0;
     }
 
-    public final static int despawnVanillaAnimals(WorldServer worldObj, int minDespawnLightLevel, int maxDespawnLightLevel)
-    {
+    public final static int despawnVanillaAnimals(WorldServer worldObj, int minDespawnLightLevel, int maxDespawnLightLevel) {
         int count = 0;
-        for (int j = 0; j < worldObj.loadedEntityList.size(); j++)
-        {
+        for (int j = 0; j < worldObj.loadedEntityList.size(); j++) {
             Entity entity = (Entity) worldObj.loadedEntityList.get(j);
-            if (!(entity instanceof EntityLiving))
-            {
+            if (!(entity instanceof EntityLiving)) {
                 continue;
             }
-            if ((entity instanceof EntityHorse || entity instanceof EntityCow || entity instanceof EntitySheep || entity instanceof EntityPig || entity instanceof EntityOcelot || entity instanceof EntityChicken || entity instanceof EntitySquid || entity instanceof EntityWolf || entity instanceof EntityMooshroom))
-            {
+            if ((entity instanceof EntityHorse || entity instanceof EntityCow || entity instanceof EntitySheep || entity instanceof EntityPig || entity instanceof EntityOcelot || entity instanceof EntityChicken || entity instanceof EntitySquid || entity instanceof EntityWolf || entity instanceof EntityMooshroom)) {
                 count += entityDespawnCheck(worldObj, (EntityLiving) entity, minDespawnLightLevel, maxDespawnLightLevel);
             }
         }
         return count;
     }
 
-    public final int countEntities(Class class1, World worldObj)
-    {
+    public final int countEntities(Class class1, World worldObj) {
         int i = 0;
-        for (int j = 0; j < worldObj.loadedEntityList.size(); j++)
-        {
+        for (int j = 0; j < worldObj.loadedEntityList.size(); j++) {
             Entity entity = (Entity) worldObj.loadedEntityList.get(j);
-            if (class1.isAssignableFrom(entity.getClass()))
-            {
+            if (class1.isAssignableFrom(entity.getClass())) {
                 i++;
             }
         }
-
         return i;
     }
 
-    public static boolean isValidLightLevel(Entity entity, WorldServer worldObj, int lightLevel, boolean checkAmbientLightLevel)
-    {
-        if (entity.isCreatureType(EnumCreatureType.monster, false)) // ignore monsters since monsters should be checking ValidLightLevel
+    public static boolean isValidLightLevel(Entity entity, WorldServer worldObj, int lightLevel, boolean checkAmbientLightLevel) {
+    	//ignore monsters since monsters should be checking ValidLightLevel
+        if (entity.isCreatureType(EnumCreatureType.monster, false)) {
             return true;
-        else if (entity.isCreatureType(EnumCreatureType.ambient, false) && !checkAmbientLightLevel)
-        {
+        } else if (entity.isCreatureType(EnumCreatureType.ambient, false) && !checkAmbientLightLevel) {
             return true;
-        }
-        else if (!entity.isCreatureType(EnumCreatureType.creature, false))
-        {
+        } else if (!entity.isCreatureType(EnumCreatureType.creature, false)) {
             return true;
         }
         int x = MathHelper.floor_double(entity.posX);
         int y = MathHelper.floor_double(entity.boundingBox.minY);
         int z = MathHelper.floor_double(entity.posZ);
         int i = 0;
-        if (y >= 0)
-        {
-            if (y >= 256)
-            {
+        if (y >= 0) {
+            if (y >= 256) {
                 y = 255;
             }
             i = getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
-        if (i > lightLevel)
-        {
+        if (i > lightLevel) {
             if (debug) MoCLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + ". LightLevel over threshold of " + lightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
         }
         return i <= lightLevel;
     }
     
-    public static boolean isValidDespawnLightLevel(Entity entity, World worldObj, int minDespawnLightLevel, int maxDespawnLightLevel)
-    {
+    public static boolean isValidDespawnLightLevel(Entity entity, World worldObj, int minDespawnLightLevel, int maxDespawnLightLevel) {
         int x = MathHelper.floor_double(entity.posX);
         int y = MathHelper.floor_double(entity.boundingBox.minY);
         int z = MathHelper.floor_double(entity.posZ);
         int blockLightLevel = 0;
-        if (y >= 0)
-        {
-            if (y >= 256)
-            {
+        if (y >= 0) {
+            if (y >= 256) {
                 y = 255;
             }
             blockLightLevel = CMSUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
-        if (blockLightLevel < minDespawnLightLevel && maxDespawnLightLevel != -1)
-        {
-            //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " under minimum threshold of " + minDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
+        if (blockLightLevel < minDespawnLightLevel && maxDespawnLightLevel != -1) {
+            if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " under minimum threshold of " + minDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
             return false;
         }
-        else if (blockLightLevel > maxDespawnLightLevel && maxDespawnLightLevel != -1)
-        {
-            //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " over maximum threshold of " + maxDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
+        else if (blockLightLevel > maxDespawnLightLevel && maxDespawnLightLevel != -1) {
+            if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " over maximum threshold of " + maxDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
             return false;
         }
         return true;
@@ -195,17 +157,14 @@ public class MoCDespawner {
     /**
      * Gets the amount of light on a block without taking into account sunlight
      */
-    public static int getBlockLightValue(Chunk chunk, int x, int y, int z)
-    {
+    public static int getBlockLightValue(Chunk chunk, int x, int y, int z) {
         ExtendedBlockStorage extendedblockstorage = chunk.getBlockStorageArray()[y >> 4];
 
-        if (extendedblockstorage == null)
-        {
+        if (extendedblockstorage == null) {
             return 0;
-        }
-        else
-        {
+        } else {
             return extendedblockstorage.getExtBlocklightValue(x, y & 15, z);
         }
     }
+
 }

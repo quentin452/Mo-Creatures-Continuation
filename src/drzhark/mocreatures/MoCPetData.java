@@ -3,12 +3,12 @@ package drzhark.mocreatures;
 import java.util.ArrayList;
 import java.util.BitSet;
 
+import drzhark.mocreatures.entity.IMoCTameable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
-import drzhark.mocreatures.entity.IMoCTameable;
 
 public class MoCPetData {
 

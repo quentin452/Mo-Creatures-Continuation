@@ -6,17 +6,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
+import drzhark.mocreatures.entity.IMoCTameable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompressedStreamTools;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.WorldSavedData;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraftforge.common.DimensionManager;
-import drzhark.mocreatures.entity.IMoCTameable;
 
 public class MoCPetMapData extends WorldSavedData
 {

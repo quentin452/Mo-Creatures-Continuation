@@ -2,8 +2,8 @@ package drzhark.mocreatures;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
-import net.minecraft.entity.player.EntityPlayer;
 import drzhark.mocreatures.entity.IMoCEntity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class MoCPlayerTracker {
     @SubscribeEvent

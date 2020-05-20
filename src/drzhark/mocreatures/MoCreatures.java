@@ -10,32 +10,6 @@ import java.util.UUID;
 
 import com.mojang.authlib.GameProfile;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Block.SoundType;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EntityList.EntityEggInfo;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.BiomeDictionary.Type;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -45,9 +19,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -59,7 +31,6 @@ import drzhark.mocreatures.block.MoCBlockLog;
 import drzhark.mocreatures.block.MoCBlockPlanks;
 import drzhark.mocreatures.block.MoCBlockRock;
 import drzhark.mocreatures.block.MoCBlockTallGrass;
-import drzhark.mocreatures.block.MultiItemBlock;
 import drzhark.mocreatures.client.MoCClientTickHandler;
 import drzhark.mocreatures.client.MoCCreativeTabs;
 import drzhark.mocreatures.client.handlers.MoCKeyHandler;
@@ -67,7 +38,6 @@ import drzhark.mocreatures.command.CommandMoCPets;
 import drzhark.mocreatures.command.CommandMoCSpawn;
 import drzhark.mocreatures.command.CommandMoCTP;
 import drzhark.mocreatures.command.CommandMoCreatures;
-import drzhark.mocreatures.configuration.MoCProperty;
 import drzhark.mocreatures.dimension.BiomeGenWyvernLair;
 import drzhark.mocreatures.dimension.WorldProviderWyvernEnd;
 import drzhark.mocreatures.entity.ambient.MoCEntityAnt;
@@ -152,11 +122,40 @@ import drzhark.mocreatures.item.MoCItemWeapon;
 import drzhark.mocreatures.item.MoCItemWhip;
 import drzhark.mocreatures.network.MoCMessageHandler;
 import drzhark.mocreatures.utils.MoCLog;
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityList.EntityEggInfo;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.item.ItemArmor.ArmorMaterial;
+import net.minecraft.item.ItemDye;
+import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
+import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.BiomeDictionary.Type;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.oredict.OreDictionary;
 
-@Mod(modid = "MoCreatures", name = "DrZhark's Mo'Creatures", version = "6.3.1")
+@Mod(modid = MoCreatures.MODID, name = MoCreatures.NAME, version = MoCreatures.VERSION)
 public class MoCreatures {
 
-    @Instance("MoCreatures")
+	public static final String MODID = "MoCreatures";
+	public static final String NAME = "DrZhark's Mo'Creatures";
+	public static final String VERSION = "6.3.1";
+	
+    @Instance(MODID)
     public static MoCreatures instance;
 
     @SidedProxy(clientSide = "drzhark.mocreatures.client.MoCClientProxy", serverSide = "drzhark.mocreatures.MoCProxy")
@@ -355,8 +354,8 @@ public class MoCreatures {
     public static Item fishnet;
     public static Item medallion;
     public static Item petamulet;
-    public static Item scrollFreedom;
     public static Item scrollOfSale;
+    public static Item scrollFreedom;
     public static Item scrollOfOwner;
 
     public static Item mocegg;
@@ -699,8 +698,8 @@ public class MoCreatures {
         bootsHide = new MoCItemArmor("hideboots", hideARMOR, 4, 3);
 
         //Scorpion Frost set
-        scorpPlateFrost = new MoCItemArmor("scorpplatefrost", scorpARMOR, 4, 1);
         scorpHelmetFrost = new MoCItemArmor("scorphelmetfrost", scorpARMOR, 4, 0);
+        scorpPlateFrost = new MoCItemArmor("scorpplatefrost", scorpARMOR, 4, 1);
         scorpLegsFrost = new MoCItemArmor("scorplegsfrost", scorpARMOR, 4, 2);
         scorpBootsFrost = new MoCItemArmor("scorpbootsfrost", scorpARMOR, 4, 3);
         //Scorpion Nether set
@@ -782,8 +781,8 @@ public class MoCreatures {
         fishnet = new MoCItemPetAmulet("fishnet");
         medallion = new MoCItem("medallion");
         petamulet = new MoCItemPetAmulet("petamulet", 1);
-        scrollFreedom = new MoCItem("scrolloffreedom");
         scrollOfSale = new MoCItem("scrollofsale");
+        scrollFreedom = new MoCItem("scrolloffreedom");
         scrollOfOwner = new MoCItem("scrollofowner");
 
         mocegg = new MoCItemEgg("mocegg");
@@ -803,7 +802,40 @@ public class MoCreatures {
     }
 
     private void RegisterWithOreDictionary() {
+    	//Blocks
+    	OreDictionary.registerOre("plankWood", new ItemStack(mocPlank, 1, OreDictionary.WILDCARD_VALUE));
+    	OreDictionary.registerOre("logWood", new ItemStack(mocLog, 1, OreDictionary.WILDCARD_VALUE));
+    	OreDictionary.registerOre("treeLeaves", new ItemStack(mocLeaf, 1, OreDictionary.WILDCARD_VALUE));
+    	
+    	//Crab
+    	OreDictionary.registerOre("foodCrabraw", new ItemStack(crabraw));
+    	OreDictionary.registerOre("foodCrabcooked", new ItemStack(crabcooked));
+    	//Ostrich
+    	OreDictionary.registerOre("foodOstrichraw", new ItemStack(ostrichraw));
+    	OreDictionary.registerOre("listAllostrichraw", new ItemStack(ostrichraw));
+    	OreDictionary.registerOre("listAllmeatraw", new ItemStack(ostrichraw));
+    	OreDictionary.registerOre("foodOstrichcooked", new ItemStack(ostrichcooked));
+    	OreDictionary.registerOre("listAllostrichcooked", new ItemStack(ostrichcooked));
+    	OreDictionary.registerOre("listAllmeatcooked", new ItemStack(ostrichcooked));
+    	//Turkey
+    	OreDictionary.registerOre("foodTurkeyraw", new ItemStack(rawTurkey));
+    	OreDictionary.registerOre("listAllturkeyraw", new ItemStack(rawTurkey));
+    	OreDictionary.registerOre("listAllmeatraw", new ItemStack(rawTurkey));
+    	OreDictionary.registerOre("foodTurkeycooked", new ItemStack(cookedTurkey));
+    	OreDictionary.registerOre("listAllturkeycooked", new ItemStack(cookedTurkey));
+    	OreDictionary.registerOre("listAllmeatcooked", new ItemStack(cookedTurkey));
+    	//Rat
+    	OreDictionary.registerOre("foodRatraw", new ItemStack(ratRaw));
+    	OreDictionary.registerOre("foodRatcooked", new ItemStack(ratCooked));
+    	OreDictionary.registerOre("foodRatburger", new ItemStack(ratBurger));
+    	//Turtle
+    	OreDictionary.registerOre("foodTurtleraw", new ItemStack(turtleraw));
+    	OreDictionary.registerOre("foodTurtlesoup", new ItemStack(turtlesoup));
+    	//Omelet
+    	OreDictionary.registerOre("foodOmelet", new ItemStack(omelet));
 
+    	//Misc
+    	OreDictionary.registerOre("record", new ItemStack(recordshuffle));
     }
 
     private void AddRecipes() {
@@ -835,9 +867,9 @@ public class MoCreatures {
 
         //Pet related
         GameRegistry.addShapelessRecipe(new ItemStack(petfood, 4), new Object[] { new ItemStack(Items.fish, 1), new ItemStack(Items.porkchop, 1) });
+        GameRegistry.addShapelessRecipe(new ItemStack(scrollOfSale, 1), new Object[] { Items.paper, Items.feather });
         GameRegistry.addShapelessRecipe(new ItemStack(scrollFreedom, 1), new Object[] { Items.paper, Items.feather, Items.redstone });
         GameRegistry.addShapelessRecipe(new ItemStack(scrollFreedom, 1), new Object[] { scrollOfSale, Items.redstone });
-        GameRegistry.addShapelessRecipe(new ItemStack(scrollOfSale, 1), new Object[] { Items.paper, Items.feather });
 
 
 

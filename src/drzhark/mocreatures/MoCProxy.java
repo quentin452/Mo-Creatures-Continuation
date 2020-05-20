@@ -4,10 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.IGuiHandler;
 import drzhark.mocreatures.configuration.MoCConfigCategory;
@@ -17,6 +13,10 @@ import drzhark.mocreatures.entity.IMoCEntity;
 import drzhark.mocreatures.entity.monster.MoCEntityGolem;
 import drzhark.mocreatures.entity.passive.MoCEntityHorse;
 import drzhark.mocreatures.utils.MoCLog;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 public class MoCProxy implements IGuiHandler {
 
@@ -118,8 +118,8 @@ public class MoCProxy implements IGuiHandler {
     //----------------CONFIG INITIALIZATION
     public void ConfigInit(FMLPreInitializationEvent event) 
     {
-        mocSettingsConfig = new MoCConfiguration(new File(event.getSuggestedConfigurationFile().getParent(), "MoCreatures" + File.separator + "MoCSettings.cfg"));
-        mocEntityConfig = new MoCConfiguration(new File(event.getSuggestedConfigurationFile().getParent(), "MoCreatures" + File.separator + "MoCreatures.cfg"));
+        mocSettingsConfig = new MoCConfiguration(new File(event.getSuggestedConfigurationFile().getParent(), MoCreatures.MODID + File.separator + "MoCSettings.cfg"));
+        mocEntityConfig = new MoCConfiguration(new File(event.getSuggestedConfigurationFile().getParent(), MoCreatures.MODID + File.separator + "MoCreatures.cfg"));
         configFile = event.getSuggestedConfigurationFile();
         mocSettingsConfig.load();
         mocEntityConfig.load();

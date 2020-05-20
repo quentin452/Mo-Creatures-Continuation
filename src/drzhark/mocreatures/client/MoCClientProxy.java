@@ -677,7 +677,7 @@ public class MoCClientProxy extends MoCProxy {
     {
         MoCLog.logger.info("Initializing MoCreatures GUI API");
         // GUI API settings
-        guiapiSettings = new MoCSettings("MoCreatures");
+        guiapiSettings = new MoCSettings(MoCreatures.MODID);
         MoCScreen = new ModSettingScreen("DrZhark's Mo'Creatures");
 
         //******************** Main Menu ********************//
@@ -1169,13 +1169,13 @@ public class MoCClientProxy extends MoCProxy {
         if (mocSettingsConfig.getFile().exists())
         {
             String parentDir = configFile.getParent();
-            if (!mocSettingsConfig.getFile().renameTo(new File(parentDir, "MoCreatures" + File.separator + "MoCGlobal.cfg.bak")))
+            if (!mocSettingsConfig.getFile().renameTo(new File(parentDir, MoCreatures.MODID + File.separator + "MoCGlobal.cfg.bak")))
             {
-                File oldFile = new File(parentDir, "MoCreatures" + File.separator + "MoCGlobal.cfg.bak");
+                File oldFile = new File(parentDir, MoCreatures.MODID + File.separator + "MoCGlobal.cfg.bak");
                 oldFile.delete();
-                mocSettingsConfig.getFile().renameTo(new File(parentDir, "MoCreatures" + File.separator + "MoCGlobal.cfg.bak"));
+                mocSettingsConfig.getFile().renameTo(new File(parentDir, MoCreatures.MODID + File.separator + "MoCGlobal.cfg.bak"));
             }
-            mocSettingsConfig = new MoCConfiguration(new File(parentDir, "MoCreatures" + File.separator + "MoCGlobal.cfg"));
+            mocSettingsConfig = new MoCConfiguration(new File(parentDir, MoCreatures.MODID + File.separator + "MoCGlobal.cfg"));
             File mocreaturesFile = new File(parentDir, "MoCreatures.cfg");
             if (mocreaturesFile.exists())
             {
