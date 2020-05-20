@@ -339,11 +339,6 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
         if (attackTime <= 0 && (f < 3.0D) && (entity.boundingBox.maxY > boundingBox.minY) && (entity.boundingBox.minY < boundingBox.maxY))
         {
             attackTime = 20;
-            boolean flag = (entity instanceof EntityPlayer);
-            if (flag)
-            {
-                MoCreatures.poisonPlayer((EntityPlayer) entity);
-            }
             ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 150, 0));
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2);
         }

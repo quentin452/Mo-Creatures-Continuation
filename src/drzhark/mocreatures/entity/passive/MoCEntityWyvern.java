@@ -637,13 +637,8 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
         if (attackTime <= 0 && (f < 3.0D) && (entity.boundingBox.maxY > boundingBox.minY) && (entity.boundingBox.minY < boundingBox.maxY))
         {
             attackTime = 20;
-            boolean flag = (rand.nextInt(3) == 0);
-            if (flag)
+            if (rand.nextInt(3) == 0)
             {
-                if (entity instanceof EntityPlayer) 
-                {
-                    MoCreatures.poisonPlayer((EntityPlayer) entity);
-                }
                 ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 200, 0));
                 MoCTools.playCustomSound(this, "wyvernpoisoning", worldObj);
             }

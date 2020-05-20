@@ -14,10 +14,8 @@ import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.common.IPlantable;
 
-public class MoCBlock extends Block
-{
-    public MoCBlock(String name, Material material)
-    {
+public class MoCBlock extends Block {
+    public MoCBlock(String name, Material material) {
         super(material);
         this.setBlockName(name);
         this.setCreativeTab(MoCreatures.tabMoC);
@@ -25,28 +23,23 @@ public class MoCBlock extends Block
     }
 
     @Override
-    public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plant)
-    {
+    public boolean canSustainPlant(IBlockAccess world, int x, int y, int z, ForgeDirection direction, IPlantable plant) {
         Block block = plant.getPlant(world, x, y + 1, z);
         EnumPlantType plantType = plant.getPlantType(world, x, y + 1, z);
 
-        if (block == Blocks.cactus && this == Blocks.cactus)
-        {
+        if (block == Blocks.cactus && this == Blocks.cactus) {
             return true;
         }
 
-        if (block == Blocks.reeds && this == Blocks.reeds)
-        {
+        if (block == Blocks.reeds && this == Blocks.reeds) {
             return true;
         }
 
-        if (plant instanceof BlockFlower)
-        {
+        if (plant instanceof BlockFlower) {
             return true;
         }
 
-        switch (plantType)
-        {
+        switch (plantType) {
             case Desert: return this == (Block)Blocks.sand;
             case Nether: return this == Blocks.soul_sand;
             case Crop:   return this == Blocks.farmland;
@@ -61,7 +54,7 @@ public class MoCBlock extends Block
                                     world.getBlock(x,     y, z + 1).getMaterial() == Material.water);
                 return isBeach && hasWater;
         }
-
         return false;
     }
+
 }

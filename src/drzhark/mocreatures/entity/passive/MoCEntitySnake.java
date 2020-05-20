@@ -553,7 +553,6 @@ public class MoCEntitySnake extends MoCEntityTameableAnimal {
             // venom!
             if (rand.nextInt(2) == 0 && entity instanceof EntityPlayer && getType() > 2 && getType() < 8)
             {
-                MoCreatures.poisonPlayer((EntityPlayer) entity);
                 ((EntityPlayer) entity).addPotionEffect(new PotionEffect(Potion.poison.id, 120, 0));
             }
 

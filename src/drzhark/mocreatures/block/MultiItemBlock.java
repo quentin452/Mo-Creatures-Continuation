@@ -7,8 +7,7 @@ import drzhark.mocreatures.MoCreatures;
 
 public class MultiItemBlock extends ItemBlock {
 
-    public MultiItemBlock(Block block) 
-    {
+    public MultiItemBlock(Block block) {
         super(block);
         setHasSubtypes(true);
         //setItemName("multiBlock"); //TODO
@@ -24,4 +23,5 @@ public class MultiItemBlock extends ItemBlock {
     public String getUnlocalizedName(ItemStack itemstack) {
         return getUnlocalizedName() + "." + MoCreatures.multiBlockNames.get(itemstack.getItemDamage());
     }
+
 }

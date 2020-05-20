@@ -8,12 +8,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class MoCBlockFarm extends BlockContainer
-{
+public class MoCBlockFarm extends BlockContainer {
+
     private int farmRange = 10;
-    
-    public MoCBlockFarm(String name)
-    {
+
+    public MoCBlockFarm(String name) {
         super(Material.wood);
         setTickRandomly(true);
         this.setBlockName(name);
@@ -22,15 +21,13 @@ public class MoCBlockFarm extends BlockContainer
     }
 
     @Override
-    public int damageDropped(int i)
-    {
+    public int damageDropped(int i) {
         return i;
     }
 
     @Override
-    public TileEntity createNewTileEntity(World var1, int var2)
-    {
-        // TODO Auto-generated method stub
+    public TileEntity createNewTileEntity(World var1, int var2) {
         return null;
     }
+
 }

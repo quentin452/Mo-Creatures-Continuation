@@ -18,7 +18,6 @@ import drzhark.mocreatures.entity.monster.MoCEntityGolem;
 import drzhark.mocreatures.entity.passive.MoCEntityHorse;
 import drzhark.mocreatures.utils.MoCLog;
 
-
 public class MoCProxy implements IGuiHandler {
 
     public static String ARMOR_TEXTURE = "textures/armor/";
@@ -158,35 +157,29 @@ public class MoCProxy implements IGuiHandler {
         return false;
     }
 
-    public boolean getDisplayPetName()
-    {
+    public boolean getDisplayPetName() {
         return displayPetName;
     }
 
-    public boolean getDisplayPetIcons()
-    {
+    public boolean getDisplayPetIcons() {
         return displayPetIcons;
     }
 
-    public boolean getDisplayPetHealth()
-    {
+    public boolean getDisplayPetHealth() {
         return displayPetHealth;
     }
 
-    public int getParticleFX()
-    {
+    public int getParticleFX() {
         return 0;
     }
 
     public void initTextures() {}
 
-    public ResourceLocation getTexture(String texture) 
-    {
+    public ResourceLocation getTexture(String texture) {
         return null;
     }
 
-    public EntityPlayer getPlayer()
-    {
+    public EntityPlayer getPlayer() {
         return null;
     }
 
