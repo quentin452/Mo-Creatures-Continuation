@@ -31,7 +31,7 @@ public class MoCEntityInsect extends MoCEntityAmbient {
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(6.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(2.0D);
     }
 
     @Override
