@@ -147,6 +147,8 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 @Mod(modid = MoCreatures.MODID, name = MoCreatures.NAME, version = MoCreatures.VERSION)
 public class MoCreatures {
@@ -802,6 +804,14 @@ public class MoCreatures {
     }
 
     private void RegisterWithOreDictionary() {
+    	//Vanilla
+    	OreDictionary.registerOre("chestWood", new ItemStack(Blocks.chest));
+    	OreDictionary.registerOre("bowlWood", new ItemStack(Items.bowl));
+    	OreDictionary.registerOre("listAllmeatraw", new ItemStack(Items.porkchop));
+    	OreDictionary.registerOre("listAllfishraw", new ItemStack(Items.fish, 1, OreDictionary.WILDCARD_VALUE));
+    	OreDictionary.registerOre("listAllmeatraw", new ItemStack(Items.beef));
+    	OreDictionary.registerOre("listAllmeatraw", new ItemStack(Items.chicken));
+    	
     	//Blocks
     	OreDictionary.registerOre("plankWood", new ItemStack(mocPlank, 1, OreDictionary.WILDCARD_VALUE));
     	OreDictionary.registerOre("logWood", new ItemStack(mocLog, 1, OreDictionary.WILDCARD_VALUE));
@@ -834,11 +844,27 @@ public class MoCreatures {
     	//Omelet
     	OreDictionary.registerOre("foodOmelet", new ItemStack(omelet));
 
+    	//Mob drops
+    	OreDictionary.registerOre("clawFelineLarge", new ItemStack(bigcatclaw));
+    	OreDictionary.registerOre("toothShark", new ItemStack(sharkteeth));
+    	OreDictionary.registerOre("heartDarkness", new ItemStack(heartdarkness));
+    	OreDictionary.registerOre("heartFire", new ItemStack(heartfire));
+    	OreDictionary.registerOre("heartUndead", new ItemStack(heartundead));
+    	OreDictionary.registerOre("hornUnicorn", new ItemStack(unicornhorn));
+
+    	//Crafting materials
+    	OreDictionary.registerOre("essenceDarkness", new ItemStack(essencedarkness));
+    	OreDictionary.registerOre("essenceFire", new ItemStack(essencefire));
+    	OreDictionary.registerOre("essenceUndead", new ItemStack(essenceundead));
+    	OreDictionary.registerOre("essenceLight", new ItemStack(essencelight));
+
     	//Misc
     	OreDictionary.registerOre("record", new ItemStack(recordshuffle));
     }
 
     private void AddRecipes() {
+    	final String[] dyeNames = {"dyeBlack", "dyeRed", "dyeGreen", "dyeBrown", "dyeBlue", "dyePurple", "dyeCyan", "dyeLightGray", "dyeGray", "dyePink", "dyeLime", "dyeYellow", "dyeLightBlue", "dyeMagenta", "dyeOrange", "dyeWhite"};
+    	
     	//Foods
         GameRegistry.addSmelting(MoCreatures.crabraw, new ItemStack(MoCreatures.crabcooked, 1), 0F);
         GameRegistry.addSmelting(MoCreatures.ostrichraw, new ItemStack(MoCreatures.ostrichcooked, 1), 0F);
@@ -854,10 +880,10 @@ public class MoCreatures {
         GameRegistry.addShapelessRecipe(new ItemStack(Items.wheat, 6), new Object[] { haystack });
 
         //Foods
-        GameRegistry.addShapelessRecipe(new ItemStack(turtlesoup, 1), new Object[] { new ItemStack(turtleraw, 1), new ItemStack(Items.bowl, 1) });
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(turtlesoup, 1), "foodTurtleraw", "bowlWood"));
 
         //Crafting materials
-        GameRegistry.addShapelessRecipe(new ItemStack(essencelight, 1), new Object[] { essenceundead, essencefire, essencedarkness });
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(essencelight, 1), "essenceUndead", "essenceFire", "essenceDarkness"));
 
         //Scorpion weapons
         GameRegistry.addShapelessRecipe(new ItemStack(scorpSwordFrost, 1), new Object[] { Items.diamond_sword, scorpStingFrost, scorpStingFrost, scorpStingFrost });
@@ -865,29 +891,31 @@ public class MoCreatures {
         GameRegistry.addShapelessRecipe(new ItemStack(scorpSwordCave, 1), new Object[] { Items.diamond_sword, scorpStingCave, scorpStingCave, scorpStingCave });
         GameRegistry.addShapelessRecipe(new ItemStack(scorpSwordDirt, 1), new Object[] { Items.diamond_sword, scorpStingDirt, scorpStingDirt, scorpStingDirt });
 
+        //Horse related
+        GameRegistry.addShapelessRecipe(new ItemStack(sugarlump, 1), new Object[] { Items.sugar, Items.sugar, Items.sugar, Items.sugar });
+        
         //Pet related
-        GameRegistry.addShapelessRecipe(new ItemStack(petfood, 4), new Object[] { new ItemStack(Items.fish, 1), new ItemStack(Items.porkchop, 1) });
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(petfood, 4), "listAllfishraw", "listAllmeatraw"));
         GameRegistry.addShapelessRecipe(new ItemStack(scrollOfSale, 1), new Object[] { Items.paper, Items.feather });
-        GameRegistry.addShapelessRecipe(new ItemStack(scrollFreedom, 1), new Object[] { Items.paper, Items.feather, Items.redstone });
-        GameRegistry.addShapelessRecipe(new ItemStack(scrollFreedom, 1), new Object[] { scrollOfSale, Items.redstone });
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(scrollFreedom, 1), Items.paper, Items.feather, "dustRedstone"));
+        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(scrollFreedom, 1), scrollOfSale, "dustRedstone"));
 
 
 
         //Foods
-        GameRegistry.addRecipe(new ItemStack(ratBurger, 1), new Object[] { "SB ", "GRG", " B ", Character.valueOf('R'), ratCooked, Character.valueOf('B'), Items.bread, Character.valueOf('S'), Items.pumpkin_seeds, Character.valueOf('G'), Items.wheat_seeds });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ratBurger, 1), "SB ", "GRG", " B ", Character.valueOf('R'), "foodRatcooked", Character.valueOf('B'), Items.bread, Character.valueOf('S'), Items.pumpkin_seeds, Character.valueOf('G'), Items.wheat_seeds));
 
         //Crafting materials
-        GameRegistry.addRecipe(new ItemStack(essencelight, 1), new Object[] { "X", "Y", "Z", Character.valueOf('X'), essenceundead, Character.valueOf('Y'), essencefire, Character.valueOf('Z'), essencedarkness });
-        GameRegistry.addRecipe(new ItemStack(essenceundead, 1), new Object[] { " X ", " Y ", " Z ", Character.valueOf('X'), Items.rotten_flesh, Character.valueOf('Y'), heartundead, Character.valueOf('Z'), Items.glass_bottle });
-        GameRegistry.addRecipe(new ItemStack(essencefire, 1), new Object[] { " X ", " Y ", " Z ", Character.valueOf('X'), Items.blaze_powder, Character.valueOf('Y'), heartfire, Character.valueOf('Z'), Items.glass_bottle });
-        GameRegistry.addRecipe(new ItemStack(essencefire, 1), new Object[] { " X ", " Y ", " Z ", Character.valueOf('X'), Blocks.fire, Character.valueOf('Y'), heartfire, Character.valueOf('Z'), Items.glass_bottle });
-        GameRegistry.addRecipe(new ItemStack(essencedarkness, 1), new Object[] { " X ", " Y ", " Z ", Character.valueOf('X'), Items.ender_pearl, Character.valueOf('Y'), heartdarkness, Character.valueOf('Z'), Items.glass_bottle });
-        
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(essencedarkness, 1), "X", "Y", "Z", Character.valueOf('X'), Items.ender_pearl, Character.valueOf('Y'), "heartDarkness", Character.valueOf('Z'), Items.glass_bottle));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(essencefire, 1), "X", "Y", "Z", Character.valueOf('X'), Items.blaze_powder, Character.valueOf('Y'), "heartFire", Character.valueOf('Z'), Items.glass_bottle));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(essencefire, 1), "X", "Y", "Z", Character.valueOf('X'), Blocks.fire, Character.valueOf('Y'), "heartFire", Character.valueOf('Z'), Items.glass_bottle));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(essenceundead, 1), "X", "Y", "Z", Character.valueOf('X'), Items.rotten_flesh, Character.valueOf('Y'), "heartUndead", Character.valueOf('Z'), Items.glass_bottle));
+
         //Chainmail set
-        GameRegistry.addRecipe(new ItemStack(Items.chainmail_helmet, 1), new Object[] { "XXX", "X X", Character.valueOf('X'), sharkteeth });
-        GameRegistry.addRecipe(new ItemStack(Items.chainmail_chestplate, 1), new Object[] { "X X", "XXX", "XXX", Character.valueOf('X'), sharkteeth });
-        GameRegistry.addRecipe(new ItemStack(Items.chainmail_leggings, 1), new Object[] { "XXX", "X X", "X X", Character.valueOf('X'), sharkteeth });
-        GameRegistry.addRecipe(new ItemStack(Items.chainmail_boots, 1), new Object[] { "X X", "X X", Character.valueOf('X'), sharkteeth });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_helmet, 1), "XXX", "X X", Character.valueOf('X'), "toothShark"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_chestplate, 1), "X X", "XXX", "XXX", Character.valueOf('X'), "toothShark"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_leggings, 1), "XXX", "X X", "X X", Character.valueOf('X'), "toothShark"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(Items.chainmail_boots, 1), "X X", "X X", Character.valueOf('X'), "toothShark"));
         //Croc set
         GameRegistry.addRecipe(new ItemStack(helmetCroc, 1), new Object[] { "XXX", "X X", Character.valueOf('X'), hideCroc });
         GameRegistry.addRecipe(new ItemStack(plateCroc, 1), new Object[] { "X X", "XXX", "XXX", Character.valueOf('X'), hideCroc });
@@ -926,63 +954,60 @@ public class MoCreatures {
         GameRegistry.addRecipe(new ItemStack(scorpBootsDirt, 1), new Object[] { "X X", "X X", Character.valueOf('X'), chitin });
 
         //Other weapons
-        GameRegistry.addRecipe(new ItemStack(sharksword, 1), new Object[] { "#X#", "#X#", " X ", Character.valueOf('#'), sharkteeth, Character.valueOf('X'), Items.stick, });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(sharksword, 1), "#X#", "#X#", " X ", Character.valueOf('#'), "toothShark", Character.valueOf('X'), "stickWood"));
 
         //GameRegistry.addRecipe(new ItemStack(rope, 1), new Object[] { "# #", " # ", "# #", Character.valueOf('#'), Item.silk, });
 
         //Staves
-        GameRegistry.addRecipe(new ItemStack(staffPortal, 1), new Object[] { "  E", " U ", "R  ", Character.valueOf('E'), Items.ender_eye, Character.valueOf('U'), unicornhorn, Character.valueOf('R'), Items.blaze_rod });
-        GameRegistry.addRecipe(new ItemStack(staffPortal, 1), new Object[] { "  E", " U ", "R  ", Character.valueOf('E'), Items.ender_eye, Character.valueOf('U'), essencelight, Character.valueOf('R'), Items.blaze_rod });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffPortal, 1), "  E", " U ", "R  ", Character.valueOf('E'), Items.ender_eye, Character.valueOf('U'), "hornUnicorn", Character.valueOf('R'), Items.blaze_rod));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(staffPortal, 1), "  E", " U ", "R  ", Character.valueOf('E'), Items.ender_eye, Character.valueOf('U'), "essenceLight", Character.valueOf('R'), Items.blaze_rod));
 
         //Amulets
-        GameRegistry.addRecipe(new ItemStack(amuletbone, 1), new Object[] { "#X#", "XZX", "#X#", Character.valueOf('#'), Items.bone, Character.valueOf('X'), Items.gold_nugget, Character.valueOf('Z'), Items.ender_pearl });
-        GameRegistry.addRecipe(new ItemStack(amuletghost, 1), new Object[] { "#X#", "XZX", "#X#", Character.valueOf('#'), Items.bone, Character.valueOf('X'), Items.gold_nugget, Character.valueOf('Z'), Items.ghast_tear });
-        GameRegistry.addRecipe(new ItemStack(amuletfairy, 1), new Object[] { "#X#", "XZX", "#X#", Character.valueOf('#'), Blocks.fire, Character.valueOf('X'), Items.gold_nugget, Character.valueOf('Z'), unicornhorn });
-        GameRegistry.addRecipe(new ItemStack(amuletfairy, 1), new Object[] { "#X#", "XZX", "#X#", Character.valueOf('#'), Blocks.fire, Character.valueOf('X'), Items.gold_nugget, Character.valueOf('Z'), essencelight });
-        GameRegistry.addRecipe(new ItemStack(amuletpegasus, 1), new Object[] { "#X#", "XZX", "#X#", Character.valueOf('#'), Blocks.fire, Character.valueOf('X'), Items.gold_nugget, Character.valueOf('Z'), Items.diamond });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(amuletbone, 1), "#X#", "XZX", "#X#", Character.valueOf('#'), Items.bone, Character.valueOf('X'), "nuggetGold", Character.valueOf('Z'), Items.ender_pearl));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(amuletghost, 1), "#X#", "XZX", "#X#", Character.valueOf('#'), Items.bone, Character.valueOf('X'), "nuggetGold", Character.valueOf('Z'), Items.ghast_tear));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(amuletfairy, 1), "#X#", "XZX", "#X#", Character.valueOf('#'), Blocks.fire, Character.valueOf('X'), "nuggetGold", Character.valueOf('Z'), "hornUnicorn"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(amuletfairy, 1), "#X#", "XZX", "#X#", Character.valueOf('#'), Blocks.fire, Character.valueOf('X'), "nuggetGold", Character.valueOf('Z'), "essenceLight"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(amuletpegasus, 1), "#X#", "XZX", "#X#", Character.valueOf('#'), Blocks.fire, Character.valueOf('X'), "nuggetGold", Character.valueOf('Z'), "gemDiamond"));
 
         //Misc
-        GameRegistry.addRecipe(new ItemStack(key, 1), new Object[] { "  #", " # ", "X  ", Character.valueOf('#'), Items.stick, Character.valueOf('X'), Items.iron_ingot, });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(key, 1), "  #", " # ", "X  ", Character.valueOf('#'), "stickWood", Character.valueOf('X'), "ingotIron"));
 
         //Elephant related
-        GameRegistry.addRecipe(new ItemStack(tusksWood, 1), new Object[] { "X  ", "XR ", "XXX", Character.valueOf('X'), Blocks.planks, Character.valueOf('R'), Items.lead  });
-        GameRegistry.addRecipe(new ItemStack(tusksIron, 1), new Object[] { "X  ", "XR ", "XXX", Character.valueOf('X'), Items.iron_ingot, Character.valueOf('R'), Items.lead });
-        GameRegistry.addRecipe(new ItemStack(tusksDiamond, 1), new Object[] { "X  ", "XR ", "XXX", Character.valueOf('X'), Items.diamond, Character.valueOf('R'), Items.lead });
-        GameRegistry.addRecipe(new ItemStack(mammothPlatform, 1), new Object[] { "WRW", "PPP", "WRW",  Character.valueOf('W'), Blocks.log, Character.valueOf('R'), Items.lead ,  Character.valueOf('P'), Blocks.planks});
-        GameRegistry.addRecipe(new ItemStack(elephantChest, 1), new Object[] { " W ", "CHC", " W ", Character.valueOf('H'), animalHide, Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 0), Character.valueOf('C'), Blocks.chest });
-        GameRegistry.addRecipe(new ItemStack(elephantHarness, 1), new Object[] { "HWH", "IWI", "HWH", Character.valueOf('H'), animalHide, Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 0), Character.valueOf('I'), Items.iron_ingot });
-        GameRegistry.addRecipe(new ItemStack(elephantHowdah, 1), new Object[] { "SRS", "RYR", "SRS", Character.valueOf('S'), Items.stick, Character.valueOf('R'), new ItemStack(Blocks.wool, 1, 14), Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 4) });
-        GameRegistry.addRecipe(new ItemStack(elephantGarment, 1), new Object[] { "pyg", "RMR", "BYB", Character.valueOf('R'), new ItemStack(Blocks.wool, 1, 14), Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 4), 
-            Character.valueOf('B'), new ItemStack(Blocks.wool, 1, 11), Character.valueOf('M'), medallion,
-            Character.valueOf('p'), new ItemStack(Items.dye, 1, 9), Character.valueOf('y'), new ItemStack(Items.dye, 1, 11),
-            Character.valueOf('g'), new ItemStack(Items.dye, 1, 10)
-        });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(tusksWood, 1), "X  ", "XR ", "XXX", Character.valueOf('X'), "plankWood", Character.valueOf('R'), Items.lead));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(tusksIron, 1), "X  ", "XR ", "XXX", Character.valueOf('X'), "ingotIron", Character.valueOf('R'), Items.lead));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(tusksDiamond, 1), "X  ", "XR ", "XXX", Character.valueOf('X'), "gemDiamond", Character.valueOf('R'), Items.lead));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(elephantHarness, 1), "HWH", "IWI", "HWH", Character.valueOf('H'), animalHide, Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 0), Character.valueOf('I'), "ingotIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(elephantChest, 1), " W ", "CHC", " W ", Character.valueOf('H'), animalHide, Character.valueOf('W'), new ItemStack(Blocks.wool, 1, 0), Character.valueOf('C'), "chestWood"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(elephantGarment, 1), "pyg", "RMR", "BYB", Character.valueOf('R'), new ItemStack(Blocks.wool, 1, 14), Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 4), 
+            Character.valueOf('B'), new ItemStack(Blocks.wool, 1, 11), Character.valueOf('M'), medallion, Character.valueOf('p'), "dyePink", Character.valueOf('y'), "dyeYellow", Character.valueOf('g'), "dyeLime")
+        );
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(elephantHowdah, 1), "SRS", "RYR", "SRS", Character.valueOf('S'), "stickWood", Character.valueOf('R'), new ItemStack(Blocks.wool, 1, 14), Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 4)));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(mammothPlatform, 1), "WRW", "PPP", "WRW",  Character.valueOf('W'), "logWood", Character.valueOf('R'), Items.lead ,  Character.valueOf('P'), "plankWood"));
 
         //Horse related
-        GameRegistry.addRecipe(new ItemStack(horsesaddle, 1), new Object[] { "X", "#", Character.valueOf('X'), Items.saddle, Character.valueOf('#'), Items.iron_ingot });
-        GameRegistry.addRecipe(new ItemStack(horsesaddle, 1), new Object[] { "XXX", "X#X", "# #", Character.valueOf('#'), Items.iron_ingot, Character.valueOf('X'), Items.leather });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(horsesaddle, 1), "X", "#", Character.valueOf('X'), Items.saddle, Character.valueOf('#'), "ingotIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(horsesaddle, 1), "XXX", "X#X", "# #", Character.valueOf('#'), "ingotIron", Character.valueOf('X'), Items.leather));
         //GameRegistry.addRecipe(new ItemStack(horsearmormetal, 1), new Object[] { "  X", "XYX", "XXX", Character.valueOf('X'), Item.ingotIron, Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 15) });
         //GameRegistry.addRecipe(new ItemStack(horsearmorgold, 1), new Object[] { "  X", "XYX", "XXX", Character.valueOf('X'), Item.ingotGold, Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 14) });
         //GameRegistry.addRecipe(new ItemStack(horsearmordiamond, 1), new Object[] { "  X", "XYX", "XXX", Character.valueOf('X'), Item.diamond, Character.valueOf('Y'), new ItemStack(Blocks.wool, 1, 11) });
-        GameRegistry.addRecipe(new ItemStack(horsearmorcrystal, 1), new Object[] { "  D", "CDC", "DCD", Character.valueOf('D'), Items.diamond, Character.valueOf('C'), Blocks.glass });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(horsearmorcrystal, 1), "  D", "CDC", "DCD", Character.valueOf('D'), "gemDiamond", Character.valueOf('C'), "blockGlassColorless"));
         GameRegistry.addRecipe(new ItemStack(haystack, 1), new Object[] { "XXX", "XXX", Character.valueOf('X'), Items.wheat });
-        GameRegistry.addRecipe(new ItemStack(sugarlump, 1), new Object[] { "XX", "##", Character.valueOf('X'), Items.sugar, Character.valueOf('#'), Items.sugar });
+
         
         //Pet related
-        GameRegistry.addRecipe(new ItemStack(woolball, 1), new Object[] { " # ", "# #", " # ", Character.valueOf('#'), Items.string, });
-        GameRegistry.addRecipe(new ItemStack(litterbox, 1), new Object[] { "###", "#X#", "###", Character.valueOf('#'), Blocks.planks, Character.valueOf('X'), Blocks.sand, });
-        GameRegistry.addRecipe(new ItemStack(whip, 1), new Object[] { "#X#", "X X", "# Z", Character.valueOf('#'), bigcatclaw, Character.valueOf('X'), Items.leather, Character.valueOf('Z'), Items.iron_ingot });
-        GameRegistry.addRecipe(new ItemStack(fishnet, 1), new Object[] { " # ", "S#S", "#S#", Character.valueOf('#'), Items.string, Character.valueOf('S'), sharkteeth });
-        GameRegistry.addRecipe(new ItemStack(medallion, 1), new Object[] { "# #", "XZX", " X ", Character.valueOf('#'), Items.leather, Character.valueOf('Z'), Items.diamond, Character.valueOf('X'), Items.gold_ingot, });
-        //GameRegistry.addRecipe(new ItemStack(medallion, 1), new Object[] { "# #", " X ", Character.valueOf('#'), Items.leather, Character.valueOf('X'), Items.gold_ingot, });
-        GameRegistry.addRecipe(new ItemStack(petamulet, 1), new Object[] { "X X", " Z ", "X X", Character.valueOf('X'), Items.gold_nugget, Character.valueOf('Z'), Items.diamond });
+        GameRegistry.addRecipe(new ItemStack(woolball, 1), new Object[] { " # ", "# #", " # ", Character.valueOf('#'), Items.string });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(litterbox, 1), "###", "#X#", "###", Character.valueOf('#'), "plankWood", Character.valueOf('X'), "sand"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(whip, 1), "#X#", "X X", "# Z", Character.valueOf('#'), "clawFelineLarge", Character.valueOf('X'), Items.leather, Character.valueOf('Z'), "ingotIron"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fishnet, 1), " # ", "S#S", "#S#", Character.valueOf('#'), Items.string, Character.valueOf('S'), "toothShark"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(medallion, 1), "# #", "XZX", " X ", Character.valueOf('#'), Items.leather, Character.valueOf('Z'), "gemDiamond", Character.valueOf('X'), "ingotGold"));
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(petamulet, 1), "X X", " Z ", "X X", Character.valueOf('X'), "nuggetGold", Character.valueOf('Z'), "gemDiamond"));
 
-        GameRegistry.addRecipe(new ItemStack(fishbowl_e, 1), new Object[] { "# #", "# #", "###", Character.valueOf('#'), Blocks.glass, });
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(fishbowl_e, 1), "# #", "# #", "###", Character.valueOf('#'), "blockGlassColorless"));
 
         for (int i = 0; i < 16; i++) {
-            GameRegistry.addShapelessRecipe(new ItemStack(kittybed, 1, i), new Object[] { new ItemStack(Items.dye, 1, i), new ItemStack(kittybed, 1) });
+        	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(kittybed, 1, i), dyeNames[i], new ItemStack(kittybed, OreDictionary.WILDCARD_VALUE)));
 
-            GameRegistry.addRecipe(new ItemStack(kittybed, 1, i), new Object[] { "###", "#X#", "Z  ", Character.valueOf('#'), Blocks.planks, Character.valueOf('X'), new ItemStack(Blocks.wool, 1, MoCTools.colorize(i)), Character.valueOf('Z'), Items.iron_ingot, });
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(kittybed, 1, i), "###", "#X#", "Z  ", Character.valueOf('#'), "plankWood", Character.valueOf('X'), new ItemStack(Blocks.wool, 1, MoCTools.colorize(i)), Character.valueOf('Z'), "ingotIron"));
             String s = ItemDye.field_150923_a[i];
             s = s.substring(0, 1).toUpperCase() + s.substring(1);
             LanguageRegistry.addName(new ItemStack(kittybed, 1, i), (s + " Kitty Bed"));
