@@ -181,14 +181,14 @@ public class MoCreatures {
     /**
      * MATERIALS
      */
-    static ArmorMaterial scorpARMOR = EnumHelper.addArmorMaterial("crocARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
+    static ArmorMaterial crocARMOR = EnumHelper.addArmorMaterial("crocARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
     static ArmorMaterial furARMOR = EnumHelper.addArmorMaterial("furARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
     static ArmorMaterial hideARMOR = EnumHelper.addArmorMaterial("hideARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
-    static ArmorMaterial scorpdARMOR = EnumHelper.addArmorMaterial("scorpdARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
     static ArmorMaterial scorpfARMOR = EnumHelper.addArmorMaterial("scorpfARMOR", 18, new int[] { 2, 7, 6, 2 }, 12);
     static ArmorMaterial scorpnARMOR = EnumHelper.addArmorMaterial("scorpnARMOR", 20, new int[] { 3, 7, 6, 3 }, 15);
     static ArmorMaterial scorpcARMOR = EnumHelper.addArmorMaterial("scorpcARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
-    static ArmorMaterial silverARMOR = EnumHelper.addArmorMaterial("silverARMOR", 15, new int[] { 2, 6, 5, 2 }, 15);
+    static ArmorMaterial scorpdARMOR = EnumHelper.addArmorMaterial("scorpdARMOR", 15, new int[] { 2, 6, 5, 2 }, 12);
+    //static ArmorMaterial silverARMOR = EnumHelper.addArmorMaterial("silverARMOR", 15, new int[] { 2, 6, 5, 2 }, 15);
     static ToolMaterial SILVER = EnumHelper.addToolMaterial("SILVER", 0, 250, 6.0F, 4, 15);
 
     /**
@@ -684,10 +684,10 @@ public class MoCreatures {
         essencelight = new MoCItem("essencelight");
         
         //Croc set
-        helmetCroc = new MoCItemArmor("reptilehelmet", scorpARMOR, 4, 0);
-        plateCroc = new MoCItemArmor("reptileplate", scorpARMOR, 4, 1);
-        legsCroc = new MoCItemArmor("reptilelegs", scorpARMOR, 4, 2);
-        bootsCroc = new MoCItemArmor("reptileboots", scorpARMOR, 4, 3);
+        helmetCroc = new MoCItemArmor("reptilehelmet", crocARMOR, 4, 0);
+        plateCroc = new MoCItemArmor("reptileplate", crocARMOR, 4, 1);
+        legsCroc = new MoCItemArmor("reptilelegs", crocARMOR, 4, 2);
+        bootsCroc = new MoCItemArmor("reptileboots", crocARMOR, 4, 3);
         //Fur set
         helmetFur = new MoCItemArmor("furhelmet", furARMOR, 4, 0);
         chestFur = new MoCItemArmor("furchest", furARMOR, 4, 1);
@@ -700,25 +700,25 @@ public class MoCreatures {
         bootsHide = new MoCItemArmor("hideboots", hideARMOR, 4, 3);
 
         //Scorpion Frost set
-        scorpHelmetFrost = new MoCItemArmor("scorphelmetfrost", scorpARMOR, 4, 0);
-        scorpPlateFrost = new MoCItemArmor("scorpplatefrost", scorpARMOR, 4, 1);
-        scorpLegsFrost = new MoCItemArmor("scorplegsfrost", scorpARMOR, 4, 2);
-        scorpBootsFrost = new MoCItemArmor("scorpbootsfrost", scorpARMOR, 4, 3);
+        scorpHelmetFrost = new MoCItemArmor("scorphelmetfrost", scorpfARMOR, 4, 0);
+        scorpPlateFrost = new MoCItemArmor("scorpplatefrost", scorpfARMOR, 4, 1);
+        scorpLegsFrost = new MoCItemArmor("scorplegsfrost", scorpfARMOR, 4, 2);
+        scorpBootsFrost = new MoCItemArmor("scorpbootsfrost", scorpfARMOR, 4, 3);
         //Scorpion Nether set
-        scorpHelmetNether = new MoCItemArmor("scorphelmetnether", scorpARMOR, 4, 0);
-        scorpPlateNether = new MoCItemArmor("scorpplatenether", scorpARMOR, 4, 1);
-        scorpLegsNether = new MoCItemArmor("scorplegsnether", scorpARMOR, 4, 2);
-        scorpBootsNether = new MoCItemArmor("scorpbootsnether", scorpARMOR, 4, 3);
+        scorpHelmetNether = new MoCItemArmor("scorphelmetnether", scorpnARMOR, 4, 0);
+        scorpPlateNether = new MoCItemArmor("scorpplatenether", scorpnARMOR, 4, 1);
+        scorpLegsNether = new MoCItemArmor("scorplegsnether", scorpnARMOR, 4, 2);
+        scorpBootsNether = new MoCItemArmor("scorpbootsnether", scorpnARMOR, 4, 3);
         //Scorpion Cave set
-        scorpHelmetCave = new MoCItemArmor("scorphelmetcave", scorpARMOR, 4, 0);
-        scorpPlateCave = new MoCItemArmor("scorpplatecave", scorpARMOR, 4, 1);
-        scorpLegsCave = new MoCItemArmor("scorplegscave", scorpARMOR, 4, 2);
-        scorpBootsCave = new MoCItemArmor("scorpbootscave", scorpARMOR, 4, 3);
+        scorpHelmetCave = new MoCItemArmor("scorphelmetcave", scorpcARMOR, 4, 0);
+        scorpPlateCave = new MoCItemArmor("scorpplatecave", scorpcARMOR, 4, 1);
+        scorpLegsCave = new MoCItemArmor("scorplegscave", scorpcARMOR, 4, 2);
+        scorpBootsCave = new MoCItemArmor("scorpbootscave", scorpcARMOR, 4, 3);
         //Scorpion Dirt set
-        scorpHelmetDirt = new MoCItemArmor("scorphelmetdirt", scorpARMOR, 4, 0);
-        scorpPlateDirt = new MoCItemArmor("scorpplatedirt", scorpARMOR, 4, 1);
-        scorpLegsDirt = new MoCItemArmor("scorplegsdirt", scorpARMOR, 4, 2);
-        scorpBootsDirt = new MoCItemArmor("scorpbootsdirt", scorpARMOR, 4, 3);
+        scorpHelmetDirt = new MoCItemArmor("scorphelmetdirt", scorpdARMOR, 4, 0);
+        scorpPlateDirt = new MoCItemArmor("scorpplatedirt", scorpdARMOR, 4, 1);
+        scorpLegsDirt = new MoCItemArmor("scorplegsdirt", scorpdARMOR, 4, 2);
+        scorpBootsDirt = new MoCItemArmor("scorpbootsdirt", scorpdARMOR, 4, 3);
 
         //Scorpion stings
         scorpStingCave = new MoCItemWeapon("scorpstingcave", ToolMaterial.GOLD, 4, true);
