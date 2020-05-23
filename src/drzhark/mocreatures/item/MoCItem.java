@@ -7,10 +7,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import drzhark.mocreatures.MoCreatures;
 
-public class MoCItem extends Item
-{
-    public MoCItem(String name)
-    {
+public class MoCItem extends Item {
+
+	public MoCItem(String name) {
         GameRegistry.registerItem(this, name);
         this.setCreativeTab(MoCreatures.tabMoC);
         this.setUnlocalizedName(name);
@@ -18,8 +17,8 @@ public class MoCItem extends Item
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IIconRegister par1IconRegister)
-    {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon("mocreatures"+ this.getUnlocalizedName().replaceFirst("item.", ":"));
     }
+
 }

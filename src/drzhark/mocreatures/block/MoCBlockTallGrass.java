@@ -110,17 +110,14 @@ public class MoCBlockTallGrass extends BlockBush implements IShearable {
     @SideOnly(Side.CLIENT)
     @Override
     public void getSubBlocks(Item par1, CreativeTabs tab, List subItems) {
-    	subItems.add(new ItemStack(this));
-    	/*
     	for (int ix = 0; ix < MoCreatures.multiBlockNames.size(); ix++) {
             subItems.add(new ItemStack(this, 1, ix));
         }
-    	*/
     }
 
     @Override
     protected boolean canPlaceBlockOn(Block block) {
-        return block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland || block == MoCreatures.mocDirt || block == MoCreatures.mocGrass;
+        return block == MoCreatures.mocGrass || block == MoCreatures.mocDirt || block == Blocks.grass || block == Blocks.dirt || block == Blocks.farmland;
     }
 
 }

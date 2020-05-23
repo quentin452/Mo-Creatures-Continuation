@@ -311,8 +311,8 @@ public class MoCreatures {
     //public static Item staffunicorn;
 
     //Staves
-    public static Item staffPortal;
     public static Item staffTeleport;
+    public static Item staffPortal;
     
     //Amulets
     public static Item amuletbone;
@@ -721,14 +721,14 @@ public class MoCreatures {
         scorpBootsDirt = new MoCItemArmor("scorpbootsdirt", scorpdARMOR, 4, 3);
 
         //Scorpion stings
-        scorpStingCave = new MoCItemWeapon("scorpstingcave", ToolMaterial.GOLD, 4, true);
         scorpStingFrost = new MoCItemWeapon("scorpstingfrost", ToolMaterial.GOLD, 2, true);
         scorpStingNether = new MoCItemWeapon("scorpstingnether", ToolMaterial.GOLD, 3, true);
+        scorpStingCave = new MoCItemWeapon("scorpstingcave", ToolMaterial.GOLD, 4, true);
         scorpStingDirt = new MoCItemWeapon("scorpstingdirt", ToolMaterial.GOLD, 1, true);
         //Scorpion swords
-        scorpSwordCave = new MoCItemWeapon("scorpswordcave", ToolMaterial.IRON, 4, false);
         scorpSwordFrost = new MoCItemWeapon("scorpswordfrost", ToolMaterial.IRON, 2, false);
         scorpSwordNether = new MoCItemWeapon("scorpswordnether", ToolMaterial.IRON, 3, false);
+        scorpSwordCave = new MoCItemWeapon("scorpswordcave", ToolMaterial.IRON, 4, false);
         scorpSwordDirt = new MoCItemWeapon("scorpsworddirt", ToolMaterial.IRON, 1, false);
 
         //Other weapons
@@ -741,8 +741,8 @@ public class MoCreatures {
         builderHammer = new ItemBuilderHammer("builderhammer");
         
         //Staves
-        staffPortal = new ItemStaffPortal("staffportal");
         staffTeleport = new ItemStaffTeleport("staffteleport");
+        staffPortal = new ItemStaffPortal("staffportal");
 
         //Amulets
         amuletbone = new MoCItemHorseAmulet("amuletbone");
@@ -845,6 +845,14 @@ public class MoCreatures {
     	OreDictionary.registerOre("foodOmelet", new ItemStack(omelet));
 
     	//Mob drops
+    	OreDictionary.registerOre("chitinScorpion", new ItemStack(chitinFrost));
+    	OreDictionary.registerOre("chitinScorpionFrost", new ItemStack(chitinFrost));
+    	OreDictionary.registerOre("chitinScorpion", new ItemStack(chitinNether));
+    	OreDictionary.registerOre("chitinScorpionNether", new ItemStack(chitinNether));
+    	OreDictionary.registerOre("chitinScorpion", new ItemStack(chitinCave));
+    	OreDictionary.registerOre("chitinScorpionCave", new ItemStack(chitinCave));
+    	OreDictionary.registerOre("chitinScorpion", new ItemStack(chitin));
+    	OreDictionary.registerOre("chitinScorpionDirt", new ItemStack(chitin));
     	OreDictionary.registerOre("clawFelineLarge", new ItemStack(bigcatclaw));
     	OreDictionary.registerOre("toothShark", new ItemStack(sharkteeth));
     	OreDictionary.registerOre("heartDarkness", new ItemStack(heartdarkness));
@@ -857,6 +865,16 @@ public class MoCreatures {
     	OreDictionary.registerOre("essenceFire", new ItemStack(essencefire));
     	OreDictionary.registerOre("essenceUndead", new ItemStack(essenceundead));
     	OreDictionary.registerOre("essenceLight", new ItemStack(essencelight));
+
+    	//Scorpion stings
+    	OreDictionary.registerOre("stingScorpion", new ItemStack(scorpStingFrost));
+    	OreDictionary.registerOre("stingScorpionFrost", new ItemStack(scorpStingFrost));
+    	OreDictionary.registerOre("stingScorpion", new ItemStack(scorpStingNether));
+    	OreDictionary.registerOre("stingScorpionNether", new ItemStack(scorpStingNether));
+    	OreDictionary.registerOre("stingScorpion", new ItemStack(scorpStingCave));
+    	OreDictionary.registerOre("stingScorpionCave", new ItemStack(scorpStingCave));
+    	OreDictionary.registerOre("stingScorpion", new ItemStack(scorpStingDirt));
+    	OreDictionary.registerOre("stingScorpionDirt", new ItemStack(scorpStingDirt));
 
     	//Misc
     	OreDictionary.registerOre("record", new ItemStack(recordshuffle));
@@ -1008,9 +1026,9 @@ public class MoCreatures {
         	GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(kittybed, 1, i), dyeNames[i], new ItemStack(kittybed, OreDictionary.WILDCARD_VALUE)));
 
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(kittybed, 1, i), "###", "#X#", "Z  ", Character.valueOf('#'), "plankWood", Character.valueOf('X'), new ItemStack(Blocks.wool, 1, MoCTools.colorize(i)), Character.valueOf('Z'), "ingotIron"));
-            String s = ItemDye.field_150923_a[i];
-            s = s.substring(0, 1).toUpperCase() + s.substring(1);
-            LanguageRegistry.addName(new ItemStack(kittybed, 1, i), (s + " Kitty Bed"));
+            //String s = ItemDye.field_150923_a[i];
+            //s = s.substring(0, 1).toUpperCase() + s.substring(1);
+            //LanguageRegistry.addName(new ItemStack(kittybed, 1, i), (s + " Kitty Bed"));
         }
 
         for (int i = 0; i < multiBlockNames.size(); i++) {

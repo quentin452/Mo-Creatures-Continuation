@@ -17,41 +17,32 @@ import drzhark.mocreatures.MoCTools;
 import drzhark.mocreatures.MoCreatures;
 import drzhark.mocreatures.entity.MoCEntityInsect;
 
-public class MoCEntityBee extends MoCEntityInsect
-
-{
+public class MoCEntityBee extends MoCEntityInsect {
     private int soundCount;
     private boolean upset;
 
-    public MoCEntityBee(World world)
-    {
+    public MoCEntityBee(World world) {
         super(world);
-        //health = 4;
         texture = "bee.png";
     }
 
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(4.0D);
     }
 
     @Override
-    public void onLivingUpdate()
-    {
+    public void onLivingUpdate() {
         super.onLivingUpdate();
 
-        if (MoCreatures.isServer())
-        {
+        if (MoCreatures.isServer()) {
             EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
-            if (ep != null && getIsFlying() && --soundCount == -1)
-            {
+            if (ep != null && getIsFlying() && --soundCount == -1) {
                 MoCTools.playCustomSound(this, getMySound(), this.worldObj);
                 soundCount = 20;
             }
 
-            if (getIsFlying() && rand.nextInt(500) == 0)
-            {
+            if (getIsFlying() && rand.nextInt(500) == 0) {
                 setIsFlying(false);
             }
         }
@@ -106,37 +97,29 @@ public class MoCEntityBee extends MoCEntityInsect
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource damagesource, float i)
-    {
-        if (super.attackEntityFrom(damagesource, i))
-        {
+    public boolean attackEntityFrom(DamageSource damagesource, float i) {
+        if (super.attackEntityFrom(damagesource, i)) {
             Entity entity = damagesource.getEntity();
-            if ((entity != this) && (worldObj.difficultySetting.getDifficultyId() > 0))
-            {
+            if ((entity != this) && (worldObj.difficultySetting.getDifficultyId() > 0)) {
                 entityToAttack = entity;
             }
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 
     @Override
-    protected void attackEntity(Entity entity, float f)
-    {
-
-        if (this.attackTime <= 0 && (f < 2.0D) && (entity.boundingBox.maxY > boundingBox.minY) && (entity.boundingBox.minY < boundingBox.maxY))
-        {
+    protected void attackEntity(Entity entity, float f) {
+        if (this.attackTime <= 0 && (f < 2.0D) && (entity.boundingBox.maxY > boundingBox.minY) && (entity.boundingBox.minY < boundingBox.maxY)) {
             attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2);
         }
     }
 
     @Override
-    public boolean isMyFavoriteFood(ItemStack par1ItemStack)
-    {
-        return par1ItemStack != null && (par1ItemStack.getItem() == Item.getItemFromBlock(Blocks.red_flower) || par1ItemStack.getItem() == Item.getItemFromBlock(Blocks.yellow_flower));
+    public boolean isMyFavoriteFood(ItemStack stack) {
+        return stack != null && (stack.getItem() == Item.getItemFromBlock(Blocks.red_flower) || stack.getItem() == Item.getItemFromBlock(Blocks.yellow_flower));
     }
+
 }

@@ -8,36 +8,31 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import drzhark.mocreatures.MoCreatures;
 
-public class MoCItemRecord extends ItemRecord
-{
+public class MoCItemRecord extends ItemRecord {
     public static ResourceLocation RECORD_SHUFFLE_RESOURCE = new ResourceLocation("mocreatures", "shuffling");
 
-    public MoCItemRecord(String par2Str)
-    {
-        super(par2Str);
+    public MoCItemRecord(String name) {
+        super(name);
         this.setCreativeTab(MoCreatures.tabMoC);
-        this.setUnlocalizedName(par2Str);
-        GameRegistry.registerItem(this, par2Str);
+        this.setUnlocalizedName(name);
+        GameRegistry.registerItem(this, name);
     }
-
-    @SideOnly(Side.CLIENT)
 
     /**
      * Return the title for this record.
      */
-    public String getRecordTitle()
-    {
+    @SideOnly(Side.CLIENT)
+    public String getRecordTitle() {
         return "MoC - " + this.recordName;
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister par1IconRegister)
-    {
+    public void registerIcons(IIconRegister par1IconRegister) {
         this.itemIcon = par1IconRegister.registerIcon("mocreatures:recordshuffle");
     }
 
-    public ResourceLocation getRecordResource(String name)
-    {
+    public ResourceLocation getRecordResource(String name) {
         return RECORD_SHUFFLE_RESOURCE;
     }
+
 }

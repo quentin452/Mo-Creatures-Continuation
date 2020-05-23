@@ -20,82 +20,62 @@ import drzhark.mocreatures.entity.passive.MoCEntityWyvern;
 
 public class MoCItemWhip extends MoCItem {
 
-    public MoCItemWhip(String name)
-    {
+    public MoCItemWhip(String name) {
         super(name);
         maxStackSize = 1;
         setMaxDamage(24);
     }
 
     @Override
-    public boolean isFull3D()
-    {
+    public boolean isFull3D() {
         return true;
     }
 
-    public ItemStack onItemRightClick2(ItemStack itemstack, World world, EntityPlayer entityplayer)
-    {
+    public ItemStack onItemRightClick2(ItemStack itemstack, World world, EntityPlayer entityplayer) {
         return itemstack;
     }
 
     @Override
-    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float f1, float f2, float f3)
-    {
+    public boolean onItemUse(ItemStack itemstack, EntityPlayer entityplayer, World world, int i, int j, int k, int l, float f1, float f2, float f3) {
         int i1 = 0;
         Block block = world.getBlock(i, j, k);
         Block block1 = world.getBlock(i, j + 1, k);
-        if ((l != 0) && (block == Blocks.air) && (block != Blocks.air) && (block != Blocks.standing_sign))
-        {
+        if ((l != 0) && (block == Blocks.air) && (block != Blocks.air) && (block != Blocks.standing_sign)) {
             whipFX(world, i, j, k);
             world.playSoundAtEntity(entityplayer, "mocreatures:whip", 0.5F, 0.4F / ((itemRand.nextFloat() * 0.4F) + 0.8F));
             itemstack.damageItem(1, entityplayer);
             List list = world.getEntitiesWithinAABBExcludingEntity(entityplayer, entityplayer.boundingBox.expand(12D, 12D, 12D));
-            for (int l1 = 0; l1 < list.size(); l1++)
-            {
+            for (int l1 = 0; l1 < list.size(); l1++) {
                 Entity entity = (Entity) list.get(l1);
                 
-                if (entity instanceof MoCEntityAnimal)
-                {
+                if (entity instanceof MoCEntityAnimal) {
                     MoCEntityAnimal animal = (MoCEntityAnimal) entity;
-                    if (MoCreatures.proxy.enableOwnership && animal.getOwnerName() != null && !animal.getOwnerName().equals("") && !entityplayer.getCommandSenderName().equals(animal.getOwnerName()) && !MoCTools.isThisPlayerAnOP(entityplayer)) 
-                    { 
+                    if (MoCreatures.proxy.enableOwnership && animal.getOwnerName() != null && !animal.getOwnerName().equals("") && !entityplayer.getCommandSenderName().equals(animal.getOwnerName()) && !MoCTools.isThisPlayerAnOP(entityplayer)) { 
                        continue;
                     }
                 }
                 
-                if (entity instanceof MoCEntityBigCat)
-                {
+                if (entity instanceof MoCEntityBigCat) {
                     MoCEntityBigCat entitybigcat = (MoCEntityBigCat) entity;
-                    if (entitybigcat.getIsTamed())
-                    {
+                    if (entitybigcat.getIsTamed()) {
                         entitybigcat.setSitting(!entitybigcat.getIsSitting());
                         i1++;
-                    }
-                    else if ((world.difficultySetting.getDifficultyId() > 0) && entitybigcat.getIsAdult())
-                    {
+                    } else if ((world.difficultySetting.getDifficultyId() > 0) && entitybigcat.getIsAdult()) {
                         entitybigcat.setTarget(entityplayer);
                     }
                 }
-                if (entity instanceof MoCEntityHorse)
-                {
+                if (entity instanceof MoCEntityHorse) {
                     MoCEntityHorse entityhorse = (MoCEntityHorse) entity;
-                    if (entityhorse.getIsTamed())
-                    {
-                        if (entityhorse.riddenByEntity == null)
-                        {
+                    if (entityhorse.getIsTamed()) {
+                        if (entityhorse.riddenByEntity == null) {
                             entityhorse.setEating(!entityhorse.getEating());
-                        }
-                        else if (entityhorse.isNightmare())
-                        {
+                        } else if (entityhorse.isNightmare()) {
                             entityhorse.setNightmareInt(250);
-                        }
-                        else if (entityhorse.sprintCounter == 0)
-                        {
+                        } else if (entityhorse.sprintCounter == 0) {
                             entityhorse.sprintCounter = 1;
                         }
                         //TODO reactivate the right one prior to release
-                        else
-                        {
+                        else {
                             entityhorse.setEating(!entityhorse.getEating());
                         }
                     }
@@ -135,13 +115,11 @@ public class MoCItemWhip extends MoCItem {
                         entityostrich.setHiding(!entityostrich.getHiding());
                     }
                 }
-                if (entity instanceof MoCEntityElephant)
-                {
+                if (entity instanceof MoCEntityElephant) {
                     MoCEntityElephant entityelephant = (MoCEntityElephant) entity;
 
                     //makes elephants charge
-                    if (entityelephant.riddenByEntity != null && entityelephant.sprintCounter == 0)
-                    {
+                    if (entityelephant.riddenByEntity != null && entityelephant.sprintCounter == 0) {
                         entityelephant.sprintCounter = 1;
                     }
                 }
@@ -156,8 +134,7 @@ public class MoCItemWhip extends MoCItem {
         return false;
     }
 
-    public void whipFX(World world, int i, int j, int k)
-    {
+    public void whipFX(World world, int i, int j, int k) {
         double d = i + 0.5F;
         double d1 = j + 1.0F;
         double d2 = k + 0.5F;
@@ -174,4 +151,5 @@ public class MoCItemWhip extends MoCItem {
         world.spawnParticle("smoke", d, d1, d2, 0.0D, 0.0D, 0.0D);
         world.spawnParticle("flame", d, d1, d2, 0.0D, 0.0D, 0.0D);
     }
+
 }

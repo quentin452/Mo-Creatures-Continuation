@@ -7,22 +7,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class MoCItemTurtleSoup extends MoCItemFood {
-    public MoCItemTurtleSoup(String name, int j)
-    {
+
+    public MoCItemTurtleSoup(String name, int j) {
         super(name, j);
         maxStackSize = 1;
     }
 
-    public MoCItemTurtleSoup(String name, int j, float f, boolean flag)
-    {
-        super(name, j, f, flag);
+    public MoCItemTurtleSoup(String name, int j, float f, boolean doWolvesLike) {
+        super(name, j, f, doWolvesLike);
         maxStackSize = 1;
     }
 
     @Override
-    public ItemStack onEaten(ItemStack itemstack, World world, EntityPlayer entityplayer)
-    {
-        super.onEaten(itemstack, world, entityplayer);
+    public ItemStack onEaten(ItemStack stack, World worldIn, EntityPlayer entityPlayer) {
+        super.onEaten(stack, worldIn, entityPlayer);
         return new ItemStack(Items.bowl);
     }
+
 }

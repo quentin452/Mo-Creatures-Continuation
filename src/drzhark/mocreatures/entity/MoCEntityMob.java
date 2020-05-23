@@ -42,16 +42,14 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     protected float moveSpeed;
     protected String texture;
 
-    public MoCEntityMob(World world)
-    {
+    public MoCEntityMob(World world) {
         super(world);
         setTamed(false);
-        riderIsDisconnecting = false;
-        texture = "blank.jpg";
+        this.riderIsDisconnecting = false;
+        this.texture = "blank.jpg";
     }
 
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(getMoveSpeed());
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(getAttackStrenght());
@@ -59,19 +57,16 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     }
 
     @Override
-    public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData)
-    {
+    public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
         selectType();
         return super.onSpawnWithEgg(par1EntityLivingData);
     }
 
-    public ResourceLocation getTexture()
-    {
+    public ResourceLocation getTexture() {
         return MoCreatures.proxy.getTexture(texture);
     }
 
-    protected double getAttackStrenght() 
-    {
+    protected double getAttackStrenght() {
         return 2D;
     }
 
