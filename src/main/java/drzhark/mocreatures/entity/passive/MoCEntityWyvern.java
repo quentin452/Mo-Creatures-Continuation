@@ -64,19 +64,19 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isRideable - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // isChested - 0 false 1 true
-        dataWatcher.addObject(24, Byte.valueOf((byte) 0)); // armor 0 by default, 1 metal, 2 gold, 3 diamond, 4 crystaline
-        dataWatcher.addObject(25, Byte.valueOf((byte) 0)); // isFlying 0 false 1 true
-        dataWatcher.addObject(26, Byte.valueOf((byte) 0)); // isSitting - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // isRideable - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); // isChested - 0 false 1 true
+        dataWatcher.addObject(24, (byte) 0); // armor 0 by default, 1 metal, 2 gold, 3 diamond, 4 crystaline
+        dataWatcher.addObject(25, (byte) 0); // isFlying 0 false 1 true
+        dataWatcher.addObject(26, (byte) 0); // isSitting - 0 false 1 true
     }
-    
+
     public boolean getIsFlying()
     {
         return (dataWatcher.getWatchableObjectByte(25) == 1);
     }
 
-    
+
     public void setIsFlying(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
@@ -317,8 +317,8 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
     }
 
     @Override
-    public float getSizeFactor() 
-    {   
+    public float getSizeFactor()
+    {
         return (float)getEdad() * 0.01F;
     }
 
@@ -425,7 +425,7 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
             // if first time opening horse chest, we must initialize it
             if (localchest == null)
             {
-                localchest = new MoCAnimalChest("WyvernChest", 14);// 
+                localchest = new MoCAnimalChest("WyvernChest", 14);//
             }
             // only open this chest on server side
             if (MoCreatures.isServer())
@@ -469,7 +469,7 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
             {
                 entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
             }
-            
+
             if (MoCreatures.isServer())
             {
                 setType(6);
@@ -487,7 +487,7 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
             {
                 entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
             }
-            
+
             if (MoCreatures.isServer())
             {
                 setType(7);
@@ -505,7 +505,7 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
             {
                 entityplayer.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
             }
-            
+
             if (MoCreatures.isServer())
             {
                 setType(8);
@@ -517,13 +517,13 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
         {
             entityplayer.rotationYaw = rotationYaw;
             entityplayer.rotationPitch = rotationPitch;
-            
+
             if (MoCreatures.isServer())
             {
                 entityplayer.mountEntity(this);
                 setSitting(false);
             }
-            
+
             return true;
         }
         else
@@ -655,13 +655,13 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
         if (super.attackEntityFrom(damagesource, i))
         {
             Entity entity = damagesource.getEntity();
-         
-            
+
+
             if (entity != null && getIsTamed() && entity instanceof EntityPlayer) { return false; }
-            
+
 
             if ((riddenByEntity != null) && (entity == riddenByEntity)) { return false; }
-            
+
             if ((entity != this) && (worldObj.difficultySetting.getDifficultyId() > 0))
             {
                 entityToAttack = entity;
@@ -780,9 +780,9 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
                  mouthCounter = 1;
                  MoCMessageHandler.INSTANCE.sendToAllAround(new MoCMessageAnimation(this.getEntityId(), 1), new TargetPoint(this.worldObj.provider.dimensionId, this.posX, this.posY, this.posZ, 64));
              }
-            
+
         }
-     
+
     @Override
     public void performAnimation(int animationType)
     {
@@ -829,13 +829,13 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
     }
 
     @Override
-    public void dropMyStuff() 
+    public void dropMyStuff()
     {
         if (MoCreatures.isServer())
         {
             dropArmor();
             MoCTools.dropSaddle(this, worldObj);
-            
+
             if (getIsChested())
             {
                MoCTools.dropInventory(this, localchest);
@@ -881,7 +881,7 @@ public class MoCEntityWyvern extends MoCEntityTameableAnimal {
     @Override
     public EnumCreatureAttribute getCreatureAttribute()
     {
-        if (getType() == 6) 
+        if (getType() == 6)
         {
             return EnumCreatureAttribute.UNDEAD;
         }

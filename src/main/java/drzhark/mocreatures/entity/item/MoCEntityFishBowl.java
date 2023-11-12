@@ -53,8 +53,8 @@ public class MoCEntityFishBowl extends EntityLiving {
     {
         super.entityInit();
 
-        dataWatcher.addObject(15, Byte.valueOf((byte) 0)); // pickedUp - 0 false 1 true
-        dataWatcher.addObject(16, Integer.valueOf(0)); // sheetColor int
+        dataWatcher.addObject(15, (byte) 0); // pickedUp - 0 false 1 true
+        dataWatcher.addObject(16, 0); // sheetColor int
     }
 
     public int getType()

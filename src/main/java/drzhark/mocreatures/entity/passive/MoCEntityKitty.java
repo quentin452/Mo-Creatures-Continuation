@@ -105,10 +105,10 @@ public class MoCEntityKitty extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Integer.valueOf(0)); // kittenstate int
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // isSitting - 0 false 1 true
-        dataWatcher.addObject(24, Byte.valueOf((byte) 0)); // isHungry - 0 false 1 true
-        dataWatcher.addObject(25, Byte.valueOf((byte) 0)); // isEmo - 0 false 1 true
+        dataWatcher.addObject(22, 0); // kittenstate int
+        dataWatcher.addObject(23, (byte) 0); // isSitting - 0 false 1 true
+        dataWatcher.addObject(24, (byte) 0); // isHungry - 0 false 1 true
+        dataWatcher.addObject(25, (byte) 0); // isEmo - 0 false 1 true
     }
 
     public int getKittyState()
@@ -143,13 +143,13 @@ public class MoCEntityKitty extends MoCEntityTameableAnimal {
 
     public void setKittyState(int i)
     {
-        dataWatcher.updateObject(22, Integer.valueOf(i));
+        dataWatcher.updateObject(22, i);
     }
 
     public void setSitting(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
 
     public void setHungry(boolean flag)
@@ -1471,8 +1471,8 @@ public class MoCEntityKitty extends MoCEntityTameableAnimal {
     {
         return true;
     }
-    
-    
+
+
     //drops medallion on death
     @Override
     public void onDeath(DamageSource damagesource)

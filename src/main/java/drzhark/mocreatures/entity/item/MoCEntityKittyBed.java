@@ -53,10 +53,10 @@ public class MoCEntityKittyBed extends EntityLiving {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(15, Byte.valueOf((byte) 0)); // hasFood - 0 false 1 true
-        dataWatcher.addObject(16, Byte.valueOf((byte) 0)); // hasMilk - 0 false 1 true
-        dataWatcher.addObject(17, Byte.valueOf((byte) 0)); // pickedUp - 0 false 1 true
-        dataWatcher.addObject(18, Integer.valueOf(0)); // sheetColor int
+        dataWatcher.addObject(15, (byte) 0); // hasFood - 0 false 1 true
+        dataWatcher.addObject(16, (byte) 0); // hasMilk - 0 false 1 true
+        dataWatcher.addObject(17, (byte) 0); // pickedUp - 0 false 1 true
+        dataWatcher.addObject(18, 0); // sheetColor int
     }
 
     public boolean getHasFood()
@@ -82,24 +82,24 @@ public class MoCEntityKittyBed extends EntityLiving {
     public void setHasFood(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(15, Byte.valueOf(input));
+        dataWatcher.updateObject(15, input);
     }
 
     public void setHasMilk(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(16, Byte.valueOf(input));
+        dataWatcher.updateObject(16, input);
     }
 
     public void setPickedUp(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(17, Byte.valueOf(input));
+        dataWatcher.updateObject(17, input);
     }
 
     public void setSheetColor(int i)
     {
-        dataWatcher.updateObject(18, Integer.valueOf(i));
+        dataWatcher.updateObject(18, i);
     }
 
     public boolean attackEntityFrom(Entity entity, int i)
@@ -238,12 +238,10 @@ public class MoCEntityKittyBed extends EntityLiving {
     @Override
     public void moveEntity(double d, double d1, double d2)
     {
-        if ((ridingEntity != null) || !onGround || !MoCreatures.proxy.staticBed)
-        {
-            if (!worldObj.isRemote)
+        if ((ridingEntity != null) || !onGround || !MoCreatures.proxy.staticBed && (!worldObj.isRemote))
             {
                 super.moveEntity(d, d1, d2);
-            }
+
         }
     }
 

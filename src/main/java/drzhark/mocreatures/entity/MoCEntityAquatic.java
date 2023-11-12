@@ -136,14 +136,14 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     public void setTemper(int i)
     {
-        dataWatcher.updateObject(15, Integer.valueOf(i));
+        dataWatcher.updateObject(15, i);
     }
 
     @Override
     public void setTamed(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(16, Byte.valueOf(input));
+        dataWatcher.updateObject(16, input);
     }
 
     @Override
@@ -156,17 +156,17 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
     public void setAdult(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(18, Byte.valueOf(input));
+        dataWatcher.updateObject(18, input);
     }
 
     public void setEdad(int i)
     {
-        dataWatcher.updateObject(19, Integer.valueOf(i));
+        dataWatcher.updateObject(19, i);
     }
 
     public void setType(int i)
     {
-        dataWatcher.updateObject(20, Integer.valueOf(i));
+        dataWatcher.updateObject(20, i);
     }
 
     /**
@@ -180,7 +180,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     public float b(float f, float f1, float f2)
     {
-        float f3 = f1;
+        float f3;
         for (f3 = f1 - f; f3 < -180F; f3 += 360F)
         {
         }
@@ -500,7 +500,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     /**
      * Speed used to move the mob around
-     * 
+     *
      * @return
      */
     public double getCustomSpeed()
@@ -643,7 +643,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
                     mountCount = 0;
                 }
             }
-            
+
             /*if (getIsTamed() && rand.nextInt(100) == 0)
             {
                 MoCServerPacketHandler.sendHealth(this.getEntityId(), this.worldObj.provider.dimensionId, this.getHealth());
@@ -653,7 +653,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
             {
                 MoCTools.forceDataSync(this);
             }
-            
+
             if (isFisheable() && !fishHooked && rand.nextInt(30) == 0)
             {
                 getFished();
@@ -662,12 +662,12 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
             if (fishHooked && rand.nextInt(200) == 0)
             {
                 fishHooked = false;
-                
+
                 List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(2, 2, 2));
                 for (int i = 0; i < list.size(); i++)
                 {
                     Entity entity1 = (Entity) list.get(i);
-        
+
                     if (entity1 instanceof EntityFishHook)
                     {
                         if (((EntityFishHook)entity1).field_146043_c == this)
@@ -792,7 +792,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     /**
      * Used to synchronize the attack animation between server and client
-     * 
+     *
      * @param attackType
      */
     @Override
@@ -935,7 +935,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
 
 
-    protected boolean canBeTrappedInNet() 
+    protected boolean canBeTrappedInNet()
     {
         return (this instanceof IMoCTameable) && getIsTamed();
     }
@@ -946,7 +946,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     /**
      * Used to heal the animal
-     * 
+     *
      * @param itemstack
      * @return
      */
@@ -959,7 +959,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
     public void setArmorType(byte i) {}
 
     @Override
-    public void dismountEntity() 
+    public void dismountEntity()
     {
         if (MoCreatures.isServer() && this.riddenByEntity != null)
         {
@@ -972,9 +972,9 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
     public int pitchRotationOffset() {
         return 0;
     }
-    
+
     @Override
-    public int rollRotationOffset() 
+    public int rollRotationOffset()
     {
         return 0;
     }
@@ -1000,7 +1000,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
                     fishHook.field_146043_c = this;
                     fishHooked = true;
                 }
-            }    
+            }
         }
     }
 
@@ -1033,7 +1033,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     /**
      * Finds and entity described in entitiesToInclude at d distance
-     * 
+     *
      * @param d
      * @return
      */
@@ -1055,7 +1055,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
 
     /**
      * Used in getBoogey to specify what kind of entity to look for
-     * 
+     *
      * @param entity
      * @return
      */

@@ -87,21 +87,21 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // preTamed - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // preTamed - 0 false 1 true
     }
 
     public boolean getPreTamed()
     {
         return (dataWatcher.getWatchableObjectByte(22) == 1);
     }
-    
+
     public void setPreTamed(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
-    
-    
+
+
     @Override
     protected void fall(float f)
     {
@@ -195,8 +195,8 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
 
     private boolean FlyToNextTree()
     {
-        int ai[] = ReturnNearestMaterialCoord(this, Material.leaves, Double.valueOf(20D));
-        int ai1[] = FindTreeTop(ai[0], ai[1], ai[2]);
+        int[] ai = ReturnNearestMaterialCoord(this, Material.leaves, 20D);
+        int[] ai1 = FindTreeTop(ai[0], ai[1], ai[2]);
         if (ai1[1] != 0)
         {
             int i = ai1[0];
@@ -299,7 +299,7 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
     @Override
     public boolean interact(EntityPlayer entityplayer)
     {
-        
+
         if (super.interact(entityplayer)) { return false; }
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 
@@ -317,7 +317,7 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
         }
 
         if (!getIsTamed()) { return false; }
-        
+
         rotationYaw = entityplayer.rotationYaw;
         if (this.ridingEntity == null)
         {
@@ -354,7 +354,7 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
             }
             else
             {
-                //return; 
+                //return;
                 //commenting this fixes the wing movement bug
             }
         }
@@ -399,7 +399,7 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
                 {
                     fleeing = false;
                 }
-                int ai[] = ReturnNearestMaterialCoord(this, Material.leaves, Double.valueOf(16D));
+                int[] ai = ReturnNearestMaterialCoord(this, Material.leaves, 16D);
                 if (ai[0] == -1)
                 {
                     for (int i = 0; i < 2; i++)

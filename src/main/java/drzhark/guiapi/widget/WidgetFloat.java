@@ -10,11 +10,11 @@ public class WidgetFloat extends WidgetSetting implements Runnable
     public int decimalPlaces;
     public SettingFloat settingReference;
     public WidgetSlider slider;
-    
+
     public WidgetFloat(final SettingFloat setting, final String title) {
         this(setting, title, 2);
     }
-    
+
     public WidgetFloat(final SettingFloat setting, final String title, final int _decimalPlaces) {
         super(title);
         this.setTheme("");
@@ -31,29 +31,29 @@ public class WidgetFloat extends WidgetSetting implements Runnable
         this.add((Widget)this.slider);
         this.update();
     }
-    
+
     @Override
     public void addCallback(final Runnable paramRunnable) {
         this.slider.getModel().addCallback(paramRunnable);
     }
-    
+
     @Override
     public void removeCallback(final Runnable paramRunnable) {
         this.slider.getModel().removeCallback(paramRunnable);
     }
-    
+
     @Override
     public void run() {
-        this.settingReference.set(Float.valueOf(this.slider.getValue()), ModSettingScreen.guiContext);
+        this.settingReference.set(this.slider.getValue(), ModSettingScreen.guiContext);
     }
-    
+
     @Override
     public void update() {
-        this.slider.setValue((float)this.settingReference.get(ModSettingScreen.guiContext));
+        this.slider.setValue(this.settingReference.get(ModSettingScreen.guiContext));
         this.slider.setMinMaxValue(this.settingReference.minimumValue, this.settingReference.maximumValue);
         this.slider.setFormat(String.format("%s: %%.%df", this.niceName, this.decimalPlaces));
     }
-    
+
     @Override
     public String userString() {
         final String l = String.format("%02d", this.decimalPlaces);

@@ -56,14 +56,14 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // rideable: 0 nothing, 1 saddle
+        dataWatcher.addObject(22, (byte) 0); // rideable: 0 nothing, 1 saddle
     }
 
-   
+
     public void setRideable(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     public boolean getIsRideable()
@@ -81,7 +81,7 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
     protected String getDeathSound()
     {
         openmouth();
-        
+
         return "mocreatures:snakedying";//"komododying";
     }
 
@@ -119,23 +119,23 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
         {
             tailCounter = 1;
         }
-        
-        
+
+
         if (sitCounter > 0 && (riddenByEntity != null || ++sitCounter > 150))
         {
              sitCounter = 0;
         }
-        
+
         if (rand.nextInt(100) == 0)
         {
             tongueCounter = 1;
         }
-        
+
         if (mouthCounter > 0 && ++mouthCounter > 30)
         {
             mouthCounter = 0;
         }
-        
+
         if (tongueCounter > 0 && ++tongueCounter > 20)
         {
             tongueCounter = 0;
@@ -187,7 +187,7 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
     protected void dropFewItems(boolean flag, int x)
     {
         boolean flag2 = (getEdad() > 90 && rand.nextInt(5) == 0);
-        
+
        if (flag2)
         {
             int j = rand.nextInt(2)+1;
@@ -198,14 +198,14 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
         }
        else
        {
-       
+
         entityDropItem(new ItemStack(MoCreatures.hideCroc, 1, 0), 0.0F);
        }
     }
 
     @Override
-    public float getSizeFactor() 
-    {   
+    public float getSizeFactor()
+    {
         if (!getIsAdult())
         {
             return (float)getEdad() * 0.01F;
@@ -225,7 +225,7 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
         if (super.interact(entityplayer)) { return false; }
 
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
-        
+
         if ((itemstack != null) && getIsTamed() && !getIsRideable() && getEdad() > 90 &&
                 (itemstack.getItem() == Items.saddle || itemstack.getItem() == MoCreatures.horsesaddle))
         {
@@ -237,12 +237,12 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
             MoCTools.playCustomSound(this, "roping", worldObj);
             return true;
         }
-        
+
         if (getIsRideable() && getIsTamed() && getEdad() > 90 && (riddenByEntity == null))
         {
             entityplayer.rotationYaw = rotationYaw;
             entityplayer.rotationPitch = rotationPitch;
-            
+
             if (MoCreatures.isServer() && (this.riddenByEntity == null))
             {
                 entityplayer.mountEntity(this);
@@ -335,7 +335,7 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
     @Override
     protected void attackEntity(Entity entity, float f)
     {
-        
+
         if (attackTime <= 0 && (f < 3.0D) && (entity.boundingBox.maxY > boundingBox.minY) && (entity.boundingBox.minY < boundingBox.maxY))
         {
             attackTime = 20;
@@ -350,16 +350,16 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
         if (super.attackEntityFrom(damagesource, i))
         {
             Entity entity = damagesource.getEntity();
-         
-            
-            if (entity != null && getIsTamed() && entity instanceof EntityPlayer) 
-            { 
-                return false; 
+
+
+            if (entity != null && getIsTamed() && entity instanceof EntityPlayer)
+            {
+                return false;
             }
 
-            if ((riddenByEntity != null) && (entity == riddenByEntity)) 
-            { 
-                return false; 
+            if ((riddenByEntity != null) && (entity == riddenByEntity))
+            {
+                return false;
             }
 
             if ((entity != this) && (worldObj.difficultySetting.getDifficultyId() > 0))
@@ -409,7 +409,7 @@ public class MoCEntityKomodo extends MoCEntityTameableAnimal
     }
 
     @Override
-    public void dropMyStuff() 
+    public void dropMyStuff()
     {
         if (MoCreatures.isServer())
         {

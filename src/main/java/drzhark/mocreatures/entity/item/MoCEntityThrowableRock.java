@@ -67,7 +67,7 @@ public class MoCEntityThrowableRock extends Entity {
 
     public void setBehavior(int i)
     {
-        dataWatcher.updateObject(21, Integer.valueOf(i));
+        dataWatcher.updateObject(21, i);
     }
 
     public int getBehavior()
@@ -82,16 +82,16 @@ public class MoCEntityThrowableRock extends Entity {
 
     public void setType(int i)
     {
-        dataWatcher.updateObject(19, Integer.valueOf(i));
+        dataWatcher.updateObject(19, i);
     }
 
     @Override
     protected void entityInit()
     {
-        dataWatcher.addObject(19, Integer.valueOf(0)); //blockID
-        dataWatcher.addObject(20, Integer.valueOf(0)); //metadata
-        dataWatcher.addObject(21, Integer.valueOf(0)); //behaviorType
-        dataWatcher.addObject(22, Integer.valueOf(0)); //masterID
+        dataWatcher.addObject(19, 0); //blockID
+        dataWatcher.addObject(20, 0); //metadata
+        dataWatcher.addObject(21, 0); //behaviorType
+        dataWatcher.addObject(22, 0); //masterID
     }
 
     @Override
@@ -141,28 +141,21 @@ public class MoCEntityThrowableRock extends Entity {
         {
             List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.addCoord(this.motionX, this.motionY, this.motionZ).expand(1.0D, 1.0D, 1.0D));
 
-            for (int i = 0; i < list.size(); i++)
-            {
-                Entity entity1 = (Entity) list.get(i);
-                if (master != null && entity1.getEntityId() == master.getEntityId())
-                {
+            for (Object o : list) {
+                Entity entity1 = (Entity) o;
+                if (master != null && entity1.getEntityId() == master.getEntityId()) {
                     continue;
                 }
-                if (entity1 instanceof MoCEntityGolem)
-                {
+                if (entity1 instanceof MoCEntityGolem) {
                     continue;
                 }
-                if (entity1 != null && !(entity1 instanceof EntityLivingBase))
-                {
+                if (entity1 != null && !(entity1 instanceof EntityLivingBase)) {
                     continue;
                 }
 
-                if (master != null)
-                {
+                if (master != null) {
                     entity1.attackEntityFrom(DamageSource.causeMobDamage((EntityLivingBase) master), 4);
-                }
-                else
-                {
+                } else {
                     entity1.attackEntityFrom(DamageSource.generic, 4);
                 }
             }

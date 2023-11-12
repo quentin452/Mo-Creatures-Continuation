@@ -103,7 +103,7 @@ public class MoCEntityTurtle extends MoCEntityTameableAnimal {
     public void setIsUpsideDown(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
 
     @Override
@@ -434,7 +434,7 @@ public class MoCEntityTurtle extends MoCEntityTameableAnimal {
 
     /**
      * Used to avoid rendering the top shell cube
-     * 
+     *
      * @return
      */
     public boolean isTMNT()

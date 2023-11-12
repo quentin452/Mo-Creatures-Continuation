@@ -51,9 +51,9 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isBiting - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // isResting - 0 false 1 true
-        dataWatcher.addObject(24, Byte.valueOf((byte) 0)); // caughtPrey - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // isBiting - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); // isResting - 0 false 1 true
+        dataWatcher.addObject(24, (byte) 0); // caughtPrey - 0 false 1 true
     }
 
     public boolean getIsBiting()
@@ -74,19 +74,19 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
     public void setBiting(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     public void setIsResting(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
 
     public void setHasCaughtPrey(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(24, Byte.valueOf(input));
+        dataWatcher.updateObject(24, input);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
 
         if (isInsideOfMaterial(Material.water))
         {
-            if (getHasCaughtPrey() || (entityToAttack == null && rand.nextInt(20) != 0)) 
+            if (getHasCaughtPrey() || (entityToAttack == null && rand.nextInt(20) != 0))
             {
                 return;
             }
@@ -294,7 +294,7 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
                 if (!worldObj.isRemote && riddenByEntity != null && riddenByEntity instanceof EntityPlayer)
                 {
                     //TODO 4FIX
-                    //MoCreatures.mc.gameSettings.thirdPersonView = 1; 
+                    //MoCreatures.mc.gameSettings.thirdPersonView = 1;
                 }
             }
         }
@@ -425,18 +425,18 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
         if (worldObj.difficultySetting.getDifficultyId() > 0)
         {
             double attackD = 12D;
-             
+
             if (getIsResting())
             {
                 attackD = 6D;
             }
-            
-            EntityPlayer entityplayer = worldObj.getClosestVulnerablePlayerToEntity(this, attackD); 
-            if((entityplayer != null) && getIsAdult()) 
+
+            EntityPlayer entityplayer = worldObj.getClosestVulnerablePlayerToEntity(this, attackD);
+            if((entityplayer != null) && getIsAdult())
             {
-                 return entityplayer; 
+                 return entityplayer;
             }
-            
+
             EntityLivingBase entityliving = getClosestEntityLiving(this, attackD);
             return entityliving;
         }

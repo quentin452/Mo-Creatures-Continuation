@@ -84,19 +84,16 @@ public class MoCEntityInsect extends MoCEntityAmbient {
             {
                 MoCMessageHandler.INSTANCE.sendToAllAround(new MoCMessageAnimation(this.getEntityId(), 1), new TargetPoint(this.worldObj.provider.dimensionId, this.posX, this.posY, this.posZ, 64));
             }
-            
+
             if (!getIsFlying() && rand.nextInt(getFlyingFreq()) == 0)
             {
                 List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(4D, 4D, 4D));
-                for (int i = 0; i < list.size(); i++)
-                {
-                    Entity entity1 = (Entity) list.get(i);
-                    if (!(entity1 instanceof EntityLivingBase))
-                    {
+                for (Object o : list) {
+                    Entity entity1 = (Entity) o;
+                    if (!(entity1 instanceof EntityLivingBase)) {
                         continue;
                     }
-                    if (((EntityLivingBase) entity1).width >= 0.4F && ((EntityLivingBase) entity1).height >= 0.4F && canEntityBeSeen(entity1))
-                    {
+                    if (entity1.width >= 0.4F && entity1.height >= 0.4F && canEntityBeSeen(entity1)) {
                         this.motionY += 0.3D;
                         setIsFlying(true);
                     }
@@ -115,7 +112,7 @@ public class MoCEntityInsect extends MoCEntityAmbient {
                     }
                 }
             }
- 
+
             //this makes the flying insect move all the time in the air
             if (getIsFlying() && !hasPath() && !isMovementCeased() && entityToAttack == null)
             {
@@ -136,7 +133,7 @@ public class MoCEntityInsect extends MoCEntityAmbient {
      * Is this insect attracted to light?
      * @return
      */
-    public boolean isAttractedToLight() 
+    public boolean isAttractedToLight()
     {
         return false;
     }
@@ -148,7 +145,7 @@ public class MoCEntityInsect extends MoCEntityAmbient {
         {
             climbCounter = 1;
         }
-        
+
     }
 
     @Override
@@ -225,7 +222,7 @@ public class MoCEntityInsect extends MoCEntityAmbient {
     }
 
     @Override
-    public int rollRotationOffset() 
+    public int rollRotationOffset()
     {
         return 0;
     }

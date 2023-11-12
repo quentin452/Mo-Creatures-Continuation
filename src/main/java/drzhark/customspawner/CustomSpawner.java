@@ -213,8 +213,8 @@ public final class CustomSpawner {
 
     /**
      * New customSpawner
-     * 
-     * 
+     *
+     *
      */
     public final int doCustomSpawning(WorldServer world, EntitySpawnType entitySpawnType, int mobSpawnRange, boolean enforceMaxSpawnLimits)
     {
@@ -245,11 +245,11 @@ public final class CustomSpawner {
 
                     if (!var10)
                     {
-                        eligibleChunksForSpawning.put(var11, Boolean.valueOf(false));
+                        eligibleChunksForSpawning.put(var11, Boolean.FALSE);
                     }
                     else if (!eligibleChunksForSpawning.containsKey(var11))
                     {
-                        eligibleChunksForSpawning.put(var11, Boolean.valueOf(true));
+                        eligibleChunksForSpawning.put(var11, Boolean.TRUE);
                     }
                 }
             }
@@ -284,7 +284,7 @@ public final class CustomSpawner {
             label108: while (iterator.hasNext() && moblimit > 0)
             {
                 ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair) iterator.next();
-                if (eligibleChunksForSpawning.get(chunkcoordintpair) != null && !((Boolean) eligibleChunksForSpawning.get(chunkcoordintpair)).booleanValue()) // blood - added null check to avoid crashing during SSP spawning
+                if (eligibleChunksForSpawning.get(chunkcoordintpair) != null && !(Boolean) eligibleChunksForSpawning.get(chunkcoordintpair)) // blood - added null check to avoid crashing during SSP spawning
                 {
                     ChunkPosition chunkpos = getRandomSpawningPointInChunk(world, chunkcoordintpair.chunkXPos, chunkcoordintpair.chunkZPos);
                     int posX = chunkpos.chunkPosX;
@@ -775,7 +775,7 @@ public final class CustomSpawner {
                                 float f1 = (float)l2;
                                 float f2 = (float)k1 + 0.5F;
                                 EntityLiving entityliving;
-    
+
                                 try
                                 {
                                     entityliving = (EntityLiving)spawnlistentry.entityClass.getConstructor(new Class[] {World.class}).newInstance(new Object[] {world});
@@ -785,7 +785,7 @@ public final class CustomSpawner {
                                     exception.printStackTrace();
                                     continue;
                                 }
-    
+
                                 entityliving.setLocationAndAngles((double)f, (double)f1, (double)f2, par6Random.nextFloat() * 360.0F, 0.0F);
                                 Result canSpawn = ForgeEventFactory.canEntitySpawn(entityliving, world, f, f1, f2);
                                 if (canSpawn == Result.ALLOW || (canSpawn == Result.DEFAULT && entityliving.getCanSpawnHere()))
@@ -797,9 +797,9 @@ public final class CustomSpawner {
                                     flag = true;
                                 }
                             }
-    
+
                             j1 += par6Random.nextInt(5) - par6Random.nextInt(5);
-    
+
                             for (k1 += par6Random.nextInt(5) - par6Random.nextInt(5); j1 < par2 || j1 >= par2 + par4 || k1 < par3 || k1 >= par3 + par4; k1 = i2 + par6Random.nextInt(5) - par6Random.nextInt(5))
                             {
                                 j1 = l1 + par6Random.nextInt(5) - par6Random.nextInt(5);

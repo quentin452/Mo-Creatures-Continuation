@@ -41,11 +41,7 @@ public class MoCEntityScorpion extends MoCEntityMob {
         setEdad(20);
 
         if (MoCreatures.isServer()) {
-            if (rand.nextInt(4) == 0) {
-                setHasBabies(true);
-            } else {
-                setHasBabies(false);
-            }
+            setHasBabies(rand.nextInt(4) == 0);
         }
     }
 
@@ -81,8 +77,8 @@ public class MoCEntityScorpion extends MoCEntityMob {
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isPicked - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // has babies - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // isPicked - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); // has babies - 0 false 1 true
     }
 
     public boolean getHasBabies() {
@@ -99,12 +95,12 @@ public class MoCEntityScorpion extends MoCEntityMob {
 
     public void setHasBabies(boolean flag) {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
 
     public void setPicked(boolean flag) {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     public void setPoisoning(boolean flag) {
@@ -162,7 +158,7 @@ public class MoCEntityScorpion extends MoCEntityMob {
 
     /**
      * Does it want to hide?
-     * 
+     *
      * @return
      */
     private boolean wantsToHide() {
@@ -361,10 +357,9 @@ public class MoCEntityScorpion extends MoCEntityMob {
     protected void dropFewItems(boolean flag, int x) {
         if (!flag) return;
         Item item = this.getDropItem();
-        if (item != null) {
-            if (rand.nextInt(3) == 0) {
+        if (item != null && (rand.nextInt(3) == 0)) {
                 this.dropItem(item, 1);
-            }
+
         }
     }
 
@@ -425,7 +420,7 @@ public class MoCEntityScorpion extends MoCEntityMob {
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.ARTHROPOD;
     }
-    
+
     @Override
     public float getAdjustedYOffset() {
         return 30F;

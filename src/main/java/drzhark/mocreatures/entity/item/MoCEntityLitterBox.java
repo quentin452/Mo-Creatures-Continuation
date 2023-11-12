@@ -44,8 +44,8 @@ public class MoCEntityLitterBox extends EntityLiving {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(15, Byte.valueOf((byte) 0)); // usedLitter - 0 false 1 true
-        dataWatcher.addObject(16, Byte.valueOf((byte) 0)); // pickedUp - 0 false 1 true
+        dataWatcher.addObject(15, (byte) 0); // usedLitter - 0 false 1 true
+        dataWatcher.addObject(16, (byte) 0); // pickedUp - 0 false 1 true
     }
 
     public boolean getPickedUp()

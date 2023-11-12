@@ -80,7 +80,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
     {
         super.entityInit();
         initGolemCubes();
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // gState - 0 spawned / 1 summoning rocks /2 has enemy /3 half life (harder) /4 dying
+        dataWatcher.addObject(23, (byte) 0); // gState - 0 spawned / 1 summoning rocks /2 has enemy /3 half life (harder) /4 dying
     }
 
     public int getGolemState()
@@ -230,14 +230,14 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
         if (myRockCoords[0] == -9999) { return; }
 
         boolean canDestroyBlocks = MoCTools.mobGriefing(worldObj) && MoCreatures.proxy.golemDestroyBlocks;
-        
+
             Block block = worldObj.getBlock(myRockCoords[0], myRockCoords[1], myRockCoords[2]);
-        
+
         int tRockID = Block.getIdFromBlock(worldObj.getBlock(MathHelper.floor_double(myRockCoords[0]), MathHelper.floor_double(myRockCoords[1]), MathHelper.floor_double(myRockCoords[2])));
         if (tRockID == 0) {return;} //air blocks
-        
+
         int tRockMetadata = worldObj.getBlockMetadata(MathHelper.floor_double(myRockCoords[0]), MathHelper.floor_double(myRockCoords[1]), MathHelper.floor_double(myRockCoords[2]));
-        
+
             BlockEvent.BreakEvent event = null;
             if (!this.worldObj.isRemote)
             {
@@ -248,9 +248,9 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
                 //destroys the original rock
                 worldObj.setBlock(myRockCoords[0], myRockCoords[1], myRockCoords[2], Blocks.air, 0, 3);
             }
-        
+
         MoCEntityThrowableRock trock = new MoCEntityThrowableRock(this.worldObj, this, myRockCoords[0], myRockCoords[1]+1, myRockCoords[2]);//, false, true);
-        
+
         if (!canDestroyBlocks) //make cheap rocks
         {
             tRockID = returnRandomCheapBlock();
@@ -260,7 +260,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
         trock.setType(tRockID);
         trock.setMetadata(tRockMetadata);
         trock.setBehavior(type);//so the rock: 2 follows the EntityGolem  or 3 - gets around the golem
-        
+
         //spawns the new TRock
         this.worldObj.spawnEntityInWorld(trock);
     }
@@ -288,7 +288,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * When the golem receives the rock, called from within EntityTRock
-     * 
+     *
      * @param ID
      *            = block id
      * @param Metadata
@@ -597,7 +597,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Throws stone at entity
-     * 
+     *
      * @param targetEntity
      * @param rocktype
      * @param metadata
@@ -609,7 +609,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Throws stone at X,Y,Z coordinates
-     * 
+     *
      * @param X
      * @param Y
      * @param Z
@@ -701,7 +701,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
     /**
      * Saves the type of Cube(value) on the given 'slot' if server, then sends a
      * packet to the clients
-     * 
+     *
      * @param slot
      * @param value
      */
@@ -716,7 +716,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * returns a list of the empty blocks
-     * 
+     *
      * @return
      */
     private List missingCubes()
@@ -735,7 +735,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Returns true if is 'missing' any cube, false if it's full
-     * 
+     *
      * @return
      */
     public boolean isMissingCubes()
@@ -765,7 +765,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * returns a list of the used block spots
-     * 
+     *
      * @return
      */
     private List usedCubes()
@@ -784,7 +784,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Returns a random used cube position if the golem is empty, returns -1
-     * 
+     *
      * @return
      */
     private int getRandomUsedCube()
@@ -797,7 +797,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Returns a random empty cube position if the golem is full, returns -1
-     * 
+     *
      * @return
      */
     private int getRandomMissingCube()
@@ -823,7 +823,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
     /**
      * returns the position of the cube to be added, contains logic for the
      * extremities
-     * 
+     *
      * @return
      */
     private int getRandomCubeAdj()
@@ -895,7 +895,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
     /**
      * The chest opens when the Golem is missing cubes and the summoned blocks
      * are close
-     * 
+     *
      * @return
      */
     public boolean openChest()
@@ -923,7 +923,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
     /**
      * Converts the world block into the golem block texture if not found,
      * returns -1
-     * 
+     *
      * @param blockType
      * @return
      */
@@ -1008,7 +1008,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Provides the blockID originated from the golem's block
-     * 
+     *
      * @param golemBlock
      * @return
      */
@@ -1098,7 +1098,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Used for the power texture used on the golem
-     * 
+     *
      * @return
      */
     public ResourceLocation getEffectTexture()
@@ -1120,7 +1120,7 @@ public class MoCEntityGolem extends MoCEntityMob implements IEntityAdditionalSpa
 
     /**
      * Used for the particle FX
-     * 
+     *
      * @param i
      * @return
      */

@@ -84,16 +84,16 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(15, Byte.valueOf((byte) 0)); // isAdult - 0 false 1 true
-        dataWatcher.addObject(16, Byte.valueOf((byte) 0)); // isTamed - 0 false 1 true
-        dataWatcher.addObject(17, String.valueOf("")); // displayName empty string by default
-        dataWatcher.addObject(18, Integer.valueOf(0)); // int ageTicks / "edad"
-        dataWatcher.addObject(19, Integer.valueOf(0)); // int type
+        dataWatcher.addObject(15, (byte) 0); // isAdult - 0 false 1 true
+        dataWatcher.addObject(16, (byte) 0); // isTamed - 0 false 1 true
+        dataWatcher.addObject(17, ""); // displayName empty string by default
+        dataWatcher.addObject(18, 0); // int ageTicks / "edad"
+        dataWatcher.addObject(19, 0); // int type
     }
 
     public void setType(int i)
     {
-        dataWatcher.updateObject(19, Integer.valueOf(i));
+        dataWatcher.updateObject(19, i);
     }
 
     @Override
@@ -132,14 +132,14 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
 
     public void setEdad(int i)
     {
-        dataWatcher.updateObject(18, Integer.valueOf(i));
+        dataWatcher.updateObject(18, i);
     }
 
     @Override
     public void setAdult(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(15, Byte.valueOf(input));
+        dataWatcher.updateObject(15, input);
     }
 
     @Override
@@ -152,7 +152,7 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     public void setTamed(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(16, Byte.valueOf(input));
+        dataWatcher.updateObject(16, input);
     }
 
     public boolean getCanSpawnHereLiving()
@@ -219,15 +219,13 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
 
     public boolean entitiesToIgnore(Entity entity)
     {
-        return ((!(entity instanceof EntityLiving)) 
-                || (entity instanceof EntityMob)
-                || (entity instanceof MoCEntityEgg)
-                || (entity instanceof EntityPlayer && this.getIsTamed()) 
-                || (entity instanceof MoCEntityKittyBed) || (entity instanceof MoCEntityLitterBox) 
-                || (this.getIsTamed() && (entity instanceof MoCEntityAnimal && ((MoCEntityAnimal) entity).getIsTamed())) 
-                || ((entity instanceof EntityWolf) && !(MoCreatures.proxy.attackWolves)) 
-                || ((entity instanceof MoCEntityHorse) && !(MoCreatures.proxy.attackHorses))
-                || ((entity instanceof MoCEntityAnimal || entity instanceof MoCEntityAmbient || entity instanceof MoCEntityAquatic) && !MoCreatures.isHuntingEnabled()));
+        if ((!(entity instanceof EntityLiving))
+            || (entity instanceof EntityMob)
+            || (entity instanceof MoCEntityEgg)) return true;
+        if (entity instanceof EntityPlayer) {
+            this.getIsTamed();
+        }
+        return entity instanceof MoCEntityKittyBed || entity instanceof MoCEntityLitterBox || this.getIsTamed() && entity instanceof MoCEntityAnimal && ((MoCEntityAnimal) entity).getIsTamed() || entity instanceof EntityWolf && !MoCreatures.proxy.attackWolves || entity instanceof MoCEntityHorse && !MoCreatures.proxy.attackHorses || (entity instanceof MoCEntityAnimal || entity instanceof MoCEntityAmbient || entity instanceof MoCEntityAquatic) && !MoCreatures.isHuntingEnabled();
     }
 
     @Override
@@ -264,8 +262,7 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
 
     /**
      * Boolean used to select pathfinding behavior
-     * 
-     * @return
+     *
      */
     public boolean isFlyer()
     {
@@ -564,7 +561,7 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
 
     /**
      * Used to synchronize the attack animation between server and client
-     * 
+     *
      * @param attackType
      */
     @Override
@@ -710,22 +707,22 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     @Override
     public void setArmorType(byte i) {}
 
-    public byte getArmorType() 
-    {        
-        return 0;
-    }
-    
-    @Override
-    public void dismountEntity() {}
-
-    @Override
-    public int pitchRotationOffset() 
+    public byte getArmorType()
     {
         return 0;
     }
 
     @Override
-    public int rollRotationOffset() 
+    public void dismountEntity() {}
+
+    @Override
+    public int pitchRotationOffset()
+    {
+        return 0;
+    }
+
+    @Override
+    public int rollRotationOffset()
     {
         return 0;
     }
@@ -741,7 +738,7 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     {
         return 0F;
     }
-    
+
     @Override
     public float getAdjustedXOffset()
     {

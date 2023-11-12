@@ -39,8 +39,8 @@ public class MoCEntityWerewolf extends MoCEntityMob {
     @Override
     protected void entityInit() {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isHumanForm - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); //hunched
+        dataWatcher.addObject(22, (byte) 0); // isHumanForm - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); //hunched
     }
 
     @Override

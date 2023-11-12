@@ -50,7 +50,7 @@ public class MoCEntityBunny extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // hasEaten - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // hasEaten - 0 false 1 true
     }
 
     public boolean getHasEaten()
@@ -61,7 +61,7 @@ public class MoCEntityBunny extends MoCEntityTameableAnimal {
     public void setHasEaten(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MoCEntityBunny extends MoCEntityTameableAnimal {
     public void selectType()
     {
         checkSpawningBiome();
-        
+
         if (getType() == 0)
         {
             setType(rand.nextInt(5)+1);
@@ -349,20 +349,20 @@ public class MoCEntityBunny extends MoCEntityTameableAnimal {
     {
         return 0.9D;
     }
-    
+
     /**
      * So bunny-hats don't suffer damage
      */
     @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
-        if (this.ridingEntity != null) 
+        if (this.ridingEntity != null)
         {
             return false;
         }
         return super.attackEntityFrom(damagesource, i);
     }
-    
+
     @Override
     public boolean swimmerEntity()
     {

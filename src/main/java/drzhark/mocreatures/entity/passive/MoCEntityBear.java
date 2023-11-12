@@ -61,13 +61,13 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(23, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(23, (byte) 0);
     }
 
-    
+
     /**
      * 0 - bear is on fours 1 - standing 2 - sitting
-     * 
+     *
      * @return
      */
     public int getBearState()
@@ -77,14 +77,14 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
 
     public void setBearState(int i)
     {
-        dataWatcher.updateObject(23, Byte.valueOf((byte)i));
+        dataWatcher.updateObject(23, (byte) i);
     }
 
     @Override
     public void selectType()
     {
         checkSpawningBiome();
-        
+
         if (getType() == 0)
         {
 
@@ -129,7 +129,7 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
     /**
      * Returns the factor size for the bear, polars are bigger and pandas
      * smaller
-     * 
+     *
      * @return
      */
     public float getBearSize()
@@ -170,7 +170,7 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
 
     /**
      * Returns the distance at which the bear attacks prey
-     * 
+     *
      * @return
      */
     public double getAttackRange()
@@ -199,7 +199,7 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
 
     /**
      * The damage the bear does
-     * 
+     *
      * @return
      */
     public int getAttackStrength()
@@ -522,11 +522,11 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
         return (int) ((100/getEdad()) * (-40));
 
     }
-    
+
     @Override
     public double getCustomSpeed()
     {
-        if (getBearState() == 2) 
+        if (getBearState() == 2)
         {
             return 0D;
         }

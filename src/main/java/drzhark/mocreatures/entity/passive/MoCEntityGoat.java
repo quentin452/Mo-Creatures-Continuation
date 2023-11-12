@@ -34,7 +34,7 @@ public class MoCEntityGoat extends MoCEntityTameableAnimal {
     private int eatcount;
     //private float moveSpeed;
 
-   
+
     public MoCEntityGoat(World world)
     {
         super(world);
@@ -52,11 +52,11 @@ public class MoCEntityGoat extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isUpset - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // isCharging - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // isUpset - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); // isCharging - 0 false 1 true
     }
 
-    
+
 
     public boolean getUpset()
     {
@@ -71,13 +71,13 @@ public class MoCEntityGoat extends MoCEntityTameableAnimal {
     public void setUpset(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     public void setCharging(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
 
     @Override

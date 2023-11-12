@@ -52,11 +52,11 @@ public class MoCEntityRat extends MoCEntityMob {
     }
 
     @Override
-    protected double getAttackStrenght() 
+    protected double getAttackStrenght()
     {
         return 1D;
     }
-    
+
     @Override
     public ResourceLocation getTexture()
     {
@@ -108,20 +108,13 @@ public class MoCEntityRat extends MoCEntityMob {
             {
                 //TODO 4FIX TEST
                 List list = worldObj.getEntitiesWithinAABB(MoCEntityRat.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(16D, 4D, 16D));
-                Iterator iterator = list.iterator();
-                do
-                {
-                    if (!iterator.hasNext())
-                    {
-                        break;
-                    }
-                    Entity entity1 = (Entity) iterator.next();
+                for (Object o : list) {
+                    Entity entity1 = (Entity) o;
                     MoCEntityRat entityrat = (MoCEntityRat) entity1;
-                    if ((entityrat != null) && (entityrat.entityToAttack == null))
-                    {
+                    if ((entityrat != null) && (entityrat.entityToAttack == null)) {
                         entityrat.entityToAttack = entity;
                     }
-                } while (true);
+                }
             }
             return true;
         }

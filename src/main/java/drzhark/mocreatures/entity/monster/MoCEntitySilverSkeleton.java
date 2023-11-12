@@ -37,14 +37,7 @@ public class MoCEntitySilverSkeleton extends MoCEntityMob
     {
         if (MoCreatures.isServer())
         {
-            if (entityToAttack == null )
-            {
-                setSprinting(false);
-            }
-            else
-            {
-                setSprinting(true);
-            }
+            setSprinting(entityToAttack != null);
 
             if (this.worldObj.isDaytime())
             {
@@ -84,7 +77,7 @@ public class MoCEntitySilverSkeleton extends MoCEntityMob
      @Override
         public void performAnimation(int animationType)
         {
-            
+
             if (animationType == 1) //left arm
             {
                 attackCounterLeft = 1;
@@ -98,12 +91,12 @@ public class MoCEntitySilverSkeleton extends MoCEntityMob
         /**
          * Starts attack counters and synchronizes animations with clients
          */
-        private void startAttackAnimation() 
+        private void startAttackAnimation()
         {
             if (MoCreatures.isServer())
             {
                 boolean leftArmW = rand.nextInt(2) == 0;
-                
+
                 if (leftArmW)
                 {
                     attackCounterLeft = 1;
@@ -149,7 +142,7 @@ public class MoCEntitySilverSkeleton extends MoCEntityMob
     {
     return "mob.skeleton.say";
     }
-    
+
     /**
      * Get this Entity's EnumCreatureAttribute
      */
@@ -157,7 +150,7 @@ public class MoCEntitySilverSkeleton extends MoCEntityMob
     {
         return EnumCreatureAttribute.UNDEAD;
     }
-   
+
     @Override
     protected void func_145780_a(int par1, int par2, int par3, Block block)
     {

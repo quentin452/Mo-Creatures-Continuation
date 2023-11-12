@@ -37,11 +37,11 @@ import drzhark.customspawner.utils.CMSUtils;
 
 public class CommandCMS extends CommandBase {
 
-    private static List<String> commands = new ArrayList<String>();
-    private static List aliases = new ArrayList<String>();
-    private static List<String> commandsCustomSpawner = new ArrayList<String>();
-    private static Map<String, String> commmentMap = new TreeMap<String, String>();
-    private static List tabCompletionStrings = new ArrayList<String>();
+    private static final List<String> commands = new ArrayList<String>();
+    private static final List<String> aliases = new ArrayList<String>();
+    private static final List<String> commandsCustomSpawner = new ArrayList<String>();
+    private static final Map<String, String> commmentMap = new TreeMap<String, String>();
+    private static final List<String> tabCompletionStrings = new ArrayList<String>();
 
     static {
         commands.add("/cms addbg <tag|entity> <group>");
@@ -146,7 +146,7 @@ public class CommandCMS extends CommandBase {
         boolean doNotShowHelp = false;
 
         if (par1.equalsIgnoreCase("addbg") && !par2.equals("") && !par3.equals(""))
-        { 
+        {
             EntityData entityData = environment.entityMap.get(par2);
             if (entityData != null)
             {
@@ -173,7 +173,7 @@ public class CommandCMS extends CommandBase {
             }
         }
         else if (par1.equalsIgnoreCase("removebg") && !par2.equals("") && !par3.equals(""))
-        { 
+        {
             EntityData entityData = environment.entityMap.get(par2);
             if (entityData != null)
             {
@@ -204,7 +204,7 @@ public class CommandCMS extends CommandBase {
             }
         }
         else if (par1.equalsIgnoreCase("biomegroups") || par1.equalsIgnoreCase("bg"))
-        {  
+        {
             String biomeGroups = "";
             par1ICommandSender.addChatMessage(new ChatComponentTranslation("The following biome groups have been found :"));
             for (Map.Entry<String, BiomeGroupData> biomeGroupEntry: environment.biomeGroupMap.entrySet())
@@ -294,7 +294,7 @@ public class CommandCMS extends CommandBase {
             }
             else if (par2.equalsIgnoreCase("chunk"))
             {
-                par1ICommandSender.addChatMessage(new ChatComponentTranslation(EnumChatFormatting.WHITE + "No entities found in chunk " + EnumChatFormatting.AQUA + playerChunkCoordX + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.AQUA + playerChunkCoordZ + EnumChatFormatting.WHITE + ".")); 
+                par1ICommandSender.addChatMessage(new ChatComponentTranslation(EnumChatFormatting.WHITE + "No entities found in chunk " + EnumChatFormatting.AQUA + playerChunkCoordX + EnumChatFormatting.WHITE + ", " + EnumChatFormatting.AQUA + playerChunkCoordZ + EnumChatFormatting.WHITE + "."));
             }
             else
             {
@@ -307,7 +307,7 @@ public class CommandCMS extends CommandBase {
             if ((!environment.entityMap.containsKey(par2) && par2ArrayOfStr.length == 2 && !par2.equalsIgnoreCase("force")) || par2ArrayOfStr.length == 1)
             {
                 String list = "";
-                List<String> entityTypes = new ArrayList();
+                List<String> entityTypes = new ArrayList<>();
                 par1ICommandSender.addChatMessage(new ChatComponentTranslation("Must specify a valid entity type to kill. Current types are : "));
                 for (Map.Entry<String, EntityData> entityEntry : environment.entityMap.entrySet())
                 {
@@ -425,7 +425,7 @@ public class CommandCMS extends CommandBase {
                                 return;
                             }
                             else {
-                                try 
+                                try
                                 {
                                     entityData.setFrequency(Integer.parseInt(par3));
                                     CMSProperty prop = entityData.getEntityConfig().get(entityData.getEntityName().toLowerCase(),"frequency");
@@ -447,7 +447,7 @@ public class CommandCMS extends CommandBase {
                                 doNotShowHelp = true;
                             }
                             else {
-                                try 
+                                try
                                 {
                                     entityData.setMinSpawn(Integer.parseInt(par3));
                                     CMSProperty prop = entityData.getEntityConfig().get(entityData.getEntityName(),"min");
@@ -469,7 +469,7 @@ public class CommandCMS extends CommandBase {
                                 return;
                             }
                             else {
-                                try 
+                                try
                                 {
                                     entityData.setMaxSpawn(Integer.parseInt(par3));
                                     CMSProperty prop = entityData.getEntityConfig().get(entityData.getEntityName(),"max");
@@ -491,7 +491,7 @@ public class CommandCMS extends CommandBase {
                                 return;
                             }
                             else {
-                                try 
+                                try
                                 {
                                     entityData.setMaxSpawn(Integer.parseInt(par3));
                                     CMSProperty prop = entityData.getEntityConfig().get(entityData.getEntityName(),"maxchunk");
@@ -642,7 +642,7 @@ public class CommandCMS extends CommandBase {
         }
         // END ENTITY FREQUENCY/BIOME SECTION
         // START OTHER SECTIONS
-        else 
+        else
         {
             for (Map.Entry<String, CMSConfigCategory> catEntry : config.categories.entrySet())
             {
@@ -680,7 +680,7 @@ public class CommandCMS extends CommandBase {
                         {
                             par1ICommandSender.addChatMessage(new ChatComponentTranslation(EnumChatFormatting.RED + "Invalid value entered. Please enter a valid number."));
                         }
-                        
+
                     }
                     else if (propEntry.getValue().getType() == Type.DOUBLE)
                     {
@@ -719,15 +719,15 @@ public class CommandCMS extends CommandBase {
                 {
                     if (par2 != null)
                     {
-                        throw new WrongUsageException(par2, new Object[0]);
+                        throw new WrongUsageException(par2);
                     }
-    
+
                     throw new CommandNotFoundException();
                 }
             }
 
             int k = Math.min((j + 1) * b0, list.size());
-            par1ICommandSender.addChatMessage(new ChatComponentTranslation(EnumChatFormatting.DARK_GREEN + "--- Showing CustomSpawner help page " + Integer.valueOf(j + 1) + " of " + Integer.valueOf(i + 1) + "(/moc help <page>)---"));
+            par1ICommandSender.addChatMessage(new ChatComponentTranslation(EnumChatFormatting.DARK_GREEN + "--- Showing CustomSpawner help page " + (j + 1) + " of " + (i + 1) + "(/moc help <page>)---"));
 
             for (int l = j * b0; l < k; ++l)
             {
@@ -748,7 +748,7 @@ public class CommandCMS extends CommandBase {
     /**
      * Returns a sorted list of all possible commands for the given ICommandSender.
      */
-    protected List getSortedPossibleCommands(ICommandSender par1ICommandSender)
+    protected List<String> getSortedPossibleCommands(ICommandSender par1ICommandSender)
     {
         Collections.sort(this.commands);
         return this.commands;

@@ -53,9 +53,9 @@ public class CMSConfigCategory implements Map<String, CMSProperty>
         if (obj instanceof CMSConfigCategory)
         {
             CMSConfigCategory cat = (CMSConfigCategory)obj;
-            return name.equals(cat.name) && children.equals(cat.children);  
+            return name.equals(cat.name) && children.equals(cat.children);
         }
-        
+
         return false;
     }
 
@@ -178,7 +178,7 @@ public class CMSConfigCategory implements Map<String, CMSProperty>
             if (prop.isList())
             {
                 char type = prop.getType().getID();
-                write(out, false, pad1 + String.valueOf(type), ":", propName, " <");
+                write(out, false, pad1 + type, ":", propName, " <");
                 for (int i = 0; i < prop.valueList.size(); i++)
                 {
                     String line = prop.valueList.get(i);
@@ -186,7 +186,7 @@ public class CMSConfigCategory implements Map<String, CMSProperty>
                     {
                         write(out, false, line);
                     }
-                    else 
+                    else
                     {
                         write(out, false, line + ":");
                     }

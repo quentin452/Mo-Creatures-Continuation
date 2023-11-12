@@ -110,14 +110,14 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isRideable - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // isChestedHorse - 0 false 1 true
-        dataWatcher.addObject(24, Byte.valueOf((byte) 0)); // Eating - 0 false 1 true
-        dataWatcher.addObject(25, Integer.valueOf(0)); // armor 0 by default, 1 metal, 2 gold, 3 diamond, 4 crystaline
-        dataWatcher.addObject(26, Byte.valueOf((byte) 0)); // Bred - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // isRideable - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); // isChestedHorse - 0 false 1 true
+        dataWatcher.addObject(24, (byte) 0); // Eating - 0 false 1 true
+        dataWatcher.addObject(25, 0); // armor 0 by default, 1 metal, 2 gold, 3 diamond, 4 crystaline
+        dataWatcher.addObject(26, (byte) 0); // Bred - 0 false 1 true
     }
 
-   
+
     @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
@@ -178,7 +178,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * returns one of the RGB color codes
-     * 
+     *
      * @param sColor
      *            : 1 will return the Red component, 2 will return the Green and
      *            3 the blue
@@ -195,7 +195,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             if (sColor == 2) { return (float) 160 / 256; }
             return (float) 22 / 256;
         }
-        
+
         if (typeInt == 49) // purple
         {
             if (sColor == 1) { return (float) 147 / 256; }
@@ -222,28 +222,28 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             if (sColor == 2) { return (float) 238 / 256; }
             return (float) 104 / 256;
         }
-        
+
         if (typeInt == 54) // black fairy
         {
             if (sColor == 1) { return (float) 110 / 256; }
             if (sColor == 2) { return (float) 123 / 256; }
             return (float) 139 / 256;
         }
-        
+
         if (typeInt == 55) // red fairy
         {
             if (sColor == 1) { return (float) 194 / 256; }
             if (sColor == 2) { return (float) 29 / 256; }
             return (float) 34 / 256;
         }
-        
+
         if (typeInt == 56) // dark blue fairy
         {
             if (sColor == 1) { return (float) 63 / 256; }
             if (sColor == 2) { return (float) 45 / 256; }
             return (float) 255 / 256;
         }
-        
+
         if (typeInt == 57) // cyan
         {
             if (sColor == 1) { return (float) 69 / 256; }
@@ -257,14 +257,14 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             if (sColor == 2) { return (float) 136 / 256; }
             return (float) 43 / 256;
         }
-        
+
         if (typeInt == 59) // orange
         {
             if (sColor == 1) { return (float) 218 / 256; }
             if (sColor == 2) { return (float) 40 / 256; }
             return (float) 0 / 256;
         }
-        
+
         if (typeInt > 22 && typeInt < 26) // green for undeads
         {
             if (sColor == 1) { return (float) 60 / 256; }
@@ -846,7 +846,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
         case 46:
             tempTexture = "horsefairydarkblue.png";
             break;
-            
+
         case 47:
             tempTexture = "horsefairydarkblue.png";
             break;*/
@@ -886,7 +886,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
         case 59:
             tempTexture = "horsefairyorange.png";
             break;
-        
+
         case 60:
             tempTexture = "horsezebra.png";
             break;
@@ -929,7 +929,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             return MoCreatures.proxy.getTexture(tempTexture.replace(".png", armorTex));
         }
 
-        
+
         if (this.isUndead() && this.getType() < 26)
         {
             String baseTex = "horseundead";
@@ -945,7 +945,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 baseTex = "horseundeadunicorn";
                 max = 69; // undead unicorn have an animation less
             }
-            
+
             String iteratorTex = "1";
             if (MoCreatures.proxy.getAnimateTextures())
             {
@@ -964,16 +964,16 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 iteratorTex = "" + textCounter;
                 iteratorTex = iteratorTex.substring(0, 1);
             }
-           
+
             String decayTex = "" + (getEdad() / 100);
             decayTex = decayTex.substring(0, 1);
             return MoCreatures.proxy.getTexture(baseTex + decayTex + iteratorTex + ".png");
         }
-        
+
         // if animate textures is off, return plain textures
         if (!MoCreatures.proxy.getAnimateTextures()) { return MoCreatures.proxy.getTexture(tempTexture); }
 
-        
+
         if (this.isNightmare())
         {
             if (rand.nextInt(1) == 0)
@@ -996,7 +996,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             return MoCreatures.proxy.getTexture(NTA + NTB + NTC);
         }
 
-        
+
 
         if (transformCounter != 0 && transformType != 0)
         {
@@ -1025,7 +1025,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             {
                 newText = "horseblackpegasus.png";
             }
-            
+
             if (transformType == 48)
             {
                 newText = "horsefairyyellow.png";
@@ -1062,22 +1062,22 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             {
                 newText = "horsefairydarkblue.png";
             }
-            
+
             if (transformType == 57)
             {
                 newText = "horsefairycyan.png";
             }
-            
+
             if (transformType == 58)
             {
                 newText = "horsefairygreen.png";
             }
-            
+
             if (transformType == 59)
             {
                 newText = "horsefairyorange.png";
             }
-            
+
             if (transformType == 32)
             {
                 newText = "horsebat.png";
@@ -1098,7 +1098,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * New networked to fix SMP issues
-     * 
+     *
      * @return
      */
     public byte getVanishC()
@@ -1108,7 +1108,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * Breeding rules for the horses
-     * 
+     *
      * @param entityhorse
      * @param entityhorse1
      * @return
@@ -1272,7 +1272,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                         // parent type
     }
 
-      
+
 
     @Override
     public boolean interact(EntityPlayer entityplayer)
@@ -1280,7 +1280,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
         if (super.interact(entityplayer)) { return false; }
         if (this.getType() == 60 && !getIsTamed() && isZebraRunning()) // zebra
         { return false; }
-        
+
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
 
         if ((itemstack != null) && !getIsRideable() && itemstack.getItem() == Items.saddle)
@@ -1292,7 +1292,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             setRideable(true);
             return true;
         }
-        
+
         if ((itemstack != null) && this.getIsTamed() && itemstack.getItem() == Items.iron_horse_armor && isArmored())
         {
             if (getArmorType() == 0)
@@ -1589,9 +1589,9 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             case 15: //black
                 transform(54);
                 break;
-            
+
             }
-            
+
             if (--itemstack.stackSize == 0)
             {
                 entityplayer.inventory.setInventorySlotContents(entityplayer.inventory.currentItem, null);
@@ -1826,7 +1826,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * able to carry bags
-     * 
+     *
      * @return
      */
     public boolean isBagger()
@@ -1868,7 +1868,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * Is this a ghost horse?
-     * 
+     *
      * @return
      */
     public boolean isGhost()
@@ -1916,7 +1916,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
     /**
      * Mobs don't attack you if you're riding one of these they won't reproduce
      * either
-     * 
+     *
      * @return
      */
     public boolean isUndead()
@@ -1928,7 +1928,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * Has an unicorn? to render it and buckle entities!
-     * 
+     *
      * @return
      */
     public boolean isUnicorned()
@@ -2080,7 +2080,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 }
                 entityhorse1.setType(l);
             }
-            
+
         }
     }
 
@@ -2263,17 +2263,17 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 {
                     continue;
                 }
-                
+
                 if (!ReadyforParenting(this)) return;
-                
+
                 if (!flag)
                 {
                     if (!ReadyforParenting((MoCEntityHorse)horsemate))
-                    {    
+                    {
                         return;
                     }
                 }
-                
+
                 if (rand.nextInt(100) == 0)
                 {
                     gestationtime++;
@@ -2295,11 +2295,11 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 eatenpumpkin = false;
                 gestationtime = 0;
                 this.setBred(true);
-                
+
                 int horsemateType;// = 0;
                 if (flag)
                 {
-                    horsemateType = TranslateVanillaHorseType((EntityHorse) horsemate);   
+                    horsemateType = TranslateVanillaHorseType((EntityHorse) horsemate);
                     if (horsemateType == -1) return;
                 }else
                 {
@@ -2312,7 +2312,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 if (l == 50) // fairy horse!
                 {
                     MoCTools.playCustomSound(this, "appearmagic", worldObj);
-                    if (!flag) 
+                    if (!flag)
                         {
                         ((MoCEntityHorse)horsemate).dissapearHorse();
                         }
@@ -2364,11 +2364,11 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
                 default:
                     return 3;
             }
-            
+
         }
         return -1;
     }
-    
+
     @Override
     public void onUpdate()
     {
@@ -2532,35 +2532,35 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * Horse Types
-     * 
+     *
      * 1 White . 2 Creamy. 3 Brown. 4 Dark Brown. 5 Black.
-     * 
+     *
      * 6 Bright Creamy. 7 Speckled. 8 Pale Brown. 9 Grey. 10 11 Pinto . 12
      * Bright Pinto . 13 Pale Speckles.
-     * 
+     *
      * 16 Spotted 17 Cow.
-     * 
-     * 
-     * 
-     * 
+     *
+     *
+     *
+     *
      * 21 Ghost (winged) 22 Ghost B
-     * 
+     *
      * 23 Undead 24 Undead Unicorn 25 Undead Pegasus
-     * 
+     *
      * 26 skeleton 27 skeleton unicorn 28 skeleton pegasus
-     * 
+     *
      * 30 bug horse
-     * 
+     *
      * 32 Bat Horse
-     * 
+     *
      * 36 Unicorn
-     * 
+     *
      * 38 Nightmare? 39 White Pegasus 40 Black Pegasus
-     * 
+     *
      * 50 fairy white 51 fairy blue 52 fairy pink 53 fairy light green
-     * 
+     *
      * 60 Zebra 61 Zorse
-     * 
+     *
      * 65 Donkey 66 Mule 67 Zonky
      */
 
@@ -2596,7 +2596,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             this.setHealth(getMaxHealth());
         }
     }
-    
+
     @Override
     public void setArmorType(byte i)
     {
@@ -2644,7 +2644,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * New networked to fix SMP issues
-     * 
+     *
      * @return
      */
     public void setVanishC(byte i)
@@ -2682,7 +2682,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
     /**
      * Used to flicker ghosts
-     * 
+     *
      * @return
      */
     public float tFloat()
@@ -2749,17 +2749,17 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
     }
 
     @Override
-    public void dropMyStuff() 
+    public void dropMyStuff()
     {
-        dropArmor(); 
-        MoCTools.dropSaddle(this, worldObj); 
+        dropArmor();
+        MoCTools.dropSaddle(this, worldObj);
         if (this.isBagger())
         {
             MoCTools.dropInventory(this, this.localhorsechest);
             dropBags();
         }
     }
-    
+
     public void wingFlap()
     {
 
@@ -2841,7 +2841,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
     {
         return getIsTamed();
     }
-    
+
     @Override
     public void performAnimation(int animationType)
     {
@@ -2852,11 +2852,11 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
             transformCounter = 1;
         }
     }
-    
+
     @Override
     public EnumCreatureAttribute getCreatureAttribute()
     {
-        if (isUndead()) 
+        if (isUndead())
         {
             return EnumCreatureAttribute.UNDEAD;
         }
@@ -2864,7 +2864,7 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
     }
 
     @Override
-    protected boolean canBeTrappedInNet() 
+    protected boolean canBeTrappedInNet()
     {
         return getIsTamed() && !isAmuletHorse();
     }

@@ -16,7 +16,7 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
 
     public int tcounter;
     public MoCEntityThrowableRock tempRock;
-    
+
     public MoCEntityMiniGolem(World world)
     {
         super(world);
@@ -34,8 +34,8 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // angry 0 = false, 1 = true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // hasRock 0 = false, 1 = true
+        dataWatcher.addObject(22, (byte) 0); // angry 0 = false, 1 = true
+        dataWatcher.addObject(23, (byte) 0); // hasRock 0 = false, 1 = true
     }
 
     public boolean getIsAngry()
@@ -46,7 +46,7 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
     public void setIsAngry(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     public boolean getHasRock()
@@ -57,9 +57,9 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
     public void setHasRock(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
-    
+
 
     @Override
     public void onLivingUpdate()
@@ -85,15 +85,15 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
                     this.setFire(8);
                 }
             }
-            
+
             if (getIsAngry() && entityToAttack != null)
             {
                 if (!getHasRock() && rand.nextInt(30) == 0)
                 {
                     acquireTRock();
                 }
-                
-                if (getHasRock()) 
+
+                if (getHasRock())
                 {
                     attackWithTRock();
                 }
@@ -128,12 +128,12 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
     }
 
     /**
-     * 
+     *
      */
     protected void attackWithTRock()
     {
         this.tcounter++;
-       
+
         if (this.tcounter < 50)
         {
             //maintains position of Trock above head
@@ -185,7 +185,7 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
 
     /**
      * Throws stone at entity
-     * 
+     *
      * @param targetEntity
      * @param rocktype
      * @param metadata
@@ -197,7 +197,7 @@ public class MoCEntityMiniGolem extends MoCEntityMob {
 
     /**
      * Throws stone at X,Y,Z coordinates
-     * 
+     *
      * @param X
      * @param Y
      * @param Z

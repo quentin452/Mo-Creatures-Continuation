@@ -60,7 +60,7 @@ public class MoCEntityHorseMob extends MoCEntityMob
                 } else if (j <= (80))
                 {
                     setType(26); //skeleton horse
-                } 
+                }
                 else
                 {
                     setType(32);
@@ -71,27 +71,27 @@ public class MoCEntityHorseMob extends MoCEntityMob
 
     /**
      * Overridden for the dynamic nightmare texture.
-     * * 23 Undead 
-     * 24 Undead Unicorn 
-     * 25 Undead Pegasus 
-     * 
+     * * 23 Undead
+     * 24 Undead Unicorn
+     * 25 Undead Pegasus
+     *
      * 26 skeleton
      * 27 skeleton unicorn
      * 28 skeleton pegasus
-     * 
+     *
      * 30 bug horse
-     * 
+     *
      * 32 Bat Horse
      */
     @Override
     public ResourceLocation getTexture()
     {
-        
+
         switch (getType())
         {
             case 23://undead horse
-                
-                if (!MoCreatures.proxy.getAnimateTextures()) 
+
+                if (!MoCreatures.proxy.getAnimateTextures())
                 {
                     return MoCreatures.proxy.getTexture("horseundead.png");
                 }
@@ -101,7 +101,7 @@ public class MoCEntityHorseMob extends MoCEntityMob
                 if (rand.nextInt(3)== 0) textCounter++;
                 if (textCounter < 10) textCounter = 10;
                 if (textCounter > max) textCounter = 10;
-                
+
                 String iteratorTex = "" + textCounter;
                 iteratorTex = iteratorTex.substring(0,1);
                 String decayTex = "" + (getEdad()/100);
@@ -110,12 +110,12 @@ public class MoCEntityHorseMob extends MoCEntityMob
 
             case 26:
                 return MoCreatures.proxy.getTexture("horseskeleton.png");
-            
+
             case 32:
                 return MoCreatures.proxy.getTexture("horsebat.png");
 
             case 38:
-                if (!MoCreatures.proxy.getAnimateTextures()) 
+                if (!MoCreatures.proxy.getAnimateTextures())
                 {
                     return MoCreatures.proxy.getTexture("horsenightmare1.png");
                 }
@@ -133,14 +133,14 @@ public class MoCEntityHorseMob extends MoCEntityMob
                 return MoCreatures.proxy.getTexture("horseundead.png");
         }
     }
-    
+
     @Override
     protected String getDeathSound()
     {
         openMouth();
         return "mocreatures:horsedyingundead";
     }
-    
+
     @Override
     protected String getHurtSound()
     {
@@ -149,7 +149,7 @@ public class MoCEntityHorseMob extends MoCEntityMob
         return "mocreatures:horsehurtundead";
     }
 
-        
+
     @Override
     protected String getLivingSound()
     {
@@ -172,22 +172,22 @@ public class MoCEntityHorseMob extends MoCEntityMob
         {
             mouthCounter = 0;
         }
-        
+
         if (standCounter > 0 && ++standCounter > 20)
         {
             standCounter = 0;
         }
-        
+
         if (tailCounter > 0 && ++tailCounter > 8)
         {
             tailCounter = 0;
         }
-        
+
         if (eatingCounter > 0 && ++eatingCounter > 50)
         {
             eatingCounter = 0;
         }
-        
+
         if (wingFlapCounter > 0 && ++wingFlapCounter > 20)
         {
             wingFlapCounter = 0;
@@ -227,10 +227,10 @@ public class MoCEntityHorseMob extends MoCEntityMob
      */
     public boolean isUnicorned()
     {
-        return this.getType() == 18 
-        || this.getType() == 34 
-        || this.getType() == 36 
-        || this.getType() == 40 
+        return this.getType() == 18
+        || this.getType() == 34
+        || this.getType() == 36
+        || this.getType() == 40
         || this.getType() == 24;
     }
 
@@ -297,16 +297,13 @@ public class MoCEntityHorseMob extends MoCEntityMob
             if (this.riddenByEntity == null)
             {
                 List list = worldObj.getEntitiesWithinAABBExcludingEntity(this, boundingBox.expand(4D, 3D, 4D));
-                for(int i = 0; i < list.size(); i++)
-                {
-                    Entity entity = (Entity) list.get(i);
-                    if(!(entity instanceof EntityMob))
-                    {
+                for (Object o : list) {
+                    Entity entity = (Entity) o;
+                    if (!(entity instanceof EntityMob)) {
                         continue;
                     }
                     EntityMob entitymob = (EntityMob) entity;
-                    if(entitymob.ridingEntity == null && (entitymob instanceof EntitySkeleton || entitymob instanceof EntityZombie))
-                    {
+                    if (entitymob.ridingEntity == null && (entitymob instanceof EntitySkeleton || entitymob instanceof EntityZombie)) {
                         entitymob.mountEntity(this);
                         break;
                     }
@@ -339,7 +336,7 @@ public class MoCEntityHorseMob extends MoCEntityMob
     {
         wingFlapCounter = 1;
     }
-    
+
     @Override
     protected Item getDropItem()
     {
@@ -412,7 +409,7 @@ public class MoCEntityHorseMob extends MoCEntityMob
         {
             MoCTools.spawnSlimes(worldObj, this);
         }
-        
+
     }
 
     @Override
@@ -456,7 +453,7 @@ public class MoCEntityHorseMob extends MoCEntityMob
     @Override
     public EnumCreatureAttribute getCreatureAttribute()
     {
-        if (getType() == 23) 
+        if (getType() == 23)
         {
             return EnumCreatureAttribute.UNDEAD;
         }

@@ -100,7 +100,7 @@ public class MoCEntityFishy extends MoCEntityTameableAquatic {
     {
         if (worldObj.isRemote) { return; }
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class MoCEntityFishy extends MoCEntityTameableAquatic {
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
-        
+
         if (!this.isInsideOfMaterial(Material.water))
         {
             prevRenderYawOffset = renderYawOffset = rotationYaw = prevRotationYaw;
@@ -252,9 +252,9 @@ public class MoCEntityFishy extends MoCEntityTameableAquatic {
     {
         return false; //TOOD pending overhaul of breeding
     }
-    
+
     @Override
-    protected boolean canBeTrappedInNet() 
+    protected boolean canBeTrappedInNet()
     {
         return true;
     }
@@ -264,13 +264,13 @@ public class MoCEntityFishy extends MoCEntityTameableAquatic {
     {
         return getDisplayName() && (riddenByEntity == null);
     }
-    
+
     @Override
     public int nameYOffset()
     {
         return -25;
     }
-    
+
     @Override
     public int rollRotationOffset()
     {
@@ -280,7 +280,7 @@ public class MoCEntityFishy extends MoCEntityTameableAquatic {
         }
         return 0;
     }
-    
+
     @Override
     public float getAdjustedYOffset()
     {

@@ -1,7 +1,11 @@
 package drzhark.mocreatures.entity.passive;
 
-import java.util.List;
-
+import drzhark.mocreatures.MoCTools;
+import drzhark.mocreatures.MoCreatures;
+import drzhark.mocreatures.entity.IMoCEntity;
+import drzhark.mocreatures.entity.MoCEntityTameableAnimal;
+import drzhark.mocreatures.entity.item.MoCEntityKittyBed;
+import drzhark.mocreatures.entity.item.MoCEntityLitterBox;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
@@ -12,7 +16,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -26,12 +29,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
-import drzhark.mocreatures.MoCTools;
-import drzhark.mocreatures.MoCreatures;
-import drzhark.mocreatures.entity.IMoCEntity;
-import drzhark.mocreatures.entity.MoCEntityTameableAnimal;
-import drzhark.mocreatures.entity.item.MoCEntityKittyBed;
-import drzhark.mocreatures.entity.item.MoCEntityLitterBox;
+
+import java.util.List;
 
 public class MoCEntityBigCat extends MoCEntityTameableAnimal {
 
@@ -98,7 +97,7 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
             this.setHealth(getMaxHealth());
         }
 
-        
+
     }
 
     @Override
@@ -303,9 +302,9 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // isHungry - 0 false 1 true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // hasEaten - 0 false 1 true
-        dataWatcher.addObject(24, Byte.valueOf((byte) 0)); // isSitting - 0 false 1 true
+        dataWatcher.addObject(22, (byte) 0); // isHungry - 0 false 1 true
+        dataWatcher.addObject(23, (byte) 0); // hasEaten - 0 false 1 true
+        dataWatcher.addObject(24, (byte) 0); // isSitting - 0 false 1 true
     }
 
     public boolean getIsHungry()
@@ -458,7 +457,7 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
         {
             l = checkNearBigKitties(12D);
 
-           
+
             if (l == 2)
             {
                 l = 1;
@@ -511,17 +510,17 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
         for (int i = 0; i < list.size(); i++)
         {
             Entity entity1 = (Entity) list.get(i);
-            if (!(entity1 instanceof EntityLivingBase) 
-                    || (entity1 == entity) 
-                    || (entity1 == entity.riddenByEntity) 
-                    || (entity1 == entity.ridingEntity) 
-                    || (entity1 instanceof EntityPlayer) 
-                    || (entity1 instanceof MoCEntityElephant) 
-                    ||(!getIsAdult() && ((entity1.width > 0.5D) || (entity1.height > 0.5D))) 
-                    || (entity1 instanceof MoCEntityKittyBed) || (entity1 instanceof MoCEntityLitterBox) 
-                    || ((entity1 instanceof EntityMob) && (!getIsTamed() || !getIsAdult())) 
-                    || (getIsTamed() && (entity1 instanceof IMoCEntity) && ((IMoCEntity)entity1).getIsTamed() ) 
-                    || ((entity1 instanceof MoCEntityHorse) && !(MoCreatures.proxy.attackHorses)) 
+            if (!(entity1 instanceof EntityLivingBase)
+                    || (entity1 == entity)
+                    || (entity1 == entity.riddenByEntity)
+                    || (entity1 == entity.ridingEntity)
+                    || (entity1 instanceof EntityPlayer)
+                    || (entity1 instanceof MoCEntityElephant)
+                    ||(!getIsAdult() && ((entity1.width > 0.5D) || (entity1.height > 0.5D)))
+                    || (entity1 instanceof MoCEntityKittyBed) || (entity1 instanceof MoCEntityLitterBox)
+                    || ((entity1 instanceof EntityMob) && (!getIsTamed() || !getIsAdult()))
+                    || (getIsTamed() && (entity1 instanceof IMoCEntity) && ((IMoCEntity)entity1).getIsTamed() )
+                    || ((entity1 instanceof MoCEntityHorse) && !(MoCreatures.proxy.attackHorses))
                     || ((entity1 instanceof EntityWolf) && !(MoCreatures.proxy.attackWolves))
                     || ((entity instanceof IMoCEntity) && !MoCreatures.isHuntingEnabled()) // don't attack if hunting is disabled
                     )
@@ -672,7 +671,7 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
         }
         super.onDeath(damagesource);
     }
-    
+
     @Override
     public void onLivingUpdate()
     {
@@ -761,9 +760,9 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
         nbttagcompound.setBoolean("Sitting", getIsSitting());
         nbttagcompound.setBoolean("DisplayName", getDisplayName());
     }
-    
+
     @Override
-    public void dropMyStuff() 
+    public void dropMyStuff()
     {
     }
 }

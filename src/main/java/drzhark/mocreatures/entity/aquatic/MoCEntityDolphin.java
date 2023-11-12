@@ -166,8 +166,8 @@ public class MoCEntityDolphin extends MoCEntityTameableAquatic {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // byte isHungry 0 = false 1 = true
-        dataWatcher.addObject(23, Byte.valueOf((byte) 0)); // byte hasEaten 0 = false 1 = true
+        dataWatcher.addObject(22, (byte) 0); // byte isHungry 0 = false 1 = true
+        dataWatcher.addObject(23, (byte) 0); // byte hasEaten 0 = false 1 = true
     }
 
     public boolean getIsHungry()
@@ -183,13 +183,13 @@ public class MoCEntityDolphin extends MoCEntityTameableAquatic {
     public void setIsHungry(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(22, Byte.valueOf(input));
+        dataWatcher.updateObject(22, input);
     }
 
     public void setHasEaten(boolean flag)
     {
         byte input = (byte) (flag ? 1 : 0);
-        dataWatcher.updateObject(23, Byte.valueOf(input));
+        dataWatcher.updateObject(23, input);
     }
 
     @Override
@@ -318,8 +318,8 @@ public class MoCEntityDolphin extends MoCEntityTameableAquatic {
     public boolean interact(EntityPlayer entityplayer)
     {
         if (super.interact(entityplayer)) { return false; }
-        
-        
+
+
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
         if ((itemstack != null) && (itemstack.getItem() == Items.fish))
         {

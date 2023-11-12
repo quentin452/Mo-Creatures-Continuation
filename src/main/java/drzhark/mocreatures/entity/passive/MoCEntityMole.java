@@ -14,7 +14,7 @@ import drzhark.mocreatures.entity.MoCEntityTameableAnimal;
 
 public class MoCEntityMole extends MoCEntityTameableAnimal {
 
-    public MoCEntityMole(World world) 
+    public MoCEntityMole(World world)
     {
         super(world);
         setSize(1F, 0.5F);
@@ -31,7 +31,7 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
     protected void entityInit()
     {
         super.entityInit();
-        dataWatcher.addObject(22, Byte.valueOf((byte) 0)); // state - 0 outside / 1 digging / 2 underground / 3 pick-a-boo 
+        dataWatcher.addObject(22, (byte) 0); // state - 0 outside / 1 digging / 2 underground / 3 pick-a-boo
 
     }
 
@@ -46,8 +46,8 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
     {
         return i == 2 | i == 3 | i == 12;
     }
-    
-    
+
+
     /**
      * Moves entity forward underground
      */
@@ -60,10 +60,10 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
         double newPosY = coordY - Math.cos( (this.rotationPitch- 90F) / 57.29578F) * x;
         double newPosX = coordX + Math.cos((MoCTools.realAngle(this.rotationYaw- 90F) / 57.29578F)) * (Math.sin( (this.rotationPitch- 90F) / 57.29578F) * x );
         double newPosZ = coordZ + Math.sin((MoCTools.realAngle(this.rotationYaw- 90F) / 57.29578F)) * (Math.sin( (this.rotationPitch- 90F) / 57.29578F) * x );
-        Block block = this.worldObj.getBlock( MathHelper.floor_double(newPosX),  MathHelper.floor_double(newPosY),  MathHelper.floor_double(newPosZ)); 
+        Block block = this.worldObj.getBlock( MathHelper.floor_double(newPosX),  MathHelper.floor_double(newPosY),  MathHelper.floor_double(newPosZ));
         if (isDiggableBlock(Block.getIdFromBlock(block)))
         {
-            this.setPosition(newPosX, newPosY, newPosZ);   
+            this.setPosition(newPosX, newPosY, newPosZ);
         }
     }
 
@@ -82,12 +82,12 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
      */
     public void setState(byte b)
     {
-        dataWatcher.updateObject(22, Byte.valueOf(b));
+        dataWatcher.updateObject(22, b);
     }
 
 
     @Override
-    public int pitchRotationOffset() 
+    public int pitchRotationOffset()
     {
 
         int i = (int)getState();
@@ -101,7 +101,7 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
             return 0;
         case 3:
             return 60;
-        default: 
+        default:
             return 0;
         }
     }
@@ -120,7 +120,7 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
             return 1F;
         case 3:
             return 0.1F;
-        default: 
+        default:
             return 0F;
         }
     }
@@ -162,17 +162,17 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
                 setState((byte)0);
             }
 
-            
+
             if (rand.nextInt(30) == 0 && getState() == 3)
             {
                 setState((byte)2);
             }
-            
+
             /*if (getState() == 2)
             {
                 if (rand.nextInt(50) == 0) digForward();
             }*/
-            
+
             //digging fx
             if ((getState() == 1 || getState() == 2))
             {
@@ -190,60 +190,60 @@ public class MoCEntityMole extends MoCEntityTameableAnimal {
     {
         return getState() == 1 || getState() == 3;
     }
-    
+
     @Override
     public boolean attackEntityFrom(DamageSource damagesource, float i)
     {
         if (getState() != 2) return super.attackEntityFrom(damagesource, i);
         return false;
     }
-    
+
     @Override
     public boolean canBeCollidedWith()
     {
         return (getState() != 2);
     }
-    
+
     @Override
     public boolean canBePushed()
     {
         return (getState() != 2);
     }
-    
+
     @Override
     protected void collideWithEntity(Entity par1Entity)
     {
         if (getState() != 2) super.collideWithEntity(par1Entity);
 //            par1Entity.applyEntityCollision(this);
     }
-    
+
     @Override
     public boolean isEntityInsideOpaqueBlock()
     {
         if (getState() == 2) { return false; }
         return super.isEntityInsideOpaqueBlock();
     }
-    
+
     @Override
     public void onDeath(DamageSource damagesource)
     {
         //System.out.println(this + " is dying with health of " + this.func_110143_aJ() + " and State of " + getState());
         super.onDeath(damagesource);
     }
-    
+
     @Override
     public boolean isEntityInvulnerable()
     {
         if (getState() == 2) return true;
         return super.isEntityInvulnerable();
     }
-    
+
     @Override
     protected Item getDropItem()
     {
         return MoCreatures.fur;
     }
-    
+
      @Override
     protected String getDeathSound()
     {
