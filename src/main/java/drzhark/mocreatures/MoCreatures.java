@@ -137,6 +137,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import net.minecraftforge.common.BiomeDictionary;
@@ -372,9 +373,16 @@ public class MoCreatures {
     public static Item fishbowl_8;
     public static Item fishbowl_9;
     public static Item fishbowl_10;
+    private void checkForForbiddenMods() {
 
+        if(FMLCommonHandler.instance().findContainerFor("increasemobs") != null) {
+            throw new RuntimeException("Pls remove Increase Mobs when using Mo' Creatures cause extreme FPS + TPS lags due to high quantity of mobs spawning");
+        }
+
+    }
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        checkForForbiddenMods();
         MoCMessageHandler.init();
         MinecraftForge.EVENT_BUS.register(new MoCEventHooks());
         proxy.ConfigInit(event);
