@@ -195,7 +195,7 @@ public class EnvironmentSettings {
                 configCat.put("SpawnTickRate", new CMSProperty("spawntickrate", Integer.toString(entitySpawnType.getSpawnTickRate()), CMSProperty.Type.INTEGER));
                 configCat.put("minSpawnHeight", new CMSProperty("minspawnheight", Integer.toString(entitySpawnType.getMinSpawnHeight()), CMSProperty.Type.INTEGER));
                 configCat.put("maxSpawnHeight", new CMSProperty("maxspawnheight", Integer.toString(entitySpawnType.getMaxSpawnHeight()), CMSProperty.Type.INTEGER));
-                configCat.put("SpawnCap", new CMSProperty("spawncap", Integer.toString(entitySpawnType.getSpawnCap()), CMSProperty.Type.INTEGER));
+                configCat.put("SpawnCap", new CMSProperty("spawncap(ATTENTION IF YOU WANT BY EXAMPLE 50 ENTITIES CAP YOU NEED TO GIVE TO THIS X2 (spawncape=100) for 50 entities)", Integer.toString(entitySpawnType.getSpawnCap() * 2), CMSProperty.Type.INTEGER));
                 configCat.put("ChunkGenSpawnChance", new CMSProperty("chunkgenspawnchance",Float.toString(entitySpawnType.getChunkSpawnChance()), CMSProperty.Type.DOUBLE));
                 configCat.put("ShouldSeeSky", new CMSProperty("shouldseesky", entitySpawnType.getShouldSeeSky() == null ? "UNDEFINED" : Boolean.toString(entitySpawnType.getShouldSeeSky()), CMSProperty.Type.STRING));
             }
