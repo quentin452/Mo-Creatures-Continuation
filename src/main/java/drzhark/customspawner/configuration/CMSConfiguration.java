@@ -728,71 +728,44 @@ public class CMSConfiguration
         PARENT.load();
     }
 
-    public static class UnicodeInputStreamReader extends Reader
-    {
+    public static class UnicodeInputStreamReader extends Reader {
         private final InputStreamReader input;
 
-        public UnicodeInputStreamReader(InputStream source, String encoding) throws IOException
-        {
-            String enc = encoding;
-            byte[] data = new byte[4];
+        public UnicodeInputStreamReader(InputStream source, String defaultEncoding) throws IOException {
+            byte[] bom = new byte[4];
+            String encoding = defaultEncoding;
 
-            PushbackInputStream pbStream = new PushbackInputStream(source, data.length);
-            int read = pbStream.read(data, 0, data.length);
-            int size = 0;
+            try (PushbackInputStream pbStream = new PushbackInputStream(source, bom.length)) {
+                int read = pbStream.read(bom);
 
-            int bom16 = (data[0] & 0xFF) << 8 | (data[1] & 0xFF);
-            int bom24 = bom16 << 8 | (data[2] & 0xFF);
-            int bom32 = bom24 << 8 | (data[3] & 0xFF);
+                if (read >= 2 && bom[0] == (byte) 0xFF && bom[1] == (byte) 0xFE) {
+                    encoding = "UTF-16LE";
+                } else if (read >= 2 && bom[0] == (byte) 0xFE && bom[1] == (byte) 0xFF) {
+                    encoding = "UTF-16BE";
+                } else if (read >= 3 && bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF) {
+                    encoding = "UTF-8";
+                } else if (read >= 4 && bom[0] == 0x00 && bom[1] == 0x00 && bom[2] == (byte) 0xFE && bom[3] == (byte) 0xFF) {
+                    encoding = "UTF-32BE";
+                }
 
-            if (bom24 == 0xEFBBBF)
-            {
-                enc = "UTF-8";
-                size = 3;
-            }
-            else if (bom16 == 0xFEFF)
-            {
-                enc = "UTF-16BE";
-                size = 2;
-            }
-            else if (bom16 == 0xFFFE)
-            {
-                enc = "UTF-16LE";
-                size = 2;
-            }
-            else if (bom32 == 0x0000FEFF)
-            {
-                enc = "UTF-32BE";
-                size = 4;
-            }
-            else if (bom32 == 0xFFFE0000) //This will never happen as it'll be caught by UTF-16LE,
-            {                             //but if anyone ever runs across a 32LE file, i'd like to disect it.
-                enc = "UTF-32LE";
-                size = 4;
-            }
+                if (read > 0) {
+                    pbStream.unread(bom, 0, read);
+                }
 
-            if (size < read)
-            {
-                pbStream.unread(data, size, read - size);
+                this.input = new InputStreamReader(pbStream, encoding);
             }
-
-            this.input = new InputStreamReader(pbStream, enc);
         }
-
         public String getEncoding()
         {
             return input.getEncoding();
         }
-
         @Override
-        public int read(char[] cbuf, int off, int len) throws IOException
-        {
+        public int read(char[] cbuf, int off, int len) throws IOException {
             return input.read(cbuf, off, len);
         }
 
         @Override
-        public void close() throws IOException
-        {
+        public void close() throws IOException {
             input.close();
         }
     }
