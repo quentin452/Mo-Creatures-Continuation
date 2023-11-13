@@ -5,42 +5,18 @@
 
 package drzhark.customspawner.configuration;
 
-import static drzhark.customspawner.configuration.CMSProperty.Type.BOOLEAN;
-import static drzhark.customspawner.configuration.CMSProperty.Type.DOUBLE;
-import static drzhark.customspawner.configuration.CMSProperty.Type.INTEGER;
-import static drzhark.customspawner.configuration.CMSProperty.Type.STRING;
+import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableSet;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.relauncher.FMLInjectionData;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PushbackInputStream;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-
-import com.google.common.base.CharMatcher;
-import com.google.common.collect.ImmutableSet;
-
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.relauncher.FMLInjectionData;
+import static drzhark.customspawner.configuration.CMSProperty.Type.*;
 
 /**
  * This class offers advanced configurations capabilities, allowing to provide
@@ -48,7 +24,6 @@ import cpw.mods.fml.relauncher.FMLInjectionData;
  */
 public class CMSConfiguration
 {
-    public static final String CATEGORY_GENERAL = "general";
     public static final String ALLOWED_CHARS = "._-";
     public static final String DEFAULT_ENCODING = "UTF-8";
     public static final String CATEGORY_SPLITTER = ".";
@@ -60,8 +35,8 @@ public class CMSConfiguration
 
     public File file;
 
-    public Map<String, CMSConfigCategory> categories = new TreeMap<String, CMSConfigCategory>();
-    private Map<String, CMSConfiguration> children = new TreeMap<String, CMSConfiguration>();
+    public Map<String, CMSConfigCategory> categories = new TreeMap<>();
+    private Map<String, CMSConfiguration> children = new TreeMap<>();
 
     private boolean caseSensitiveCustomCategories;
     public String defaultEncoding = DEFAULT_ENCODING;
@@ -190,7 +165,7 @@ public class CMSConfiguration
 
     public CMSProperty get(String category, String key, int[] defaultValue, String comment)
     {
-        List<String> values = new ArrayList();
+        List<String> values = new ArrayList<>();
         for (int j : defaultValue) {
             values.add(Integer.toString(j));
         }
@@ -211,7 +186,7 @@ public class CMSConfiguration
 
     public CMSProperty get(String category, String key, double[] defaultValue, String comment)
     {
-        List<String> values = new ArrayList();
+        List<String> values = new ArrayList<>();
         for (double v : defaultValue) {
             values.add(Double.toString(v));
         }
@@ -233,10 +208,9 @@ public class CMSConfiguration
 
     public CMSProperty get(String category, String key, boolean[] defaultValue, String comment)
     {
-        List<String> values = new ArrayList();
-        for (int i = 0; i < defaultValue.length; i++)
-        {
-            values.add(Boolean.toString(defaultValue[i]));
+        List<String> values = new ArrayList<>();
+        for (boolean b : defaultValue) {
+            values.add(Boolean.toString(b));
         }
 
         CMSProperty prop =  get(category, key, values, comment, BOOLEAN);
@@ -395,10 +369,10 @@ public class CMSConfiguration
                         continue;
                     }
 
-                    int nameStart = -1, nameEnd = -1;
+                    int nameStart = -1;
+                    int nameEnd = -1;
                     boolean skip = false;
                     boolean quoted = false;
-                    boolean newline = true;
 
                     for (int i = 0; i < line.length() && !skip; ++i)
                     {
@@ -495,7 +469,7 @@ public class CMSConfiguration
                                         throw new RuntimeException(String.format("'%s' has no scope in '%s:%d'", name, fileName, lineNum));
                                     }
 
-                                    tmpList = new ArrayList<String>();
+                                    tmpList = new ArrayList<>();
 
                                     if ((line.length() > i+1))
                                     {
@@ -505,12 +479,9 @@ public class CMSConfiguration
                                         }
                                         else
                                         {
-                                            line = line.substring(i+1, line.length());
+                                            line = line.substring(i+1);
                                             String[] values = line.split(":|\\>");
-                                            for (int j = 0; j < values.length; j++)
-                                            {
-                                                tmpList.add(values[j]);
-                                            }
+                                            Collections.addAll(tmpList, values);
                                             i = line.length() - 1;
                                         }
                                     }
