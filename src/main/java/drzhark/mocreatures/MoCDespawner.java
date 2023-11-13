@@ -3,7 +3,7 @@ package drzhark.mocreatures;
 import java.util.ArrayList;
 import java.util.List;
 
-import drzhark.customspawner.utils.CMSUtils;
+import drzhark.mocreatures.utils.MoUtils;
 import drzhark.mocreatures.utils.MoCLog;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -72,7 +72,7 @@ public class MoCDespawner {
         }
 
         EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(entityliving, -1D);
-        if (entityplayer != null) { //entityliving.canDespawn() && 
+        if (entityplayer != null) { //entityliving.canDespawn() &&
             double d = ((Entity) entityplayer).posX - entityliving.posX;
             double d1 = ((Entity) entityplayer).posY - entityliving.posY;
             double d2 = ((Entity) entityplayer).posZ - entityliving.posZ;
@@ -139,7 +139,7 @@ public class MoCDespawner {
         }
         return i <= lightLevel;
     }
-    
+
     public static boolean isValidDespawnLightLevel(Entity entity, World worldObj, int minDespawnLightLevel, int maxDespawnLightLevel) {
         int x = MathHelper.floor_double(entity.posX);
         int y = MathHelper.floor_double(entity.boundingBox.minY);
@@ -149,7 +149,7 @@ public class MoCDespawner {
             if (y >= 256) {
                 y = 255;
             }
-            blockLightLevel = CMSUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
+            blockLightLevel = MoUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
         if (maxDespawnLightLevel != -1 && (blockLightLevel < minDespawnLightLevel || blockLightLevel > maxDespawnLightLevel)) {
             return false;

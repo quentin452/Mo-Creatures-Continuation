@@ -149,10 +149,17 @@ public class MoCEntityScorpion extends MoCEntityMob {
             if (hideCounter > 200) {
                 hideCounter = 0;
             }
-            this.updateWanderPath();
-            return;// false;
+            int x = MathHelper.floor_double(posX + rand.nextInt(13)-6);
+            int z = MathHelper.floor_double(posZ + rand.nextInt(13)-6);
+            getNavigator().tryMoveToXYZ(x, posY, z, moveSpeed);
         } else {
-            this.getNavigator().tryMoveToXYZ(var1.xCoord, var1.yCoord, var1.zCoord, this.getMoveSpeed() / 2F);
+            double x = var1.xCoord;
+            double y = var1.yCoord;
+            double z = var1.zCoord;
+
+            if (!Double.isNaN(x) && !Double.isNaN(y) && !Double.isNaN(z)) {
+                this.getNavigator().tryMoveToXYZ(x, y, z, this.getMoveSpeed() / 2F);
+            }
         }
     }
 

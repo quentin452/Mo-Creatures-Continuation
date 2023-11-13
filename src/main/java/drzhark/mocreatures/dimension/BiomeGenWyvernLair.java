@@ -1,7 +1,17 @@
 package drzhark.mocreatures.dimension;
 
+import java.util.List;
 import java.util.Random;
 
+import drzhark.mocreatures.entity.ambient.*;
+import drzhark.mocreatures.entity.aquatic.*;
+import drzhark.mocreatures.entity.item.MoCEntityEgg;
+import drzhark.mocreatures.entity.item.MoCEntityFishBowl;
+import drzhark.mocreatures.entity.item.MoCEntityKittyBed;
+import drzhark.mocreatures.entity.item.MoCEntityLitterBox;
+import drzhark.mocreatures.entity.monster.*;
+import drzhark.mocreatures.entity.passive.*;
+import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
@@ -10,26 +20,21 @@ import net.minecraft.world.gen.feature.WorldGenShrub;
 import net.minecraft.world.gen.feature.WorldGenVines;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import drzhark.mocreatures.MoCreatures;
-import drzhark.mocreatures.entity.passive.MoCEntityBunny;
-import drzhark.mocreatures.entity.passive.MoCEntitySnake;
-import drzhark.mocreatures.entity.passive.MoCEntityWyvern;
 
 public class BiomeGenWyvernLair extends BiomeGenBase
 {
-
-    private MoCWorldGenBigTree wyvernGenBigTree;
-    private WorldGenShrub worldGenShrub;
-
+    private final MoCWorldGenBigTree wyvernGenBigTree;
+    private final WorldGenShrub worldGenShrub;
     public BiomeGenWyvernLair(int par1)
     {
         super(par1);
         spawnableCreatureList.clear();
         spawnableMonsterList.clear();
         spawnableWaterCreatureList.clear();
-        spawnableCreatureList.add(new SpawnListEntry(MoCEntityBunny.class, 6, 2, 3));
-        //spawnableCreatureList.add(new SpawnListEntry(MoCEntityDragonfly.class, 8, 2, 3));
         spawnableCreatureList.add(new SpawnListEntry(MoCEntitySnake.class, 6, 1, 2));
-        spawnableCreatureList.add(new SpawnListEntry(MoCEntityWyvern.class, 10, 1, 4));
+        spawnableCreatureList.add(new SpawnListEntry(MoCEntityWyvern.class, 60, 5, 15));
+        spawnableCreatureList.add(new SpawnListEntry(MoCEntityBunny.class, 8, 2, 3));
+        spawnableCaveCreatureList.add(new SpawnListEntry(EntityBat.class, 4, 1, 4));
         topBlock = MoCreatures.mocGrass;
         fillerBlock = MoCreatures.mocDirt;
         this.rootHeight = 0.3F;

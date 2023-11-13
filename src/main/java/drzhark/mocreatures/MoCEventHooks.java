@@ -2,7 +2,7 @@ package drzhark.mocreatures;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import drzhark.customspawner.utils.CMSUtils;
+import drzhark.mocreatures.utils.MoUtils;
 import drzhark.mocreatures.entity.IMoCTameable;
 import drzhark.mocreatures.utils.MoCLog;
 import net.minecraft.entity.Entity;
@@ -61,11 +61,11 @@ public class MoCEventHooks {
     }
 
     @SubscribeEvent
-    public void onLivingDeathEvent(LivingDeathEvent event) 
+    public void onLivingDeathEvent(LivingDeathEvent event)
     {
         if (MoCreatures.isServer())
         {
-            if (IMoCTameable.class.isAssignableFrom(event.entityLiving.getClass())) 
+            if (IMoCTameable.class.isAssignableFrom(event.entityLiving.getClass()))
             {
                 IMoCTameable mocEntity = (IMoCTameable)event.entityLiving;
                 if (mocEntity.getIsTamed() && mocEntity.getPetHealth() > 0 && !mocEntity.isRiderDisconnecting())
@@ -130,7 +130,7 @@ public class MoCEventHooks {
                 event.setResult(Result.ALLOW);
             }
 
-            if (MoCreatures.proxy.debug) 
+            if (MoCreatures.proxy.debug)
             {
                 int x = MathHelper.floor_double(event.entity.posX);
                 int y = MathHelper.floor_double(event.entity.boundingBox.minY);
@@ -152,16 +152,16 @@ public class MoCEventHooks {
             {
                 y = 255;
             }
-            blockLightLevel = CMSUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
+            blockLightLevel = MoUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
         if (blockLightLevel < minDespawnLightLevel && maxDespawnLightLevel != -1)
         {
-            //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " under minimum threshold of " + minDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
+            //if (debug) MoUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " under minimum threshold of " + minDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
             return false;
         }
         else if (blockLightLevel > maxDespawnLightLevel && maxDespawnLightLevel != -1)
         {
-            //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " over maximum threshold of " + maxDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
+            //if (debug) MoUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " over maximum threshold of " + maxDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
             return false;
         }
         return true;

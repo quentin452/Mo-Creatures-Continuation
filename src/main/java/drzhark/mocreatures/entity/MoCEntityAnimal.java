@@ -639,12 +639,10 @@ public abstract class MoCEntityAnimal extends EntityAnimal implements IMoCEntity
     }
 
     @Override
-    public boolean getCanSpawnHere()
-    {
+    public boolean getCanSpawnHere() {
         if (MoCreatures.entityMap.get(this.getClass()).getFrequency() <= 0)
             return false;
-        if (worldObj.provider.dimensionId != 0)
-        {
+        if (worldObj.provider.dimensionId != 0) {
             return getCanSpawnHereCreature() && getCanSpawnHereLiving();
         }
         int i = MathHelper.floor_double(posX);
@@ -653,15 +651,25 @@ public abstract class MoCEntityAnimal extends EntityAnimal implements IMoCEntity
 
         String s = MoCTools.BiomeName(worldObj, i, j, k);
 
-        if (s.toLowerCase().contains("jungle"))
-        {
+        assert s != null;
+        if (s.toLowerCase().contains("jungle")) {
             return getCanSpawnHereJungle();
         }
-        if (s.equals("WyvernBiome"))
-        {
+        if (s.equals("WyvernBiome")) {
             return getCanSpawnHereMoCBiome();
         }
-        return super.getCanSpawnHere();
+
+        return customCanSpawnHere();
+    }
+
+    private boolean customCanSpawnHere() {
+        if(this.worldObj == null) {
+            return false;
+        }
+        int i = MathHelper.floor_double(this.posX);
+        int j = MathHelper.floor_double(this.boundingBox.minY);
+        int k = MathHelper.floor_double(this.posZ);
+        return this.worldObj.getBlock(i, j - 1, k) == Blocks.grass && this.worldObj.getFullBlockLightValue(i, j, k) > 8 && super.getCanSpawnHere();
     }
 
     private boolean getCanSpawnHereMoCBiome()
