@@ -37,11 +37,11 @@ import drzhark.customspawner.utils.CMSUtils;
 
 public class CommandCMS extends CommandBase {
 
-    private static final List<String> commands = new ArrayList<String>();
-    private static final List<String> aliases = new ArrayList<String>();
-    private static final List<String> commandsCustomSpawner = new ArrayList<String>();
-    private static final Map<String, String> commmentMap = new TreeMap<String, String>();
-    private static final List<String> tabCompletionStrings = new ArrayList<String>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> aliases = new ArrayList<>();
+    private static final List<String> commandsCustomSpawner = new ArrayList<>();
+    private static final Map<String, String> commmentMap = new TreeMap<>();
+    private static final List<String> tabCompletionStrings = new ArrayList<>();
 
     static {
         commands.add("/cms addbg <tag|entity> <group>");

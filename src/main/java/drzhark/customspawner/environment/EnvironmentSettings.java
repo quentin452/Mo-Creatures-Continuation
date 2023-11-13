@@ -1,6 +1,7 @@
 package drzhark.customspawner.environment;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,19 +52,19 @@ public class EnvironmentSettings {
     public int maxDespawnLightLevel = 7;
     public boolean forceDespawns;
     public boolean debug;
-    private File ROOT_PATH;
-    private String name;
-    private Class<? extends WorldProvider> worldProviderClass;
+    private final File ROOT_PATH;
+    private final String name;
+    private final Class<? extends WorldProvider> worldProviderClass;
 
-    public Map<String, EntityData> entityMap = new TreeMap<String, EntityData>(String.CASE_INSENSITIVE_ORDER);
-    private Map<String, EnumCreatureType> entityTypes = new HashMap<String, EnumCreatureType>();
-    public Map<String, BiomeData> biomeMap = new TreeMap<String, BiomeData>();
-    public Map<String, BiomeGroupData> biomeGroupMap = new TreeMap<String, BiomeGroupData>(String.CASE_INSENSITIVE_ORDER);
-    public Map<String, EntityModData> entityModMap = new TreeMap<String, EntityModData>(String.CASE_INSENSITIVE_ORDER);
-    public Map<String, EntityModData> defaultModMap = new TreeMap<String, EntityModData>(String.CASE_INSENSITIVE_ORDER);
-    public Map<String, BiomeModData> biomeModMap = new TreeMap<String, BiomeModData>(String.CASE_INSENSITIVE_ORDER);
-    public Map<Class<? extends EntityLiving>, EntityData> classToEntityMapping = new HashMap<Class<? extends EntityLiving>, EntityData>();
-    public Map<String, EntitySpawnType> entitySpawnTypes = new TreeMap<String, EntitySpawnType>(String.CASE_INSENSITIVE_ORDER);
+    public Map<String, EntityData> entityMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private final Map<String, EnumCreatureType> entityTypes = new HashMap<>();
+    public Map<String, BiomeData> biomeMap = new TreeMap<>();
+    public Map<String, BiomeGroupData> biomeGroupMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public Map<String, EntityModData> entityModMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public Map<String, EntityModData> defaultModMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public Map<String, BiomeModData> biomeModMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public Map<Class<? extends EntityLiving>, EntityData> classToEntityMapping = new HashMap<>();
+    public Map<String, EntitySpawnType> entitySpawnTypes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     public EntitySpawnType LIVINGTYPE_UNDEFINED = new EntitySpawnType(this, EntitySpawnType.UNDEFINED, 0, 0, 0.0F, false);
     public EntitySpawnType LIVINGTYPE_CREATURE = new EntitySpawnType(this, EntitySpawnType.CREATURE, 400, 35, 0.1F, true);
     public EntitySpawnType LIVINGTYPE_AMBIENT = new EntitySpawnType(this, EntitySpawnType.AMBIENT, 100, 15);
@@ -243,7 +244,7 @@ public class EnvironmentSettings {
             }
             catch (Throwable e)
             {
-                
+
             }
         }
         CMSLivingSpawnTypeConfig.save();
@@ -278,28 +279,31 @@ public class EnvironmentSettings {
         CMSEnvironmentConfig.save();
     }
 
-    public EntityData registerEntity(Class<? extends EntityLiving> clazz)
-    {
+    public EntityData registerEntity(Class<? extends EntityLiving> clazz) {
         EntityLiving entityliving = null;
-        EntityData entityData = null;
-        try
-        {
+        EntityData entityData;
+        try {
             if (debug) envLog.logger.info("Attempting to register Entity from class " + clazz + "...");
-            entityliving = (EntityLiving) clazz.getConstructor(new Class[] { World.class }).newInstance(new Object[] { DimensionManager.getWorld(0) });
-        }
-        catch (Throwable throwable)
-        {
+            if (clazz != null) {
+                Constructor<? extends EntityLiving> constructor = clazz.getConstructor(World.class);
+
+                World worldForDimension0 = DimensionManager.getWorld(0);
+                if (worldForDimension0 != null) {
+                    entityliving = constructor.newInstance(worldForDimension0);
+                } else {
+                    return null;
+                }
+            }
+        } catch (Throwable throwable) {
             if (debug) envLog.logger.info(clazz + " is not a valid Entity for registration, Skipping...");
             return null;
-        } 
+        }
 
         String entityName = (String) EntityList.classToStringMapping.get(clazz);
 
         if (debug) envLog.logger.info("Starting registration for "  + entityName);
-        if (entityName.contains("."))
-        {
-            if ((entityName.indexOf(".") + 1) < entityName.length())
-                entityName = entityName.substring(entityName.indexOf(".") + 1, entityName.length());
+        if (entityName.contains(".") && ((entityName.indexOf(".") + 1) < entityName.length()))
+                {entityName = entityName.substring(entityName.indexOf(".") + 1);
         }
         entityName = entityName.replaceAll("[^A-Za-z0-9]", ""); // remove all non-digits/alphanumeric
 
@@ -338,13 +342,12 @@ public class EnvironmentSettings {
                 entityData = new EntityData(this, spawnListEntry, entityName, entityliving.getEntityId(), creatureType);
                 entityData.setCanSpawn(false); // dont allow undefined types to spawn
             }
-            else if (entityData == null)
-            {
+            else {
                 if (debug) envLog.logger.info("Could not find a valid type for Entity " + entityName + " with class " + clazz + ", skipping...");
                 return null;
             }
             if (debug) envLog.logger.info("Detected type as " + (creatureType == null ? creatureType : creatureType.name().toUpperCase()) + ".");
-            
+
             entityData.setType(creatureType);
             entityData.setLivingSpawnType(creatureType); // set default type
             entityData.setEntityName(entityName);
@@ -361,7 +364,7 @@ public class EnvironmentSettings {
             // handle frequencies
             // assign config for type of mod
             String entityClass = clazz.getName().toLowerCase();
-            CMSConfiguration entityConfig = null;//= entityModMap.get("undefined").getModConfig();
+            CMSConfiguration entityConfig;//= entityModMap.get("undefined").getModConfig();
 
             boolean undefined = true;
             if (debug) envLog.logger.info("Attempting to detect mod for Entity " + entityName + "...");
@@ -433,7 +436,7 @@ public class EnvironmentSettings {
                         entityData.setEntityMod(modData);
                     }
                 }
-                else 
+                else
                 {
                     if (debug) envLog.logger.info("Could not generate an automatic mod mapping for entity " + entityClass);
                     return null;
@@ -473,7 +476,7 @@ public class EnvironmentSettings {
             //entityData.getEntityConfig().get(CATEGORY_ENTITY_SPAWN_SETTINGS, entityName, new ArrayList(Arrays.asList( entityData.getLivingSpawnType().getLivingSpawnTypeName(), new Integer(defaultSpawnListEntryMap.get(clazz.getName()) == null ? frequency : defaultSpawnListEntryMap.get(clazz.getName()).itemWeight).toString(), new Integer(defaultSpawnListEntryMap.get(clazz.getName()) == null ? minGroup : defaultSpawnListEntryMap.get(clazz.getName()).minGroupCount).toString(), new Integer(defaultSpawnListEntryMap.get(clazz.getName()) == null ? maxGroup : defaultSpawnListEntryMap.get(clazz.getName()).maxGroupCount).toString(), new Integer(entityData.getMaxInChunk()).toString())));
             entityData.getEntityConfig().save();
         }
-        else 
+        else
         {
             entityCategory = entityData.getEntityConfig().getCategory(entityName.toLowerCase());
 
@@ -637,8 +640,8 @@ public class EnvironmentSettings {
                 modData.getModConfig().save();
             }
         }
-        
-        CMSEnvironmentConfig.addCustomCategoryComment(CATEGORY_MOD_MAPPINGS, "Mod Biome Mappings\n" + 
+
+        CMSEnvironmentConfig.addCustomCategoryComment(CATEGORY_MOD_MAPPINGS, "Mod Biome Mappings\n" +
                 "You may change tag values but do NOT change the default keys since they are used to generate our defaults.\n" +
                 "For example, 'twilightforest=TL:TwilightForest.cfg' may be changed to 'twilightforest=TWL:TWL.cfg' but may NOT be changed to 'twilight=TWL:TWL.cfg'");
         // update tags in our defaults if necessary
@@ -733,7 +736,7 @@ public class EnvironmentSettings {
                             BiomeModData biomeModData = CMSUtils.getBiomeModData(biomeModMap, biomeParts.get(0));
                             if (biomeModData != null)
                             {
-                                if (debug) envLog.logger.info("adding spawn biome " + biomeProps.valueList.get(j) + " for entity " + entityData.getEntityName()); 
+                                if (debug) envLog.logger.info("adding spawn biome " + biomeProps.valueList.get(j) + " for entity " + entityData.getEntityName());
                                 spawnBiomes.add(biomeModData.getBiome(biomeProps.valueList.get(j)));
                                 entityData.addSpawnBiome(biomeModData.getBiome(biomeProps.valueList.get(j)));
                             }
@@ -940,7 +943,7 @@ public class EnvironmentSettings {
     /**
      * Reads values from file
      */
-    public void readConfigValues() 
+    public void readConfigValues()
     {
         // general
         worldGenCreatureSpawning = CMSEnvironmentConfig.get(CATEGORY_CUSTOMSPAWNER_SETTINGS, "worldGenCreatureSpawning", true, "Allows spawns during world chunk generation.").getBoolean(true);

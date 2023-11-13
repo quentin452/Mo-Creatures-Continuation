@@ -1,16 +1,10 @@
 package drzhark.customspawner.utils;
 
 
-import java.io.File;
-import java.io.IOException;
-import org.apache.logging.log4j.Logger;
-
-import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
-
-import drzhark.customspawner.CustomSpawner;
 import drzhark.customspawner.environment.EnvironmentSettings;
+import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.Logger;
 
 public class CMSLog {
 
