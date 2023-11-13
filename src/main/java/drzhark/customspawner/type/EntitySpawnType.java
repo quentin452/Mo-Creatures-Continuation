@@ -103,7 +103,7 @@ public class EntitySpawnType {
 
     public int getSpawnCap()
     {
-        return this.spawnCap * 2;
+        return this.spawnCap;
     }
 
     public void setSpawnCap(int spawnCap)
