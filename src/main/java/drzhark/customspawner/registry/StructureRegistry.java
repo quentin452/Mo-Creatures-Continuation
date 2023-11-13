@@ -140,7 +140,7 @@ public class StructureRegistry {
                         EntityData entityData = environment.entityMap.get(spawnListProperty.valueList.get(i));
                         if (entityData != null)
                         {
-                            CMSConfigCategory spawnEntryCat = null;
+                            CMSConfigCategory spawnEntryCat;
                             int frequency = entityData.getFrequency();
                             int minSpawn = entityData.getMinSpawn();
                             int maxSpawn = entityData.getMaxSpawn();
@@ -190,6 +190,7 @@ public class StructureRegistry {
                             {
                                 if (environment.debug) environment.envLog.logger.info("Updating existing entity in " + structCategoryName + " with settings " + spawnListEntry.itemWeight + ":" + spawnListEntry.minGroupCount + ":" + spawnListEntry.maxGroupCount);
                                 SpawnListEntry existingSpawnEntry = CMSUtils.getSpawnListEntry(entityData.getEntityClass(), spawnList);
+                                assert existingSpawnEntry != null;
                                 existingSpawnEntry.itemWeight = spawnListEntry.itemWeight;
                                 existingSpawnEntry.minGroupCount = spawnListEntry.minGroupCount;
                                 existingSpawnEntry.maxGroupCount = spawnListEntry.maxGroupCount;
