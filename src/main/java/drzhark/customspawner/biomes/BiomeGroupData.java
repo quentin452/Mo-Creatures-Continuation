@@ -8,8 +8,8 @@ import drzhark.guiapi.widget.WidgetSimplewindow;
 
 public class BiomeGroupData {
 
-    private String biomeGroupName;
-    private List<String> biomes;
+    private final String biomeGroupName;
+    private final List<String> biomes;
     @SideOnly(Side.CLIENT)
     private WidgetSimplewindow window;
 
@@ -18,7 +18,7 @@ public class BiomeGroupData {
         this.biomeGroupName = biomeGroup;
         this.biomes = biomeList;
     }
- 
+
     public String getBiomeGroupName()
     {
         return this.biomeGroupName;

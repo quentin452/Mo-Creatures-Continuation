@@ -17,7 +17,7 @@ public class CMSProperty
         BOOLEAN,
         DOUBLE;
 
-        private static Type[] values = {STRING, INTEGER, BOOLEAN, DOUBLE};
+        private static final Type[] values = {STRING, INTEGER, BOOLEAN, DOUBLE};
 
         public static Type tryParse(char id)
         {
@@ -97,7 +97,7 @@ public class CMSProperty
 
     /**
      * Returns the value in this property as it's raw string.
-     * 
+     *
      * @return current value
      */
     public String getString()
@@ -108,7 +108,7 @@ public class CMSProperty
     /**
      * Returns the value in this property as an integer,
      * if the value is not a valid integer, it will return -1.
-     * 
+     *
      * @return The value
      */
     public int getInt()
@@ -120,7 +120,7 @@ public class CMSProperty
      * Returns the value in this property as an integer,
      * if the value is not a valid integer, it will return the
      * provided default.
-     * 
+     *
      * @param _default The default to provide if the current value is not a valid integer
      * @return The value
      */
@@ -135,7 +135,7 @@ public class CMSProperty
             return _default;
         }
     }
-    
+
     /**
      * Checks if the current value stored in this CMSProperty can be converted to an integer.
      * @return True if the type of the CMSProperty is an Integer
@@ -157,7 +157,7 @@ public class CMSProperty
      * Returns the value in this property as a boolean,
      * if the value is not a valid boolean, it will return the
      * provided default.
-     * 
+     *
      * @param _default The default to provide
      * @return The value as a boolean, or the default
      */
@@ -203,7 +203,7 @@ public class CMSProperty
      * Returns the value in this property as a double,
      * if the value is not a valid double, it will return the
      * provided default.
-     * 
+     *
      * @param _default The default to provide if the current value is not a valid double
      * @return The value
      */
@@ -227,13 +227,13 @@ public class CMSProperty
     /**
      * Returns the integer value of all values that can
      * be parsed in the list.
-     * 
+     *
      * @return Array of length 0 if none of the values could be parsed.
      */
     public int[] getIntList()
     {
         ArrayList<Integer> nums = new ArrayList<Integer>();
-        
+
         for (String value : valueList)
         {
             try
@@ -276,7 +276,7 @@ public class CMSProperty
     /**
      * Returns the boolean value of all values that can
      * be parsed in the list.
-     * 
+     *
      * @return Array of length 0 if none of the values could be parsed.
      */
     public boolean[] getBooleanList()
@@ -321,7 +321,7 @@ public class CMSProperty
     /**
      * Returns the double value of all values that can
      * be parsed in the list.
-     * 
+     *
      * @return Array of length 0 if none of the values could be parsed.
      */
     public double[] getDoubleList()
@@ -384,9 +384,9 @@ public class CMSProperty
 
     /**
      * Determines if this config value was just created, or if it was read from the config file.
-     * This is useful for mods who auto-assign there blocks to determine if the ID returned is 
+     * This is useful for mods who auto-assign there blocks to determine if the ID returned is
      * a configured one, or a automatically generated one.
-     * 
+     *
      * @return True if this property was loaded from the config file with a value
      */
     public boolean wasRead()

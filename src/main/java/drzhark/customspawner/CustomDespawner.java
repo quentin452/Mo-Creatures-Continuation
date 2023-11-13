@@ -24,18 +24,18 @@ public class CustomDespawner {
 
 
     //New DesPawner stuff
-    public final static int entityDespawnCheck(WorldServer worldObj, EntityLiving entityliving, int minDespawnLightLevel, int maxDespawnLightLevel)
+    public static final int entityDespawnCheck(WorldServer worldObj, EntityLiving entityliving, int minDespawnLightLevel, int maxDespawnLightLevel)
     {
         if (entityliving instanceof EntityWolf && ((EntityWolf) entityliving).isTamed()) { return 0; }
         if (entityliving instanceof EntityOcelot && ((EntityOcelot) entityliving).isTamed()) { return 0; }
         if (!isValidDespawnLightLevel(entityliving, worldObj, minDespawnLightLevel, maxDespawnLightLevel)) { return 0; }
 
         EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(entityliving, -1D);
-        if (entityplayer != null) //entityliving.canDespawn() && 
+        if (entityplayer != null) //entityliving.canDespawn() &&
         {
-            double d = ((Entity) (entityplayer)).posX - entityliving.posX;
-            double d1 = ((Entity) (entityplayer)).posY - entityliving.posY;
-            double d2 = ((Entity) (entityplayer)).posZ - entityliving.posZ;
+            double d = entityplayer.posX - entityliving.posX;
+            double d1 = entityplayer.posY - entityliving.posY;
+            double d2 = entityplayer.posZ - entityliving.posZ;
             double d3 = d * d + d1 * d1 + d2 * d2;
             if (d3 > 16384D)
             {
@@ -58,7 +58,7 @@ public class CustomDespawner {
         return 0;
     }
 
-    public final static int countEntities(Class class1, World worldObj)
+    public static final int countEntities(Class class1, World worldObj)
     {
         int i = 0;
         for (int j = 0; j < worldObj.loadedEntityList.size(); j++)
@@ -87,16 +87,12 @@ public class CustomDespawner {
             }
             blockLightLevel = CMSUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
+        //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " over maximum threshold of " + maxDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
         if (blockLightLevel < minDespawnLightLevel && maxDespawnLightLevel != -1)
         {
             //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " under minimum threshold of " + minDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
             return false;
         }
-        else if (blockLightLevel > maxDespawnLightLevel && maxDespawnLightLevel != -1)
-        {
-            //if (debug) CMSUtils.getEnvironment(worldObj).envLog.logger.info("Denied spawn! for " + entity.getCommandSenderName() + blockLightLevel + " over maximum threshold of " + maxDespawnLightLevel + " in dimension " + worldObj.provider.dimensionId + " at coords " + x + ", " + y + ", " + z);
-            return false;
-        }
-        return true;
+        else return blockLightLevel <= maxDespawnLightLevel || maxDespawnLightLevel == -1;
     }
 }

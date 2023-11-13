@@ -6,9 +6,9 @@ import net.minecraftforge.common.BiomeDictionary.Type;
 
 public class BiomeData {
 
-    private Class<? extends BiomeGenBase> clazz;
+    private final Class<? extends BiomeGenBase> clazz;
     private boolean defined;
-    private BiomeGenBase biome;
+    private final BiomeGenBase biome;
     private String tag;
     private BiomeDictionary.Type[] types;
 
@@ -38,7 +38,7 @@ public class BiomeData {
     {
         return this.clazz;
     }
- 
+
     public String getBiomeName()
     {
         return this.biome.biomeName;

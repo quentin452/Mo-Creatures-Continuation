@@ -12,23 +12,19 @@ import drzhark.customspawner.environment.EnvironmentSettings;
 public class EntitySpawnType {
 
     private String entitySpawnType = "NONE";
-    private EnvironmentSettings environment;
+    private final EnvironmentSettings environment;
     private int spawnTickRate = 400;
     private int spawnCap = 15;
     private float chunkSpawnChance = 0.0f;
     private boolean hardSpawnLimit;
     private Material livingMaterial = Material.air;
     private boolean enabled = true;
-    private boolean debug = false;
     // optional
-    private int spawnLightLevel;
-    private int despawnLightLevel;
     private int minSpawnHeight = 0;
     private int maxSpawnHeight = 256;
-    private boolean allowChunkSpawning = false;
     private Boolean shouldSeeSky;
     private int spawnDistance = 8;
-    private Map<Integer, ArrayList<SpawnListEntry>> livingSpawnList = new HashMap<Integer, ArrayList<SpawnListEntry>>();
+    private final Map<Integer, ArrayList<SpawnListEntry>> livingSpawnList = new HashMap<Integer, ArrayList<SpawnListEntry>>();
 
     public static final String UNDEFINED = "UNDEFINED";
     public static final String CREATURE = "CREATURE";
@@ -73,7 +69,7 @@ public class EntitySpawnType {
         this.spawnCap = spawnCap;
         this.chunkSpawnChance = chunkSpawnChance;
         if (shouldSeeSky != null)
-            this.shouldSeeSky = new Boolean(shouldSeeSky);
+            this.shouldSeeSky = shouldSeeSky;
         this.spawnDistance = spawnDistance;
         this.hardSpawnLimit = hardSpawnLimit;
         this.livingMaterial = livingMaterial;

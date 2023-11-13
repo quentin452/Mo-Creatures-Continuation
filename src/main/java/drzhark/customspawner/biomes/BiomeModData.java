@@ -11,9 +11,9 @@ import drzhark.customspawner.configuration.CMSConfiguration;
 
 public class BiomeModData {
 
-    private CMSConfiguration config;
-    private Map<String, BiomeData> biomeMap = new TreeMap<String, BiomeData>(String.CASE_INSENSITIVE_ORDER);
-    private String modClassID;
+    private final CMSConfiguration config;
+    private final Map<String, BiomeData> biomeMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    private final String modClassID;
     private String tag;
 
     public BiomeModData(String key, CMSConfiguration config)
@@ -35,9 +35,7 @@ public class BiomeModData {
 
     public List<String> getBiomes()
     {
-        List<String> biomeList = new ArrayList<String>();
-        biomeList.addAll(this.biomeMap.keySet());
-        return biomeList;
+        return new ArrayList<>(this.biomeMap.keySet());
     }
 
     public List<String> getBiomesForType(Type type)

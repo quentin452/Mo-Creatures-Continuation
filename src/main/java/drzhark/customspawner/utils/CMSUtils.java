@@ -35,34 +35,24 @@ public class CMSUtils {
 
     public static boolean isTamed(Entity entity)
     {
-        if (entity instanceof EntityTameable)
-        {
-            if (((EntityTameable)entity).isTamed())
+        if (entity instanceof EntityTameable && (((EntityTameable)entity).isTamed()))
             {
                 return true;
-            }
+
         }
         NBTTagCompound nbt = new NBTTagCompound();
         entity.writeToNBT(nbt);
-        if (nbt != null)
-        {
-            if (nbt.hasKey("Owner") && !nbt.getString("Owner").equals(""))
-            {
-                return true; // ignore
-            }
-            if (nbt.hasKey("Tamed") && nbt.getBoolean("Tamed") == true)
-            {
-                return true; // ignore
-            }
+        if (nbt.hasKey("Owner") && !nbt.getString("Owner").equals("")) {
+            return true; // ignore
         }
-        return false;
+        return nbt.hasKey("Tamed") && nbt.getBoolean("Tamed"); // ignore
     }
 
     public static List<String> parseName(String biomeConfigEntry)
     {
         String tag = biomeConfigEntry.substring(0, biomeConfigEntry.indexOf('|'));
-        String biomeName = biomeConfigEntry.substring(biomeConfigEntry.indexOf('|') + 1, biomeConfigEntry.length());
-        List<String> biomeParts = new ArrayList();
+        String biomeName = biomeConfigEntry.substring(biomeConfigEntry.indexOf('|') + 1);
+        List<String> biomeParts = new ArrayList<>();
         biomeParts.add(tag);
         biomeParts.add(biomeName);
         return biomeParts;
@@ -75,7 +65,7 @@ public class CMSUtils {
 
     public static String generateModPackage(String entityClass)
     {
-        String tokens[] = entityClass.split("\\.");
+        String[] tokens = entityClass.split("\\.");
 
         // no mapping for class in config so lets generate one
         if (tokens.length >= 2)
@@ -251,17 +241,12 @@ public class CMSUtils {
         List<Entry<String, Integer>> list = new LinkedList<Entry<String, Integer>>(unsortMap.entrySet());
 
         // Sorting the list based on values
-        Collections.sort(list, new Comparator<Entry<String, Integer>>()
-        {
+        list.sort(new Comparator<Entry<String, Integer>>() {
             public int compare(Entry<String, Integer> o1,
-                    Entry<String, Integer> o2)
-            {
-                if (order)
-                {
+                               Entry<String, Integer> o2) {
+                if (order) {
                     return o1.getValue().compareTo(o2.getValue());
-                }
-                else
-                {
+                } else {
                     return o2.getValue().compareTo(o1.getValue());
 
                 }
@@ -305,12 +290,10 @@ public class CMSUtils {
     {
         for (int i = 0; i < BiomeGenBase.getBiomeGenArray().length; i++)
         {
-            if (BiomeGenBase.getBiomeGenArray()[i] != null)
-            {
-                if(!BiomeDictionary.isBiomeRegistered(BiomeGenBase.getBiomeGenArray()[i]))
+            if (BiomeGenBase.getBiomeGenArray()[i] != null && (!BiomeDictionary.isBiomeRegistered(BiomeGenBase.getBiomeGenArray()[i])))
                 {
                     BiomeDictionary.makeBestGuess(BiomeGenBase.getBiomeGenArray()[i]);
-                }
+
             }
         }
     }

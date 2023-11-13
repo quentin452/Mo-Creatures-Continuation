@@ -48,7 +48,7 @@ public class EventHooks {
                 List<SpawnListEntry> customSpawnList = entitySpawnType.getBiomeSpawnList(event.world.getBiomeGenForCoords(x, z).biomeID);
                 if (customSpawnList != null)
                 {
-                    CustomSpawner.INSTANCE.performWorldGenSpawning(entitySpawnType, event.world, event.world.getBiomeGenForCoords(x, z), par1 + 8, par2 + 8, 16, 16, event.rand, customSpawnList, environment.worldGenCreatureSpawning);
+                    CustomSpawner.performWorldGenSpawning(entitySpawnType, event.world, event.world.getBiomeGenForCoords(x, z), par1 + 8, par2 + 8, 16, 16, event.rand, customSpawnList, environment.worldGenCreatureSpawning);
                 }
             }
         }
@@ -69,9 +69,6 @@ public class EventHooks {
     public void onLivingSpawn(LivingSpawnEvent.CheckSpawn event)
     {
         EntityData entityData = CMSUtils.getEnvironment(event.entity.worldObj).classToEntityMapping.get(event.entityLiving.getClass());
-        int x = MathHelper.floor_double(event.x);
-        int y = MathHelper.floor_double(event.y);
-        int z = MathHelper.floor_double(event.z);
         if (entityData != null && !entityData.getCanSpawn())
         {
             if (entityData.getEnvironment().debug)
@@ -98,43 +95,34 @@ public class EventHooks {
                 return;
             }
             // Tameable
-            if (event.entityLiving instanceof EntityTameable)
-            {
-                if (((EntityTameable)event.entityLiving).isTamed())
+            if (event.entityLiving instanceof EntityTameable && (((EntityTameable)event.entityLiving).isTamed()))
                 {
                     return;
-                }
+
             }
             // Farm animals
-            if (event.entityLiving instanceof EntitySheep || event.entityLiving instanceof EntityPig || event.entityLiving instanceof EntityCow || event.entityLiving instanceof EntityChicken)
-            {
-                // check lightlevel
-                if (CustomDespawner.isValidDespawnLightLevel(event.entity, event.world, CMSUtils.getEnvironment(event.world).minDespawnLightLevel, CMSUtils.getEnvironment(event.world).maxDespawnLightLevel))
+            if (event.entityLiving instanceof EntitySheep || event.entityLiving instanceof EntityPig || event.entityLiving instanceof EntityCow || event.entityLiving instanceof EntityChicken && (CustomDespawner.isValidDespawnLightLevel(event.entity, event.world, CMSUtils.getEnvironment(event.world).minDespawnLightLevel, CMSUtils.getEnvironment(event.world).maxDespawnLightLevel)))
                 {
                     return;
-                }
+
             }
             // Others
             NBTTagCompound nbt = new NBTTagCompound();
             event.entityLiving.writeToNBT(nbt);
-            if (nbt != null)
+            if (nbt.hasKey("Owner") && !nbt.getString("Owner").equals("")) {
+                return; // ignore
+            }
+            if (nbt.hasKey("Tamed") && nbt.getBoolean("Tamed"))
             {
-                if (nbt.hasKey("Owner") && !nbt.getString("Owner").equals(""))
-                {
-                    return; // ignore
-                }
-                if (nbt.hasKey("Tamed") && nbt.getBoolean("Tamed") == true)
-                {
-                    return; // ignore
-                }
+                return; // ignore
             }
             // despawn check
             EntityPlayer entityplayer = event.world.getClosestPlayerToEntity(event.entityLiving, -1D);
-            if (entityplayer != null) //entityliving.canDespawn() && 
+            if (entityplayer != null) //entityliving.canDespawn() &&
             {
-                double d = ((Entity) (entityplayer)).posX - event.entityLiving.posX;
-                double d1 = ((Entity) (entityplayer)).posY - event.entityLiving.posY;
-                double d2 = ((Entity) (entityplayer)).posZ - event.entityLiving.posZ;
+                double d = entityplayer.posX - event.entityLiving.posX;
+                double d1 = entityplayer.posY - event.entityLiving.posY;
+                double d2 = entityplayer.posZ - event.entityLiving.posZ;
                 double distance = d * d + d1 * d1 + d2 * d2;
                 if (distance > 16384D)
                 {
@@ -153,7 +141,7 @@ public class EventHooks {
                 }
             }
 
-            if (event.getResult() == Result.ALLOW && CustomSpawner.debug) 
+            if (event.getResult() == Result.ALLOW && CustomSpawner.debug)
             {
                 int x = MathHelper.floor_double(event.entity.posX);
                 int y = MathHelper.floor_double(event.entity.boundingBox.minY);
@@ -175,22 +163,21 @@ public class EventHooks {
         CMSUtils.addWorldEnvironment(event.world.provider.getClass());
         GameRules gameRule = event.world.getGameRules();
         if (gameRule != null) {
-            gameRule.setOrCreateGameRule("doMobSpawning", new Boolean(CustomSpawner.doMobSpawning).toString());
+            gameRule.setOrCreateGameRule("doMobSpawning", Boolean.toString(CustomSpawner.doMobSpawning));
         }
     }
 
    @SubscribeEvent
     public void structureMapGen(InitMapGenEvent event)
     {
-        String structureClass = event.originalGen.getClass().toString();
 
-        if (event.type == event.type.NETHER_BRIDGE)
+        if (event.type == InitMapGenEvent.EventType.NETHER_BRIDGE)
         {
             if (CustomSpawner.environmentMap.get(WorldProviderHell.class) == null)
                 CMSUtils.addWorldEnvironment(WorldProviderHell.class);
             CustomSpawner.environmentMap.get(WorldProviderHell.class).structureData.registerStructure(CustomSpawner.environmentMap.get(WorldProviderHell.class), event.type, event.originalGen);
         }
-        else if (event.type == event.type.SCATTERED_FEATURE)
+        else if (event.type == InitMapGenEvent.EventType.SCATTERED_FEATURE)
         {
             if (CustomSpawner.environmentMap.get(WorldProviderSurface.class) == null)
                 CMSUtils.addWorldEnvironment(WorldProviderSurface.class);

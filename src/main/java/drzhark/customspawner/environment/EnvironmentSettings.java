@@ -369,7 +369,7 @@ public class EnvironmentSettings {
             boolean undefined = true;
             if (debug) envLog.logger.info("Attempting to detect mod for Entity " + entityName + "...");
 
-            if (entityClass.contains("net.minecraft.entity")|| entityClass.toString().length() <= 3) // vanilla
+            if (entityClass.contains("net.minecraft.entity")|| entityClass.length() <= 3) // vanilla
             {
                 EntityModData modData = entityModMap.get("vanilla");
                 if (debug) envLog.logger.info("Matched mod Vanilla to " + entityName);
@@ -421,7 +421,7 @@ public class EnvironmentSettings {
                     entityModMap.put(modKey, new EntityModData(modKey, modKey, new CMSConfiguration(new File(CMSEnvironmentConfig.file.getParent(), CREATURES_FILE_PATH + configName))));
                     if (debug) envLog.logger.info("Added Automatic Mod Entity Mapping " + modKey + " to file " + configName);
                     CMSConfigCategory modMapCat = CMSEnvironmentConfig.getCategory(CATEGORY_MOD_MAPPINGS);
-                    modMapCat.put(modKey, new CMSProperty(modKey, new ArrayList(Arrays.asList(modKey.toUpperCase(), configName)), CMSProperty.Type.STRING, "automatically generated"));
+                    modMapCat.put(modKey, new CMSProperty(modKey, new ArrayList<>(Arrays.asList(modKey.toUpperCase(), configName)), CMSProperty.Type.STRING, "automatically generated"));
 
                     EntityModData modData = entityModMap.get(modKey);
                     if (debug) envLog.logger.info("Matched mod " + modKey + " to " + entityClass);
@@ -547,7 +547,7 @@ public class EnvironmentSettings {
                                 else // blockID with meta
                                 {
                                     int blockID = Integer.parseInt(bannedBlock.substring(0, bannedBlock.indexOf("-")));
-                                    int blockMeta = Integer.parseInt(bannedBlock.substring(bannedBlock.indexOf("-"), bannedBlock.length()));
+                                    int blockMeta = Integer.parseInt(bannedBlock.substring(bannedBlock.indexOf("-")));
                                     String block = Integer.toString(blockID) + "-" + Integer.toString(blockMeta);
                                     entityData.addSpawnBlockToBanlist(block);
                                     //System.out.println("Added spawnblock ID-Meta " + bannedBlock + " to blacklist.");
@@ -615,7 +615,7 @@ public class EnvironmentSettings {
                     BiomeModData modData =  new BiomeModData(modKey, modKey, new CMSConfiguration(new File(CMSEnvironmentConfig.file.getParent(), BIOMES_FILE_PATH + configName)));
                     if (debug) envLog.logger.info("Added Automatic Mod Biome Mapping " + modKey + " with tag " + modKey + " to file " + configName);
                     CMSConfigCategory modMapCat = CMSEnvironmentConfig.getCategory(CATEGORY_MOD_MAPPINGS);
-                    modMapCat.put(modKey, new CMSProperty(modKey, new ArrayList(Arrays.asList(modKey.toUpperCase(), configName)), CMSProperty.Type.STRING, "automatically generated"));
+                    modMapCat.put(modKey, new CMSProperty(modKey, new ArrayList<>(Arrays.asList(modKey.toUpperCase(), configName)), CMSProperty.Type.STRING, "automatically generated"));
                     biomeData.setTag(modData.getModTag());
                     biomeData.setDefined((true));
                     modData.addBiome(biomeData);
@@ -671,8 +671,7 @@ public class EnvironmentSettings {
             CMSProperty prop = new CMSProperty(type.name(), biomes, CMSProperty.Type.STRING);
             if (!biomes.isEmpty())
            {
-                if (biomeGroupMap.containsKey(type.name()))
-                    biomeGroupMap.remove(type.name());
+               biomeGroupMap.remove(type.name());
                 biomeGroupMap.put(type.name(), new BiomeGroupData(type.name(), biomes));
                 Collections.sort(biomes); // sort biome groups for GUI
                 prop.valueList = biomes; // blood - make sure to link our newly generated list to the configuration list for direct modification later
@@ -721,44 +720,35 @@ public class EnvironmentSettings {
             if (entityCategory.containsKey("biomegroups"))// && entityBiomeCategory.get(entityName).valueList != null)
             {
                 List<String> biomeGroups = entityCategory.get("biomegroups").valueList;
-                for (int i = 0; i < biomeGroups.size(); i++)
-                {
-                    String biomeGroupName = biomeGroups.get(i);
+                for (String biomeGroupName : biomeGroups) {
                     List<BiomeGenBase> spawnBiomes = new ArrayList<BiomeGenBase>();
                     // check default entity biome config
-                    if (CMSEntityBiomeGroupsConfig.getCategory(CATEGORY_BIOMEGROUP_DEFAULTS).containsKey(entityData.getEntityMod().getModTag().toUpperCase() + "_" + biomeGroupName))
-                    {
-                        biomeGroupName = entityData.getEntityMod().getModTag().toUpperCase() + "_" + biomeGroups.get(i);
+                    if (CMSEntityBiomeGroupsConfig.getCategory(CATEGORY_BIOMEGROUP_DEFAULTS).containsKey(entityData.getEntityMod().getModTag().toUpperCase() + "_" + biomeGroupName)) {
+                        biomeGroupName = entityData.getEntityMod().getModTag().toUpperCase() + "_" + biomeGroupName;
                         CMSProperty biomeProps = CMSEntityBiomeGroupsConfig.getCategory(CATEGORY_BIOMEGROUP_DEFAULTS).get(biomeGroupName);
-                        for (int j = 0; j < biomeProps.valueList.size(); j++)
-                        {
+                        for (int j = 0; j < biomeProps.valueList.size(); j++) {
                             List<String> biomeParts = CMSUtils.parseName(biomeProps.valueList.get(j));
                             BiomeModData biomeModData = CMSUtils.getBiomeModData(biomeModMap, biomeParts.get(0));
-                            if (biomeModData != null)
-                            {
-                                if (debug) envLog.logger.info("adding spawn biome " + biomeProps.valueList.get(j) + " for entity " + entityData.getEntityName());
+                            if (biomeModData != null) {
+                                if (debug)
+                                    envLog.logger.info("adding spawn biome " + biomeProps.valueList.get(j) + " for entity " + entityData.getEntityName());
                                 spawnBiomes.add(biomeModData.getBiome(biomeProps.valueList.get(j)));
                                 entityData.addSpawnBiome(biomeModData.getBiome(biomeProps.valueList.get(j)));
                             }
                         }
                         entityData.addBiomeGroupSpawnMap(biomeGroupName, spawnBiomes);
-                    }
-                    else // search for group in biome mod configs
+                    } else // search for group in biome mod configs
                     {
-                        for (Map.Entry<String, BiomeModData> modEntry : biomeModMap.entrySet())
-                        {
+                        for (Map.Entry<String, BiomeModData> modEntry : biomeModMap.entrySet()) {
                             BiomeModData biomeModData = modEntry.getValue();
                             CMSConfigCategory cat = biomeModData.getModConfig().getCategory("biomegroups");
-                            if (cat.containsKey(biomeGroupName))
-                            {
+                            if (cat.containsKey(biomeGroupName)) {
                                 CMSProperty biomeProps = cat.get(biomeGroupName);
-                                for (int j = 0; j < biomeProps.valueList.size(); j++)
-                                {
+                                for (int j = 0; j < biomeProps.valueList.size(); j++) {
                                     if (spawnBiomes.contains(biomeModData.getBiome(biomeModData.getModTag() + "|" + biomeProps.valueList.get(j))))
                                         continue;
                                     BiomeGenBase biome = biomeModData.getBiome(biomeModData.getModTag() + "|" + biomeProps.valueList.get(j));
-                                    if (biome == null)
-                                    {
+                                    if (biome == null) {
                                         continue;
                                     }
                                     spawnBiomes.add(biome);
@@ -778,16 +768,14 @@ public class EnvironmentSettings {
                 ArrayList<BiomeGenBase> entryBiomes = CustomSpawner.entityDefaultSpawnBiomes.get(entityData.getEntityClass().getName());
                 if (entryBiomes != null)
                 {
-                    for (int i = 0; i < entryBiomes.size(); i++)
-                    {
-                        for (Map.Entry<String, BiomeModData> modEntry : biomeModMap.entrySet())
-                        {
+                    for (BiomeGenBase entryBiome : entryBiomes) {
+                        for (Map.Entry<String, BiomeModData> modEntry : biomeModMap.entrySet()) {
                             BiomeModData biomeModData = modEntry.getValue();
-                            if (biomeModData.hasBiome(entryBiomes.get(i)))
-                            {
-                                if (debug) envLog.logger.info("Adding biome " + biomeModData.getModTag() + "|" + entryBiomes.get(i).biomeName + " to biomegroups for entity " + entityData.getEntityName() + " in environment " + name());
-                                biomes.add(biomeModData.getModTag() + "|" + entryBiomes.get(i).biomeName);
-                                entityData.addSpawnBiome(entryBiomes.get(i));
+                            if (biomeModData.hasBiome(entryBiome)) {
+                                if (debug)
+                                    envLog.logger.info("Adding biome " + biomeModData.getModTag() + "|" + entryBiome.biomeName + " to biomegroups for entity " + entityData.getEntityName() + " in environment " + name());
+                                biomes.add(biomeModData.getModTag() + "|" + entryBiome.biomeName);
+                                entityData.addSpawnBiome(entryBiome);
                             }
                         }
                     }
@@ -822,7 +810,6 @@ public class EnvironmentSettings {
         if (debug) envLog.logger.info("Scanning mod configs for entities...");
         for (Map.Entry<String, EntityModData> modEntry : entityModMap.entrySet())
         {
-            ArrayList<Map<String, EntityData>> entityList = new ArrayList();
 
             for (EntitySpawnType entitySpawnType : entitySpawnTypes.values())
             {
@@ -914,7 +901,7 @@ public class EnvironmentSettings {
         // generate default key mappings
         for (Map.Entry<String, EntityModData> modEntry : defaultModMap.entrySet())
         {
-            List<String> values = new ArrayList(Arrays.asList(modEntry.getValue().getModTag(), modEntry.getValue().getModConfig().getFileName() + ".cfg"));
+            List<String> values = new ArrayList<>(Arrays.asList(modEntry.getValue().getModTag(), modEntry.getValue().getModConfig().getFileName() + ".cfg"));
             modMapCat.put(modEntry.getKey(), new CMSProperty(modEntry.getKey(), values, CMSProperty.Type.STRING));
             biomeModMap.put(modEntry.getKey(), new BiomeModData(modEntry.getKey(), modEntry.getValue().getModTag(), new CMSConfiguration(new File(CMSEnvironmentConfig.file.getParent(), BIOMES_FILE_PATH + (modEntry.getValue().getModConfig().getFileName() + ".cfg")))));
             entityModMap.put(modEntry.getKey(), new EntityModData(modEntry.getKey(), modEntry.getValue().getModTag(), new CMSConfiguration(new File(CMSEnvironmentConfig.file.getParent(), CREATURES_FILE_PATH + (modEntry.getValue().getModConfig().getFileName() + ".cfg")))));
@@ -925,15 +912,13 @@ public class EnvironmentSettings {
         for (Map.Entry<String, CMSProperty> propEntry : modMapCat.entrySet())
         {
             CMSProperty prop = propEntry.getValue();
-            if (prop != null && !biomeModMap.containsKey(propEntry.getKey()))
-            {
-                if (prop.valueList.size() == 2)
+            if (prop != null && !biomeModMap.containsKey(propEntry.getKey()) && (prop.valueList.size() == 2))
                 {
                     biomeModMap.put(propEntry.getKey(), new BiomeModData(propEntry.getKey(), prop.valueList.get(0), new CMSConfiguration(new File(CMSEnvironmentConfig.file.getParent(), BIOMES_FILE_PATH + prop.valueList.get(1)))));
                     if (debug) envLog.logger.info("Added Custom Mod Biome Mapping " + propEntry.getKey() + " with tag " + prop.valueList.get(0) + " to file " + prop.valueList.get(1));
                     entityModMap.put(propEntry.getKey(), new EntityModData(propEntry.getKey(), prop.valueList.get(0), new CMSConfiguration(new File(CMSEnvironmentConfig.file.getParent(), CREATURES_FILE_PATH + prop.valueList.get(1)))));
                     if (debug) envLog.logger.info("Added Custom Mod Entity Mapping " + propEntry.getKey() + " with tag " + prop.valueList.get(0) + " to file " + prop.valueList.get(1));
-                }
+
             }
         }
 

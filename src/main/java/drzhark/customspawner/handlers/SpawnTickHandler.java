@@ -18,16 +18,16 @@ public class SpawnTickHandler
     {
         return "CustomMobSpawner";
     }*/
-    
+
     @SubscribeEvent
-    public void worldTick(WorldTickEvent event) 
+    public void worldTick(WorldTickEvent event)
     {
         WorldServer worldObj = (WorldServer) event.world;
         for (EntitySpawnType entitySpawnType : CMSUtils.getEnvironment(worldObj).entitySpawnTypes.values())
         {
             if (entitySpawnType.name().equals("UNDEFINED"))
                 continue;
-            if (worldObj != null && (worldObj.getWorldInfo().getWorldTotalTime() % entitySpawnType.getSpawnTickRate() == 0L) && entitySpawnType.allowSpawning() && entitySpawnType.getSpawnCap() > 0) 
+            if (worldObj.getWorldInfo().getWorldTotalTime() % entitySpawnType.getSpawnTickRate() == 0L && entitySpawnType.allowSpawning() && entitySpawnType.getSpawnCap() > 0)
             {
                 int spawnAmount = 0;
 

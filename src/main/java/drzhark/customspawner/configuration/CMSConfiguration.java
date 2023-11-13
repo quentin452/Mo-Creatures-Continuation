@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PushbackInputStream;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -190,9 +191,8 @@ public class CMSConfiguration
     public CMSProperty get(String category, String key, int[] defaultValue, String comment)
     {
         List<String> values = new ArrayList();
-        for (int i = 0; i < defaultValue.length; i++)
-        {
-            values.add(Integer.toString(defaultValue[i]));
+        for (int j : defaultValue) {
+            values.add(Integer.toString(j));
         }
 
         CMSProperty prop =  get(category, key, values, comment, INTEGER);
@@ -212,13 +212,12 @@ public class CMSConfiguration
     public CMSProperty get(String category, String key, double[] defaultValue, String comment)
     {
         List<String> values = new ArrayList();
-        for (int i = 0; i < defaultValue.length; i++)
-        {
-            values.add(Double.toString(defaultValue[i]));
+        for (double v : defaultValue) {
+            values.add(Double.toString(v));
         }
 
         CMSProperty prop =  get(category, key, values, comment, DOUBLE);
-        
+
         if (!prop.isDoubleList())
         {
             prop.valueList = values;
@@ -241,7 +240,7 @@ public class CMSConfiguration
         }
 
         CMSProperty prop =  get(category, key, values, comment, BOOLEAN);
-        
+
         if (!prop.isBooleanList())
         {
             prop.valueList = values;
@@ -275,7 +274,7 @@ public class CMSConfiguration
         else if (defaultValue != null)
         {
             CMSProperty prop = new CMSProperty(key, defaultValue, type);
-            prop.set(defaultValue); //Set and mark as dirty to signify it should save 
+            prop.set(defaultValue); //Set and mark as dirty to signify it should save
             cat.put(key, prop);
             prop.comment = comment;
             return prop;
@@ -356,7 +355,7 @@ public class CMSConfiguration
 
             if (file.canRead())
             {
-                input = new UnicodeInputStreamReader(new FileInputStream(file), defaultEncoding);
+                input = new UnicodeInputStreamReader(Files.newInputStream(file.toPath()), defaultEncoding);
                 defaultEncoding = input.getEncoding();
                 buffer = new BufferedReader(input);
 
@@ -384,7 +383,7 @@ public class CMSConfiguration
                     {
                         fileName = start.group(1);
 
-                        categories = new TreeMap<String, CMSConfigCategory>();
+                        categories = new TreeMap<>();
                         continue;
                     }
                     else if (end.matches())
@@ -504,7 +503,7 @@ public class CMSConfiguration
                                         {
                                             i++;
                                         }
-                                        else 
+                                        else
                                         {
                                             line = line.substring(i+1, line.length());
                                             String[] values = line.split(":|\\>");
@@ -732,12 +731,9 @@ public class CMSConfiguration
     public static class UnicodeInputStreamReader extends Reader
     {
         private final InputStreamReader input;
-        @SuppressWarnings("unused")
-        private final String defaultEnc;
 
         public UnicodeInputStreamReader(InputStream source, String encoding) throws IOException
         {
-            defaultEnc = encoding;
             String enc = encoding;
             byte[] data = new byte[4];
 
@@ -804,7 +800,7 @@ public class CMSConfiguration
     public boolean hasChanged()
     {
         if (changed) return true;
-        
+
         for (CMSConfigCategory cat : categories.values())
         {
             if (cat.hasChanged()) return true;

@@ -52,8 +52,6 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import cpw.mods.fml.relauncher.Side;
 import drzhark.customspawner.command.CommandCMS;
 import drzhark.customspawner.configuration.CMSConfiguration;
 import drzhark.customspawner.entity.EntityData;
@@ -76,10 +74,10 @@ public final class CustomSpawner {
     public static File ROOT;
     public static CMSLog globalLog;
 
-    public static Map<Class<? extends WorldProvider>, EnvironmentSettings> environmentMap = new HashMap<Class<? extends WorldProvider>, EnvironmentSettings>();
-    public static Map<String, ArrayList<BiomeGenBase>> entityDefaultSpawnBiomes = new TreeMap<String, ArrayList<BiomeGenBase>>(String.CASE_INSENSITIVE_ORDER);
-    public static Map<String, SpawnListEntry> defaultSpawnListEntryMap = new TreeMap<String, SpawnListEntry>(String.CASE_INSENSITIVE_ORDER);
-    public static Map<String, EnumCreatureType> entityTypes = new HashMap<String, EnumCreatureType>();
+    public static Map<Class<? extends WorldProvider>, EnvironmentSettings> environmentMap = new HashMap<>();
+    public static Map<String, ArrayList<BiomeGenBase>> entityDefaultSpawnBiomes = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public static Map<String, SpawnListEntry> defaultSpawnListEntryMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    public static Map<String, EnumCreatureType> entityTypes = new HashMap<>();
 
     private static final String CREATURES_FILE_PATH = File.separator + "Creatures" + File.separator;
     private static final String BIOMES_FILE_PATH = File.separator + "Biomes" + File.separator;
@@ -94,7 +92,7 @@ public final class CustomSpawner {
 
     private static List<BiomeGenBase> biomeList;
 
-    private HashMap eligibleChunksForSpawning = new HashMap();
+    private final HashMap<ChunkCoordIntPair, Boolean> eligibleChunksForSpawning = new HashMap<>();
 
     static {
         entityTypes.put("UNDEFINED", null);
@@ -146,7 +144,7 @@ public final class CustomSpawner {
             environment.readConfigValues();
         }
         CMSUtils.registerAllBiomes();
-        biomeList = new ArrayList<BiomeGenBase>();
+        biomeList = new ArrayList<>();
         try
         {
             for (BiomeGenBase biomegenbase : BiomeGenBase.getBiomeGenArray())
@@ -168,7 +166,7 @@ public final class CustomSpawner {
     public void serverStarting(FMLServerStartingEvent event)
     {
         // We need to run through overworld init a second time since structure gen occurs before all spawns are ready
-        EnvironmentSettings overworld = this.environmentMap.get(WorldProviderSurface.class);
+        EnvironmentSettings overworld = environmentMap.get(WorldProviderSurface.class);
         if (overworld != null)
         {
             //overworld.initializeBiomes();
@@ -185,7 +183,7 @@ public final class CustomSpawner {
         CMSUtils.dumpDefaultSpawnList();
     }
 
-    protected static ChunkPosition getRandomSpawningPointInChunk(World worldObj, int par1, int par2)
+    private static ChunkPosition getRandomSpawningPointInChunk(World worldObj, int par1, int par2)
     {
         Chunk chunk = worldObj.getChunkFromChunkCoords(par1, par2);
         int i = par1 * 16 + worldObj.rand.nextInt(16);
@@ -216,7 +214,7 @@ public final class CustomSpawner {
      *
      *
      */
-    public final int doCustomSpawning(WorldServer world, EntitySpawnType entitySpawnType, int mobSpawnRange, boolean enforceMaxSpawnLimits)
+    public int doCustomSpawning(WorldServer world, EntitySpawnType entitySpawnType, int mobSpawnRange, boolean enforceMaxSpawnLimits)
     {
         eligibleChunksForSpawning.clear();
         int countTotal;
@@ -275,16 +273,16 @@ public final class CustomSpawner {
         mobcnt = countEntities(world, entitySpawnType);
         if (mobcnt <= maxcnt)
         {
-            Iterator iterator = eligibleChunksForSpawning.keySet().iterator();
-            ArrayList<ChunkCoordIntPair> tmp = new ArrayList(eligibleChunksForSpawning.keySet());
+            Iterator<ChunkCoordIntPair> iterator = eligibleChunksForSpawning.keySet().iterator();
+            ArrayList<ChunkCoordIntPair> tmp = new ArrayList<ChunkCoordIntPair>(eligibleChunksForSpawning.keySet());
             Collections.shuffle(tmp);
             iterator = tmp.iterator();
             int moblimit = (limit * eligibleChunksForSpawning.size() / 256) - mobcnt + 1;
 
             label108: while (iterator.hasNext() && moblimit > 0)
             {
-                ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair) iterator.next();
-                if (eligibleChunksForSpawning.get(chunkcoordintpair) != null && !(Boolean) eligibleChunksForSpawning.get(chunkcoordintpair)) // blood - added null check to avoid crashing during SSP spawning
+                ChunkCoordIntPair chunkcoordintpair = iterator.next();
+                if (eligibleChunksForSpawning.get(chunkcoordintpair) != null && !eligibleChunksForSpawning.get(chunkcoordintpair)) // blood - added null check to avoid crashing during SSP spawning
                 {
                     ChunkPosition chunkpos = getRandomSpawningPointInChunk(world, chunkcoordintpair.chunkXPos, chunkcoordintpair.chunkZPos);
                     int posX = chunkpos.chunkPosX;
@@ -313,16 +311,16 @@ public final class CustomSpawner {
                                     label101:
                                     {
                                         tempX += world.rand.nextInt(var20) - world.rand.nextInt(var20);
-                                        tempY += world.rand.nextInt(1) - world.rand.nextInt(1);
+                                        tempY += 0;
                                         tempZ += world.rand.nextInt(var20) - world.rand.nextInt(var20);
 
                                         if (canCreatureTypeSpawnAtLocation(entitySpawnType, world, tempX, tempY, tempZ))
                                         {
 
-                                            float spawnX = (float) tempX + 0.5F;
-                                            float spawnY = (float) tempY;
-                                            float spawnZ = (float) tempZ + 0.5F;
-                                            if (world.getClosestPlayer((double) spawnX, (double) spawnY, (double) spawnZ, 24.0D) == null)
+                                            float spawnX = tempX + 0.5F;
+                                            float spawnY = tempY;
+                                            float spawnZ = tempZ + 0.5F;
+                                            if (world.getClosestPlayer(spawnX, spawnY, spawnZ, 24.0D) == null)
                                             {
                                                 float var26 = spawnX - (float) chunkcoordspawn.posX;
                                                 float var27 = spawnY - (float) chunkcoordspawn.posY;
@@ -356,7 +354,7 @@ public final class CustomSpawner {
                                                     }
                                                     entityData = CMSUtils.getEnvironment(world).classToEntityMapping.get(spawnlistentry.entityClass);
                                                     // spawn checks
-                                                    entityliving.setLocationAndAngles((double) spawnX, (double) spawnY, (double) spawnZ, world.rand.nextFloat() * 360.0F, 0.0F);
+                                                    entityliving.setLocationAndAngles(spawnX, spawnY, spawnZ, world.rand.nextFloat() * 360.0F, 0.0F);
                                                     Result canSpawn = ForgeEventFactory.canEntitySpawn(entityliving, world, spawnX, spawnY, spawnZ);
 
                                                     if (isValidLightLevel(entityliving, world, entityData.getMinLightLevel(), entityData.getMaxLightLevel()) && (canSpawn == Result.ALLOW || (canSpawn == Result.DEFAULT && entityliving.getCanSpawnHere()) || (entityData.getLivingSpawnType() == entityData.getEnvironment().LIVINGTYPE_UNDERGROUND && CMSUtils.isValidUndergroundLightLevel(entityliving))))
@@ -508,7 +506,7 @@ public final class CustomSpawner {
 
     }
 
-    public void RemoveCustomSpawn(Class class1, EntitySpawnType entitySpawnType, BiomeGenBase biomes[])
+    public void RemoveCustomSpawn(Class class1, EntitySpawnType entitySpawnType, BiomeGenBase[] biomes)
     {
         if (class1 == null) { throw new IllegalArgumentException("entityClass cannot be null"); }
         //if (enumcreaturetype == null) { throw new IllegalArgumentException("spawnList cannot be null"); }
@@ -524,10 +522,10 @@ public final class CustomSpawner {
 
             if (spawnList != null)
             {
-                Iterator iterator = spawnList.iterator();
+                Iterator<SpawnListEntry> iterator = spawnList.iterator();
                 while (iterator.hasNext())
                 {
-                    SpawnListEntry spawnEntry = (SpawnListEntry)iterator.next();
+                    SpawnListEntry spawnEntry = iterator.next();
                     if (spawnEntry.entityClass == class1)
                     {
                         iterator.remove();
@@ -538,7 +536,7 @@ public final class CustomSpawner {
         }
     }
 
-    public static void copyVanillaSpawnData(BiomeGenBase abiomegenbase[])
+    public static void copyVanillaSpawnData(BiomeGenBase[] abiomegenbase)
     {
         if (abiomegenbase == null)
         {
@@ -555,28 +553,25 @@ public final class CustomSpawner {
 
                 for (Iterator iterator = biome.getSpawnableList(enumcreaturetype).iterator(); iterator.hasNext();)
                 {
-                    if (iterator != null)
+                    SpawnListEntry spawnlistentry = (SpawnListEntry) iterator.next();
+                    if (entityDefaultSpawnBiomes.containsKey(spawnlistentry.entityClass.getName())) // add biome to existing list
                     {
-                        SpawnListEntry spawnlistentry = (SpawnListEntry) iterator.next();
-                        if (entityDefaultSpawnBiomes.containsKey(spawnlistentry.entityClass.getName())) // add biome to existing list
+                        if (!entityDefaultSpawnBiomes.get(spawnlistentry.entityClass.getName()).contains(biome))
                         {
-                            if (!entityDefaultSpawnBiomes.get(spawnlistentry.entityClass.getName()).contains(biome))
-                            {
-                                entityDefaultSpawnBiomes.get(spawnlistentry.entityClass.getName()).add(biome);
-                            }
+                            entityDefaultSpawnBiomes.get(spawnlistentry.entityClass.getName()).add(biome);
                         }
-                        else // create new biome list for entity
-                        {
-                            ArrayList<BiomeGenBase> biomes = new ArrayList<BiomeGenBase>();
-                            biomes.add(biome);
-                            entityDefaultSpawnBiomes.put(spawnlistentry.entityClass.getName(), biomes);
-                            if (!defaultSpawnListEntryMap.containsKey(spawnlistentry.entityClass.getName()))
-                            {
-                                defaultSpawnListEntryMap.put(spawnlistentry.entityClass.getName(), spawnlistentry);
-                            }
-                        }
-                        iterator.remove();
                     }
+                    else // create new biome list for entity
+                    {
+                        ArrayList<BiomeGenBase> biomes = new ArrayList<BiomeGenBase>();
+                        biomes.add(biome);
+                        entityDefaultSpawnBiomes.put(spawnlistentry.entityClass.getName(), biomes);
+                        if (!defaultSpawnListEntryMap.containsKey(spawnlistentry.entityClass.getName()))
+                        {
+                            defaultSpawnListEntryMap.put(spawnlistentry.entityClass.getName(), spawnlistentry);
+                        }
+                    }
+                    iterator.remove();
                 }
             }
         }
@@ -584,16 +579,13 @@ public final class CustomSpawner {
 
     public void updateSpawnListEntry(EntityData entityData)
     {
-        for (int i = 0; i < biomeList.size(); i++)
-        {
-            ArrayList<SpawnListEntry> spawnList = entityData.getLivingSpawnType().getBiomeSpawnList(biomeList.get(i).biomeID);
-            if (spawnList != null)
-            {
-                for (SpawnListEntry spawnEntry : spawnList)
-                {
-                    if (spawnEntry.entityClass == entityData.getEntityClass())
-                    {
-                        if (debug) globalLog.logger.info("updateSpawnListEntry " + entityData.getEntityClass() + " to " + entityData.getFrequency() + ":" + entityData.getMinSpawn() + ":" + entityData.getMaxSpawn() + " in biome " + biomeList.get(i).biomeName);
+        for (BiomeGenBase biomeGenBase : biomeList) {
+            ArrayList<SpawnListEntry> spawnList = entityData.getLivingSpawnType().getBiomeSpawnList(biomeGenBase.biomeID);
+            if (spawnList != null) {
+                for (SpawnListEntry spawnEntry : spawnList) {
+                    if (spawnEntry.entityClass == entityData.getEntityClass()) {
+                        if (debug)
+                            globalLog.logger.info("updateSpawnListEntry " + entityData.getEntityClass() + " to " + entityData.getFrequency() + ":" + entityData.getMinSpawn() + ":" + entityData.getMaxSpawn() + " in biome " + biomeGenBase.biomeName);
                         spawnEntry.itemWeight = entityData.getFrequency();
                         spawnEntry.minGroupCount = entityData.getMinSpawn();
                         spawnEntry.maxGroupCount = entityData.getMaxSpawn();
@@ -624,19 +616,15 @@ public final class CustomSpawner {
      */
     public static boolean canCreatureTypeSpawnAtLocation(EntitySpawnType entitySpawnType, World par1World, int x, int y, int z)
     {
-        if (entitySpawnType.getMinSpawnHeight() != -1)
-        {
-            if (y < entitySpawnType.getMinSpawnHeight())
+        if (entitySpawnType.getMinSpawnHeight() != -1 && (y < entitySpawnType.getMinSpawnHeight()))
             {
                 return false;
-            }
+
         }
-        if (entitySpawnType.getMaxSpawnHeight() != -1)
-        {
-            if (y > entitySpawnType.getMaxSpawnHeight())
+        if (entitySpawnType.getMaxSpawnHeight() != -1 && (y > entitySpawnType.getMaxSpawnHeight()))
             {
                 return false;
-            }
+
         }
         if (entitySpawnType.getLivingMaterial() == Material.water)
         {
@@ -691,7 +679,7 @@ public final class CustomSpawner {
      */
     public SpawnListEntry getRandomCustomMob(World worldObj, EntitySpawnType entitySpawnType, int pX, int pY, int pZ)
     {
-        List list = getPossibleCustomCreatures(worldObj, entitySpawnType, pX, pY, pZ);
+        List<SpawnListEntry> list = getPossibleCustomCreatures(worldObj, entitySpawnType, pX, pY, pZ);
         if (list == null || list.isEmpty())
         {
             return null;
@@ -706,7 +694,7 @@ public final class CustomSpawner {
      * Returns a list of creatures of the specified type (mob/aquatic/animal)
      * that can spawn at the given XYZ location, based on biomes.
      */
-    public List getPossibleCustomCreatures(World worldObj, EntitySpawnType entitySpawnType, int pX, int pY, int pZ)
+    public List<SpawnListEntry> getPossibleCustomCreatures(World worldObj, EntitySpawnType entitySpawnType, int pX, int pY, int pZ)
     {
         BiomeGenBase biomegenbase = worldObj.getBiomeGenForCoords(pX, pZ);
         if (biomegenbase == null)
@@ -735,7 +723,7 @@ public final class CustomSpawner {
     /**
      * Called during chunk generation to spawn initial creatures.
      */
-    public static void performWorldGenSpawning(EntitySpawnType entitySpawnType, World world, BiomeGenBase par1BiomeGenBase, int par2, int par3, int par4, int par5, Random par6Random, List customSpawnList, boolean worldGenCreatureSpawning)
+    public static void performWorldGenSpawning(EntitySpawnType entitySpawnType, World world, BiomeGenBase par1BiomeGenBase, int par2, int par3, int par4, int par5, Random par6Random, List<SpawnListEntry> customSpawnList, boolean worldGenCreatureSpawning)
     {
         if (!customSpawnList.isEmpty() && worldGenCreatureSpawning)
         {
@@ -771,9 +759,8 @@ public final class CustomSpawner {
 
                             if (canCreatureTypeSpawnAtLocation(entityData.getLivingSpawnType(), world, j1, l2, k1))
                             {
-                                float f = (float)j1 + 0.5F;
-                                float f1 = (float)l2;
-                                float f2 = (float)k1 + 0.5F;
+                                float f = j1 + 0.5F;
+                                float f2 = k1 + 0.5F;
                                 EntityLiving entityliving;
 
                                 try
@@ -786,14 +773,14 @@ public final class CustomSpawner {
                                     continue;
                                 }
 
-                                entityliving.setLocationAndAngles((double)f, (double)f1, (double)f2, par6Random.nextFloat() * 360.0F, 0.0F);
-                                Result canSpawn = ForgeEventFactory.canEntitySpawn(entityliving, world, f, f1, f2);
+                                entityliving.setLocationAndAngles(f, (float) l2, f2, par6Random.nextFloat() * 360.0F, 0.0F);
+                                Result canSpawn = ForgeEventFactory.canEntitySpawn(entityliving, world, f, (float) l2, f2);
                                 if (canSpawn == Result.ALLOW || (canSpawn == Result.DEFAULT && entityliving.getCanSpawnHere()))
                                 {
                                     world.spawnEntityInWorld(entityliving);
                                     if (CMSUtils.getEnvironment(world).debug)
-                                        CMSUtils.getEnvironment(world).envLog.logger.info("[WorldGen spawned " + entityliving.getCommandSenderName() + " at " + f + ", " + f1 + ", " + f2 + " with CREATURE:" + spawnlistentry.itemWeight + ":" + spawnlistentry.minGroupCount + ":" + spawnlistentry.maxGroupCount + ":" + ForgeEventFactory.getMaxSpawnPackSize(entityliving) + " in biome " + par1BiomeGenBase.biomeName + "]");
-                                    creatureSpecificInit(entityliving, world, f, f1, f2);
+                                        CMSUtils.getEnvironment(world).envLog.logger.info("[WorldGen spawned " + entityliving.getCommandSenderName() + " at " + f + ", " + (float) l2 + ", " + f2 + " with CREATURE:" + spawnlistentry.itemWeight + ":" + spawnlistentry.minGroupCount + ":" + spawnlistentry.maxGroupCount + ":" + ForgeEventFactory.getMaxSpawnPackSize(entityliving) + " in biome " + par1BiomeGenBase.biomeName + "]");
+                                    creatureSpecificInit(entityliving, world, f, (float) l2, f2);
                                     flag = true;
                                 }
                             }

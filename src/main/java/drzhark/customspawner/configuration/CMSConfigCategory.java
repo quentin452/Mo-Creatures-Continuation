@@ -18,8 +18,8 @@ public class CMSConfigCategory implements Map<String, CMSProperty>
 {
     private String name;
     private String comment;
-    private ArrayList<CMSConfigCategory> children = new ArrayList<CMSConfigCategory>();
-    private Map<String, CMSProperty> properties = new TreeMap<String, CMSProperty>();
+    private final ArrayList<CMSConfigCategory> children = new ArrayList<>();
+    private final Map<String, CMSProperty> properties = new TreeMap<>();
     public final CMSConfigCategory parent;
     private boolean changed = false;
 
@@ -148,7 +148,7 @@ public class CMSConfigCategory implements Map<String, CMSProperty>
 
         write(out, pad0, name, " {");
 
-        CMSProperty[] props = properties.values().toArray(new CMSProperty[properties.size()]);
+        CMSProperty[] props = properties.values().toArray(new CMSProperty[0]);
 
         for (int x = 0; x < props.length; x++)
         {
@@ -214,7 +214,7 @@ public class CMSConfigCategory implements Map<String, CMSProperty>
 
     private String getIndent(int indent)
     {
-        StringBuilder buf = new StringBuilder("");
+        StringBuilder buf = new StringBuilder();
         for (int x = 0; x < indent; x++)
         {
             buf.append("    ");
