@@ -193,7 +193,7 @@ public class MoCreatures {
     /**
      * BLOCKS
      */
-    public static ArrayList<String> multiBlockNames = new ArrayList<String>();
+    public static ArrayList<String> multiBlockNames = new ArrayList<>();
     public static Block mocStone;
     public static Block mocGrass;
     public static Block mocDirt;
