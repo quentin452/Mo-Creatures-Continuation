@@ -12,7 +12,7 @@ Go here : [Wiki](https://github.com/quentin452/Mo-Creatures-Continuation/wiki)
 
 # Requirement
 
-no requirements
+no requirements (yep this fork of Mo Creatures does not require Custom Mob Spawner)
 
 # Discord
 
