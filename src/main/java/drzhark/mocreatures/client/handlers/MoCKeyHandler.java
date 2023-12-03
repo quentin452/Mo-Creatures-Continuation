@@ -38,7 +38,7 @@ public class MoCKeyHandler {
         localScreen = MoCClientProxy.instance.MoCScreen;
     }
 
-    
+
     @SubscribeEvent
     public void onKeyInput(KeyInputEvent event)
     {
@@ -57,9 +57,13 @@ public class MoCKeyHandler {
             this.localScreen = MoCClientProxy.instance.MoCScreen;
             if ((MoCClientProxy.mc.inGameHasFocus) && (this.localScreen != null))
             {
+                try {
                 GuiModScreen.show(localScreen.theWidget);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            else 
+            else
             {
                 localScreen = null; // kill our instance
             }
