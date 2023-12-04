@@ -23,7 +23,7 @@ public class GuiWidgetScreen extends Widget
     public LWJGLRenderer renderer;
     public ScaledResolution screenSize;
     public ThemeManager theme;
-    
+
     public static GuiWidgetScreen getInstance() {
         if (GuiWidgetScreen.instance != null) {
             return GuiWidgetScreen.instance;
@@ -32,7 +32,7 @@ public class GuiWidgetScreen extends Widget
             GuiWidgetScreen.instance = new GuiWidgetScreen();
             GuiWidgetScreen.instance.renderer = new LWJGLRenderer();
             final String themename = "gui/twlGuiTheme.xml";
-            GuiWidgetScreen.instance.gui = new GUI((Widget)GuiWidgetScreen.instance, (Renderer)GuiWidgetScreen.instance.renderer, (Input)new LWJGLInput());
+            GuiWidgetScreen.instance.gui = new GUI(GuiWidgetScreen.instance, GuiWidgetScreen.instance.renderer, new LWJGLInput());
             GuiWidgetScreen.themeURL = new URL("classloader", "", -1, themename, new URLStreamHandler() {
                 @Override
                 protected URLConnection openConnection(final URL paramURL) throws IOException {
@@ -40,27 +40,31 @@ public class GuiWidgetScreen extends Widget
                     if (file.startsWith("/")) {
                         file = file.substring(1);
                     }
-                    return GuiWidgetScreen.class.getClassLoader().getResource(file).openConnection();
+                    URL resourceUrl = GuiWidgetScreen.class.getClassLoader().getResource(file);
+                    if (resourceUrl == null) {
+                        throw new IOException("Resource not found: " + file);
+                    }
+                    return resourceUrl.openConnection();
                 }
             });
-            GuiWidgetScreen.instance.theme = ThemeManager.createThemeManager(GuiWidgetScreen.themeURL, (Renderer)GuiWidgetScreen.instance.renderer);
+            GuiWidgetScreen.instance.theme = ThemeManager.createThemeManager(GuiWidgetScreen.themeURL, GuiWidgetScreen.instance.renderer);
             if (GuiWidgetScreen.instance.theme == null) {
                 throw new RuntimeException("I don't think you installed the theme correctly ...");
             }
             GuiWidgetScreen.instance.setTheme("");
             GuiWidgetScreen.instance.gui.applyTheme(GuiWidgetScreen.instance.theme);
             GuiWidgetScreen.instance.minecraftInstance = ModSettings.getMcinst();
+            if (GuiWidgetScreen.instance.minecraftInstance == null) {
+                throw new RuntimeException("The Minecraft instance sucks...");
+            }
             GuiWidgetScreen.instance.screenSize = new ScaledResolution(GuiWidgetScreen.instance.minecraftInstance, GuiWidgetScreen.instance.minecraftInstance.displayWidth, GuiWidgetScreen.instance.minecraftInstance.displayHeight);
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             e.printStackTrace();
-            final RuntimeException e2 = new RuntimeException("error loading theme");
-            e2.initCause(e);
-            throw e2;
+            throw new RuntimeException("error loading theme", e);
         }
         return GuiWidgetScreen.instance;
     }
-    
+
     public GuiWidgetScreen() {
         this.currentWidget = null;
         this.gui = null;
@@ -68,7 +72,7 @@ public class GuiWidgetScreen extends Widget
         this.screenSize = null;
         this.theme = null;
     }
-    
+
     public void layout() {
         this.screenSize = new ScaledResolution(this.minecraftInstance, this.minecraftInstance.displayWidth, this.minecraftInstance.displayHeight);
         if (this.currentWidget != null) {
@@ -78,12 +82,12 @@ public class GuiWidgetScreen extends Widget
             this.currentWidget.setPosition(0, 0);
         }
     }
-    
+
     public void resetScreen() {
         this.removeAllChildren();
         this.currentWidget = null;
     }
-    
+
     public void setScreen(final Widget widget) {
         this.gui.resyncTimerAfterPause();
         this.gui.clearKeyboardState();
