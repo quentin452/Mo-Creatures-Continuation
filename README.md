@@ -12,7 +12,7 @@ Go here : [Wiki](https://github.com/quentin452/Mo-Creatures-Continuation/wiki)
 
 [*Github*](https://github.com/quentin452/Mo-Creatures-Continuation) 
 
-[*Curseforge*](https://github.com/quentin452/mo-creatures-continuation) 
+[*Curseforge*](https://legacy.curseforge.com/minecraft/mc-mods/mo-creatures-continuation) 
 
 # Requirement
 
