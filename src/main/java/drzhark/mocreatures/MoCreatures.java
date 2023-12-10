@@ -1,15 +1,6 @@
 package drzhark.mocreatures;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
-
 import com.mojang.authlib.GameProfile;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -23,13 +14,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
-import drzhark.mocreatures.block.MoCBlockDirt;
-import drzhark.mocreatures.block.MoCBlockGrass;
-import drzhark.mocreatures.block.MoCBlockLeaf;
-import drzhark.mocreatures.block.MoCBlockLog;
-import drzhark.mocreatures.block.MoCBlockPlanks;
-import drzhark.mocreatures.block.MoCBlockRock;
-import drzhark.mocreatures.block.MoCBlockTallGrass;
+import drzhark.mocreatures.block.*;
 import drzhark.mocreatures.client.MoCClientTickHandler;
 import drzhark.mocreatures.client.MoCCreativeTabs;
 import drzhark.mocreatures.client.handlers.MoCKeyHandler;
@@ -39,86 +24,12 @@ import drzhark.mocreatures.command.CommandMoCTP;
 import drzhark.mocreatures.command.CommandMoCreatures;
 import drzhark.mocreatures.dimension.BiomeGenWyvernLair;
 import drzhark.mocreatures.dimension.WorldProviderWyvernEnd;
-import drzhark.mocreatures.entity.ambient.MoCEntityAnt;
-import drzhark.mocreatures.entity.ambient.MoCEntityBee;
-import drzhark.mocreatures.entity.ambient.MoCEntityButterfly;
-import drzhark.mocreatures.entity.ambient.MoCEntityCrab;
-import drzhark.mocreatures.entity.ambient.MoCEntityCricket;
-import drzhark.mocreatures.entity.ambient.MoCEntityDragonfly;
-import drzhark.mocreatures.entity.ambient.MoCEntityFirefly;
-import drzhark.mocreatures.entity.ambient.MoCEntityFly;
-import drzhark.mocreatures.entity.ambient.MoCEntityMaggot;
-import drzhark.mocreatures.entity.ambient.MoCEntityRoach;
-import drzhark.mocreatures.entity.ambient.MoCEntitySnail;
-import drzhark.mocreatures.entity.aquatic.MoCEntityDolphin;
-import drzhark.mocreatures.entity.aquatic.MoCEntityFishy;
-import drzhark.mocreatures.entity.aquatic.MoCEntityJellyFish;
-import drzhark.mocreatures.entity.aquatic.MoCEntityMediumFish;
-import drzhark.mocreatures.entity.aquatic.MoCEntityPiranha;
-import drzhark.mocreatures.entity.aquatic.MoCEntityRay;
-import drzhark.mocreatures.entity.aquatic.MoCEntityShark;
-import drzhark.mocreatures.entity.aquatic.MoCEntitySmallFish;
-import drzhark.mocreatures.entity.item.MoCEntityEgg;
-import drzhark.mocreatures.entity.item.MoCEntityFishBowl;
-import drzhark.mocreatures.entity.item.MoCEntityKittyBed;
-import drzhark.mocreatures.entity.item.MoCEntityLitterBox;
-import drzhark.mocreatures.entity.item.MoCEntityPlatform;
-import drzhark.mocreatures.entity.item.MoCEntityThrowableRock;
-import drzhark.mocreatures.entity.monster.MoCEntityFlameWraith;
-import drzhark.mocreatures.entity.monster.MoCEntityGolem;
-import drzhark.mocreatures.entity.monster.MoCEntityHellRat;
-import drzhark.mocreatures.entity.monster.MoCEntityHorseMob;
-import drzhark.mocreatures.entity.monster.MoCEntityMiniGolem;
-import drzhark.mocreatures.entity.monster.MoCEntityOgre;
-import drzhark.mocreatures.entity.monster.MoCEntityRat;
-import drzhark.mocreatures.entity.monster.MoCEntityScorpion;
-import drzhark.mocreatures.entity.monster.MoCEntitySilverSkeleton;
-import drzhark.mocreatures.entity.monster.MoCEntityWWolf;
-import drzhark.mocreatures.entity.monster.MoCEntityWerewolf;
-import drzhark.mocreatures.entity.monster.MoCEntityWraith;
-import drzhark.mocreatures.entity.passive.MoCEntityBear;
-import drzhark.mocreatures.entity.passive.MoCEntityBigCat;
-import drzhark.mocreatures.entity.passive.MoCEntityBird;
-import drzhark.mocreatures.entity.passive.MoCEntityBoar;
-import drzhark.mocreatures.entity.passive.MoCEntityBunny;
-import drzhark.mocreatures.entity.passive.MoCEntityCrocodile;
-import drzhark.mocreatures.entity.passive.MoCEntityDeer;
-import drzhark.mocreatures.entity.passive.MoCEntityDuck;
-import drzhark.mocreatures.entity.passive.MoCEntityElephant;
-import drzhark.mocreatures.entity.passive.MoCEntityEnt;
-import drzhark.mocreatures.entity.passive.MoCEntityFox;
-import drzhark.mocreatures.entity.passive.MoCEntityGoat;
-import drzhark.mocreatures.entity.passive.MoCEntityHorse;
-import drzhark.mocreatures.entity.passive.MoCEntityKitty;
-import drzhark.mocreatures.entity.passive.MoCEntityKomodo;
-import drzhark.mocreatures.entity.passive.MoCEntityMole;
-import drzhark.mocreatures.entity.passive.MoCEntityMouse;
-import drzhark.mocreatures.entity.passive.MoCEntityOstrich;
-import drzhark.mocreatures.entity.passive.MoCEntityPetScorpion;
-import drzhark.mocreatures.entity.passive.MoCEntityRaccoon;
-import drzhark.mocreatures.entity.passive.MoCEntitySnake;
-import drzhark.mocreatures.entity.passive.MoCEntityTurkey;
-import drzhark.mocreatures.entity.passive.MoCEntityTurtle;
-import drzhark.mocreatures.entity.passive.MoCEntityWyvern;
-import drzhark.mocreatures.item.ItemBuilderHammer;
-import drzhark.mocreatures.item.ItemStaffPortal;
-import drzhark.mocreatures.item.ItemStaffTeleport;
-import drzhark.mocreatures.item.MoCItem;
-import drzhark.mocreatures.item.MoCItemArmor;
-import drzhark.mocreatures.item.MoCItemEgg;
-import drzhark.mocreatures.item.MoCItemFishBowl;
-import drzhark.mocreatures.item.MoCItemFood;
-import drzhark.mocreatures.item.MoCItemHayStack;
-import drzhark.mocreatures.item.MoCItemHorseAmulet;
-import drzhark.mocreatures.item.MoCItemHorseSaddle;
-import drzhark.mocreatures.item.MoCItemKittyBed;
-import drzhark.mocreatures.item.MoCItemLitterBox;
-import drzhark.mocreatures.item.MoCItemPetAmulet;
-import drzhark.mocreatures.item.MoCItemRecord;
-import drzhark.mocreatures.item.MoCItemSugarLump;
-import drzhark.mocreatures.item.MoCItemTurtleSoup;
-import drzhark.mocreatures.item.MoCItemWeapon;
-import drzhark.mocreatures.item.MoCItemWhip;
+import drzhark.mocreatures.entity.ambient.*;
+import drzhark.mocreatures.entity.aquatic.*;
+import drzhark.mocreatures.entity.item.*;
+import drzhark.mocreatures.entity.monster.*;
+import drzhark.mocreatures.entity.passive.*;
+import drzhark.mocreatures.item.*;
 import drzhark.mocreatures.network.MoCMessageHandler;
 import drzhark.mocreatures.utils.MoCLog;
 import net.minecraft.block.Block;
@@ -137,7 +48,6 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
 import net.minecraftforge.common.BiomeDictionary;
@@ -148,6 +58,8 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+
+import java.util.*;
 
 @Mod(modid = MoCreatures.MODID, name = MoCreatures.NAME, version = MoCreatures.VERSION)
 public class MoCreatures {
@@ -163,7 +75,6 @@ public class MoCreatures {
     public static MoCProxy proxy;
     public static final CreativeTabs tabMoC = new MoCCreativeTabs(CreativeTabs.creativeTabArray.length, "MoCreaturesTab");
     public MoCPetMapData mapData;
-    public static boolean isCustomSpawnerLoaded = false;
     public static GameProfile MOCFAKEPLAYER = new GameProfile(UUID.fromString("6E379B45-1111-2222-3333-2FE1A88BCD66"), "[MoCreatures]");
 
     static int MoCEntityID = 7256; // used internally, does not need to be configured by users
@@ -172,8 +83,8 @@ public class MoCreatures {
 
     public static MoCPlayerTracker tracker;
     public static Map<String, MoCEntityData> mocEntityMap = new TreeMap<String, MoCEntityData>(String.CASE_INSENSITIVE_ORDER);
-    public static Map<Class<? extends EntityLiving>, MoCEntityData> entityMap = new HashMap<Class<? extends EntityLiving>, MoCEntityData>();
-    public static Map<Integer, Class<? extends EntityLiving>> instaSpawnerMap = new HashMap<Integer, Class<? extends EntityLiving>>();
+    public static Map<Class<? extends EntityLiving>, MoCEntityData> entityMap = new HashMap<>();
+    public static Map<Integer, Class<? extends EntityLiving>> instaSpawnerMap = new HashMap<>();
     public static List<String> defaultBiomeSupport = new ArrayList<String>();
     public static final String CATEGORY_ITEM_IDS = "item-ids";
 
@@ -410,17 +321,16 @@ public class MoCreatures {
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        isCustomSpawnerLoaded = Loader.isModLoaded("CustomSpawner");
         //ForgeChunkManager.setForcedChunkLoadingCallback(instance, new MoCloadCallback());
         DimensionManager.registerDimension(WyvernLairDimensionID, WyvernLairDimensionID);
         // ***MUST REGISTER BIOMES AT THIS POINT TO MAKE SURE OUR ENTITIES GET ALL BIOMES FROM DICTIONARY****
-        this.WyvernLairBiome = new BiomeGenWyvernLair(MoCreatures.proxy.WyvernBiomeID);
-        this.defaultBiomeSupport.add("biomesop");
-        this.defaultBiomeSupport.add("extrabiomes");
-        this.defaultBiomeSupport.add("highlands");
-        this.defaultBiomeSupport.add("ted80");
-        this.defaultBiomeSupport.add("extrabiomes");
-        this.defaultBiomeSupport.add("minecraft");
+        WyvernLairBiome = new BiomeGenWyvernLair(MoCreatures.proxy.WyvernBiomeID);
+        defaultBiomeSupport.add("biomesop");
+        defaultBiomeSupport.add("extrabiomes");
+        defaultBiomeSupport.add("highlands");
+        defaultBiomeSupport.add("ted80");
+        defaultBiomeSupport.add("extrabiomes");
+        defaultBiomeSupport.add("minecraft");
         registerEntities();
     }
 

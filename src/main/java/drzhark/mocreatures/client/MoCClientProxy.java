@@ -303,7 +303,7 @@ public class MoCClientProxy extends MoCProxy {
         RenderingRegistry.registerEntityRenderingHandler(MoCEntityPiranha.class, new MoCRenderMoC(new MoCModelSmallFish(), 0.1F));
         RenderingRegistry.registerEntityRenderingHandler(MoCEntityEnt.class, new MoCRenderMoC(new MoCModelEnt(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(MoCEntityMole.class, new MoCRenderMoC(new MoCModelMole(), 0.3F));
-        
+
     }
 
     @Override
@@ -315,7 +315,7 @@ public class MoCClientProxy extends MoCProxy {
 
     /**
      * Sets the name client side. Name is synchronized with datawatchers
-     * 
+     *
      * @param player
      * @param mocanimal
      */
@@ -326,7 +326,7 @@ public class MoCClientProxy extends MoCProxy {
 
     }
 
-    
+
 
     @Override
     public void UndeadFX(Entity entity)
@@ -429,7 +429,7 @@ public class MoCClientProxy extends MoCProxy {
             MoCEntityFXVanish FXVanish = new MoCEntityFXVanish(mc.theWorld, newPosX, newPosY, newPosZ, speedX, speedY, speedZ, entity.colorFX(1, entity.getType()), entity.colorFX(2, entity.getType()), entity.colorFX(3, entity.getType()), true);
             mc.effectRenderer.addEffect(FXVanish);
         }
-        
+
     }
 
     @Override
@@ -454,7 +454,7 @@ public class MoCClientProxy extends MoCProxy {
         }
     }
 
-     
+
     @Override
     public void hammerFX(EntityPlayer entity)
     {
@@ -476,10 +476,10 @@ public class MoCClientProxy extends MoCProxy {
             ((EntityFX)hammerFX).setRBGColorF(74F/256F, 145F/256F, 71F/256F);
             mc.effectRenderer.addEffect(hammerFX);
         }
-        
+
     }
-    
-    
+
+
     @Override
     public void teleportFX(EntityPlayer entity)
     {
@@ -499,7 +499,7 @@ public class MoCClientProxy extends MoCProxy {
             MoCEntityFXVanish hammerFX = new MoCEntityFXVanish(mc.theWorld, newPosX, newPosY, newPosZ, speedX, speedY, speedZ, 189F/256F, 110F/256F, 229F/256F, true);
             mc.effectRenderer.addEffect(hammerFX);
         }
-        
+
     }
     @Override
     public int getProxyMode()
@@ -519,7 +519,7 @@ public class MoCClientProxy extends MoCProxy {
     public static MoCSettingBoolean spawnPiranhaS;
     public static MoCSettingInt particleFXS;
     public static WidgetInt particleFXW;
-    
+
     public static MoCSettingBoolean animateTexturesB;
     public static WidgetBoolean animateTexturesW;
 
@@ -572,7 +572,7 @@ public class MoCClientProxy extends MoCProxy {
     public static WidgetInt fireOgreChanceW;
     public static MoCSettingBoolean golemDestroyBlocksB;
     public static WidgetBoolean golemDestroyBlocksW;
-    
+
     public MoCSettings guiapiSettings;
     public ModSettingScreen MoCScreen;
 
@@ -586,7 +586,7 @@ public class MoCClientProxy extends MoCProxy {
 
     public static MoCSettingBoolean modifyVanillaSpawnsB;
     public static WidgetBoolean modifyVanillaSpawnsW;
-    
+
     public static MoCSettingBoolean debugB;
     public static WidgetBoolean debugW;
 
@@ -697,44 +697,6 @@ public class MoCClientProxy extends MoCProxy {
         MoCScreen.append(GuiApiHelper.makeButton("Water Mobs", initWaterMobWindow, true));
         MoCScreen.append(GuiApiHelper.makeButton("Ambient", initAmbientWindow, true));
         //MoCScreen.append(GuiApiHelper.makeButton("Reset to Defaults", initDefaultsWindow, true));
-        //**********************************************************//
-
-        //******************** Creatures ********************//
-        creatureOptions = new WidgetClassicTwocolumn(new Widget[0]);
-        // create buttons
-        if (!MoCreatures.isCustomSpawnerLoaded)
-        {
-            creatureOptions.add(GuiApiHelper.makeButton("Spawn Settings", new ModAction(this, "showCreatureSpawnSettings", new Class[0]), true));
-        }
-        creatureOptions.add(GuiApiHelper.makeButton("General Settings", new ModAction(this, "showCreatureSettings", new Class[0]), true));
-        //**********************************************************//
-
-
-        //******************** Mobs ********************//
-        mobOptions = new WidgetClassicTwocolumn(new Widget[0]);
-        if (!MoCreatures.isCustomSpawnerLoaded)
-        {
-            mobOptions.add(GuiApiHelper.makeButton("Spawn Settings", new ModAction(this, "showMobSpawnSettings", new Class[0]), true));
-        }
-        mobOptions.add(GuiApiHelper.makeButton("General Settings", new ModAction(this, "showMobSettings", new Class[0]), true));
-        //**********************************************************//
-
-
-        //******************** Water Mobs ********************//
-        waterOptions = new WidgetClassicTwocolumn(new Widget[0]);
-        if (!MoCreatures.isCustomSpawnerLoaded)
-        {
-            waterOptions.add(GuiApiHelper.makeButton("Spawn Settings", new ModAction(this, "showWaterSpawnSettings", new Class[0]), true));
-        }
-        waterOptions.add(GuiApiHelper.makeButton("General Settings", new ModAction(this, "showWaterSettings", new Class[0]), true));
-        //**********************************************************//
-
-        //******************** Ambient ********************//
-        ambientOptions = new WidgetClassicTwocolumn(new Widget[0]);
-        if (!MoCreatures.isCustomSpawnerLoaded)
-        {
-            ambientOptions.add(GuiApiHelper.makeButton("Spawn Settings", new ModAction(this, "showAmbientSpawnSettings", new Class[0]), true));
-        }
         //**********************************************************//
 
         //******************** Reset All ********************//
@@ -1036,7 +998,7 @@ public class MoCClientProxy extends MoCProxy {
 
         GuiModScreen.show(IDSettingsWindow);
     }
-    
+
     public void showDefaults()
     {
         if (defaultsWindow == null)
@@ -1092,7 +1054,7 @@ public class MoCClientProxy extends MoCProxy {
     public void showInstaSpawner()
     {
         widgetInstaSpawnerColumn = new WidgetSinglecolumn(new Widget[0]);
-        
+
         ArrayList<String> moCreaturesList = new ArrayList<String>();
         for (Map.Entry<String, MoCEntityData> entityEntry : MoCreatures.mocEntityMap.entrySet())
         {
@@ -1107,8 +1069,8 @@ public class MoCClientProxy extends MoCProxy {
         instaSpawnerWindow = new WidgetSimplewindow(widgetInstaSpawnerColumn, "Select the Creature to Spawn");
         GuiModScreen.show(instaSpawnerWindow);
     }
-    
-    
+
+
     @SuppressWarnings("unused")
     public void instaSpawn(MoCSettingList setting, ArrayList<String> aList)
     {
@@ -1125,7 +1087,7 @@ public class MoCClientProxy extends MoCProxy {
                 }
                 catch (Exception ex)
                 {
-                    
+
                 }
             }
         }

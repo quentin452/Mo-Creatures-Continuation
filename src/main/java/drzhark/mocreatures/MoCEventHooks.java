@@ -55,7 +55,7 @@ public class MoCEventHooks {
         }
         // make sure doMobSpawning is on if CMS is not installed
         GameRules gameRule = event.world.getGameRules();
-        if (gameRule != null && !MoCreatures.isCustomSpawnerLoaded) {
+        if (gameRule != null) {
             gameRule.setOrCreateGameRule("doMobSpawning", "true");
         }
     }
@@ -85,7 +85,7 @@ public class MoCEventHooks {
     @SubscribeEvent
     public void onLivingDespawn(LivingSpawnEvent.AllowDespawn event)
     {
-        if (MoCreatures.proxy.forceDespawns && !MoCreatures.isCustomSpawnerLoaded)
+        if (MoCreatures.proxy.forceDespawns)
         {
             // try to guess what we should ignore
             // Monsters
@@ -94,12 +94,10 @@ public class MoCEventHooks {
                 return;
             }
             // Tameable
-            if (event.entityLiving instanceof EntityTameable)
-            {
-                if (((EntityTameable)event.entityLiving).isTamed())
+            if (event.entityLiving instanceof EntityTameable && (((EntityTameable)event.entityLiving).isTamed()))
                 {
                     return;
-                }
+
             }
             // Farm animals
             if (event.entityLiving instanceof EntitySheep || event.entityLiving instanceof EntityPig || event.entityLiving instanceof EntityCow || event.entityLiving instanceof EntityChicken)

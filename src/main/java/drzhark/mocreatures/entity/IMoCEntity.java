@@ -5,92 +5,92 @@ import net.minecraft.util.ResourceLocation;
 
 public interface IMoCEntity {
 
-    public void riderIsDisconnecting(boolean flag);// = false;
+    void riderIsDisconnecting(boolean flag);// = false;
 
-    public boolean forceUpdates();
+    boolean forceUpdates();
 
-    public void selectType();
+    void selectType();
 
-    public String getName();
+    String getName();
 
-    public void setName(String name);
+    void setName(String name);
 
-    public boolean getIsTamed();
+    boolean getIsTamed();
 
-    public void setTamed(boolean flag);
+    void setTamed(boolean flag);
 
-    public boolean getIsAdult();
+    boolean getIsAdult();
 
-    public void setAdult(boolean flag);
+    void setAdult(boolean flag);
 
-    public boolean checkSpawningBiome();
+    boolean checkSpawningBiome();
 
-    public boolean getCanSpawnHere();
+    boolean getCanSpawnHere();
 
     /**
      * Used to synchronize animations between server and clients
-     * 
+     *
      * @param i
      *            = animationType
      */
-    public void performAnimation(int i);
+    void performAnimation(int i);
 
-    public boolean renderName();
+    boolean renderName();
 
-    public int nameYOffset();
+    int nameYOffset();
 
     /**
      * Used to ajust the Yoffset when using ropes
-     * 
+     *
      * @return
      */
-    public double roperYOffset();
+    double roperYOffset();
 
     /**
      * The entity holding the rope
-     * 
+     *
      * @return
      */
-    public Entity getRoper();
+    Entity getRoper();
 
-    public boolean updateMount();
+    boolean updateMount();
 
     /**
      * method used to sync jump client/server
      */
-    public void makeEntityJump();
+    void makeEntityJump();
 
-    public void makeEntityDive();
+    void makeEntityDive();
 
-    public float getSizeFactor();
+    float getSizeFactor();
 
-    public float getAdjustedYOffset();
+    float getAdjustedYOffset();
 
-    public String getOwnerName();
+    String getOwnerName();
 
-    public void setOwner(String username);
+    void setOwner(String username);
 
-    public void setArmorType(byte i);
-    
-    public int getType();
+    void setArmorType(byte i);
 
-    public void setType(int i);
+    int getType();
 
-    public void dismountEntity();
+    void setType(int i);
 
-    public int rollRotationOffset();
+    void dismountEntity();
 
-    public int pitchRotationOffset();
+    int rollRotationOffset();
 
-    public void setEdad(int i);
+    int pitchRotationOffset();
 
-    public int getEdad();
+    void setEdad(int i);
 
-    public int yawRotationOffset();
+    int getEdad();
 
-    public float getAdjustedZOffset();
+    int yawRotationOffset();
 
-    public float getAdjustedXOffset();
+    float getAdjustedZOffset();
 
-    public ResourceLocation getTexture();
+    float getAdjustedXOffset();
+
+    ResourceLocation getTexture();
 }
