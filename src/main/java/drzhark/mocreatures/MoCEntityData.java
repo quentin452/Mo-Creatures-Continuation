@@ -135,9 +135,11 @@ public class MoCEntityData {
         this.entityName = name;
     }
 
-    public void setCanSpawn(boolean flag)
-    {
+    public void setCanSpawn(boolean flag) {
         this.canSpawn = flag;
+        if (!flag) {
+            setFrequency(0);
+        }
     }
 
     public boolean getCanSpawn()
