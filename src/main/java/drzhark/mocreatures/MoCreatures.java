@@ -82,10 +82,10 @@ public class MoCreatures {
     public static BiomeGenBase WyvernLairBiome;
 
     public static MoCPlayerTracker tracker;
-    public static Map<String, MoCEntityData> mocEntityMap = new TreeMap<String, MoCEntityData>(String.CASE_INSENSITIVE_ORDER);
+    public static Map<String, MoCEntityData> mocEntityMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     public static Map<Class<? extends EntityLiving>, MoCEntityData> entityMap = new HashMap<>();
     public static Map<Integer, Class<? extends EntityLiving>> instaSpawnerMap = new HashMap<>();
-    public static List<String> defaultBiomeSupport = new ArrayList<String>();
+    public static List<String> defaultBiomeSupport = new ArrayList<>();
     public static final String CATEGORY_ITEM_IDS = "item-ids";
 
     /**

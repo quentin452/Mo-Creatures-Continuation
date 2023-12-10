@@ -99,7 +99,7 @@ public class MoCSettings extends ModSettings {
      * must be called after all settings are added for loading/saving to work.
      * loads from .minecraft/mods/$backendname/guiconfig.properties if it
      * exists. coming soon: set name of config file
-     * 
+     *
      * @param context
      *            The context to load from.
      */
@@ -112,7 +112,7 @@ public class MoCSettings extends ModSettings {
      * called every time a setting is changed saves settings file to
      * .minecraft/mods/$backendname/guiconfig.properties coming soon: set name
      * of config file
-     * 
+     *
      * @param context
      *            The context to save.
      */
@@ -129,85 +129,66 @@ public class MoCSettings extends ModSettings {
             }
             // Find setting
             Setting z = null;
-            for (int i = 0; i < Settings.size(); i++) {
-                z = (Setting) Settings.get(i);
+            for (Setting setting : Settings) {
+                z = setting;
                 if (z.backendName.equals(backendName)) break;
             }
 
             if (config == MoCreatures.proxy.mocEntityConfig)
             {
-                OUTER: for (Map.Entry<String, MoCProperty> propEntry : config.getCategory(category.toLowerCase()).getValues().entrySet())
-                {
+                for (Map.Entry<String, MoCProperty> propEntry : config.getCategory(category.toLowerCase()).getValues().entrySet()) {
                     // handle entity config
                     MoCEntityData entityData = MoCreatures.mocEntityMap.get(category);
 
-                    if (entityData != null && z.backendName.contains(propEntry.getKey()))
-                    {
+                    if (entityData != null && z.backendName.contains(propEntry.getKey())) {
                         MoCProperty property = propEntry.getValue();
-                        if (propEntry.getKey().equalsIgnoreCase("type"))
-                        {
+                        if (propEntry.getKey().equalsIgnoreCase("type")) {
                             if (MoCreatures.proxy.debug) MoCLog.logger.info("setting type to " + z.toString(context));
 
-                            if (entityData.getType() != null)
-                            {
-                                if (z.toString(context).equalsIgnoreCase("CREATURE"))
-                                {
+                            if (entityData.getType() != null) {
+                                if (z.toString(context).equalsIgnoreCase("CREATURE")) {
                                     entityData.setType(EnumCreatureType.creature);
-                                }
-                                else if (z.toString(context).equalsIgnoreCase("MONSTER"))
-                                {
+                                } else if (z.toString(context).equalsIgnoreCase("MONSTER")) {
                                     entityData.setType(EnumCreatureType.monster);
-                                }
-                                else if (z.toString(context).equalsIgnoreCase("WATERCREATURE"))
-                                {
+                                } else if (z.toString(context).equalsIgnoreCase("WATERCREATURE")) {
                                     entityData.setType(EnumCreatureType.waterCreature);
-                                }
-                                else if (z.toString(context).equalsIgnoreCase("AMBIENT"))
-                                {
+                                } else if (z.toString(context).equalsIgnoreCase("AMBIENT")) {
                                     entityData.setType(EnumCreatureType.ambient);
                                 }
                             }
                             property.value = z.toString(context);
-                            break OUTER;
-                        }
-                        else if (propEntry.getKey().equalsIgnoreCase("frequency"))
-                        {
-                            if (MoCreatures.proxy.debug) MoCLog.logger.info("setting frequency to " + z.toString(context));
+                            break;
+                        } else if (propEntry.getKey().equalsIgnoreCase("frequency")) {
+                            if (MoCreatures.proxy.debug)
+                                MoCLog.logger.info("setting frequency to " + z.toString(context));
                             entityData.setFrequency(Integer.parseInt(z.toString(context)));
                             property.value = z.toString(context);
-                            break OUTER;
-                        }
-                        else if (propEntry.getKey().equalsIgnoreCase("minspawn"))
-                        {
+                            break;
+                        } else if (propEntry.getKey().equalsIgnoreCase("minspawn")) {
                             if (MoCreatures.proxy.debug) MoCLog.logger.info("setting min to " + z.toString(context));
                             entityData.setMinSpawn(Integer.parseInt(z.toString(context)));
                             property.value = z.toString(context);
-                            break OUTER;
-                        }
-                        else if (propEntry.getKey().equalsIgnoreCase("maxspawn"))
-                        {
+                            break;
+                        } else if (propEntry.getKey().equalsIgnoreCase("maxspawn")) {
                             if (MoCreatures.proxy.debug) MoCLog.logger.info("setting max to " + z.toString(context));
                             entityData.setMaxSpawn(Integer.parseInt(z.toString(context)));
                             property.value = z.toString(context);
-                            break OUTER;
-                        }
-                        else if (propEntry.getKey().equalsIgnoreCase("maxchunk"))
-                        {
-                                if (MoCreatures.proxy.debug) MoCLog.logger.info("setting chunk to " + z.toString(context));
-                                entityData.setMaxInChunk(Integer.parseInt(z.toString(context)));
-                                property.value = z.toString(context);
-                                break OUTER;
-                        }
-                        else if (propEntry.getKey().equalsIgnoreCase("canspawn"))
-                        {
-                                if (MoCreatures.proxy.debug) MoCLog.logger.info("setting canspawn to " + z.toString(context));
-                                entityData.setCanSpawn(Boolean.parseBoolean(z.toString(context)));
-                                property.value = z.toString(context);
-                                break OUTER;
+                            break;
+                        } else if (propEntry.getKey().equalsIgnoreCase("maxchunk")) {
+                            if (MoCreatures.proxy.debug) MoCLog.logger.info("setting chunk to " + z.toString(context));
+                            entityData.setMaxInChunk(Integer.parseInt(z.toString(context)));
+                            property.value = z.toString(context);
+                            break;
+                        } else if (propEntry.getKey().equalsIgnoreCase("canspawn")) {
+                            if (MoCreatures.proxy.debug)
+                                MoCLog.logger.info("setting canspawn to " + z.toString(context));
+                            entityData.setCanSpawn(Boolean.parseBoolean(z.toString(context)));
+                            property.value = z.toString(context);
+                            break;
                         }
                         // TODO - update spawnlistentry on vanilla
                     }
-                 }
+                }
             }
             else
             {

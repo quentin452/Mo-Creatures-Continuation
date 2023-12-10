@@ -17,14 +17,14 @@ public class MoCEntityData {
     private String entityName;
     private boolean canSpawn = true;
     private int entityId;
-    private List<Type> biomeTypes;
+    private final List<Type> biomeTypes;
     @SideOnly(Side.CLIENT)
     private WidgetSimplewindow entityWindow;
 
-    private int frequency = 8;
-    private int minGroup = 1;
-    private int maxGroup = 1;
-    private int maxSpawnInChunk = 1;
+    private int frequency;
+    private int minGroup;
+    private int maxGroup;
+    private int maxSpawnInChunk;
 
     public MoCEntityData(String name,  int maxchunk, EnumCreatureType type, SpawnListEntry spawnListEntry, List<Type> biomeTypes)
     {
@@ -92,14 +92,7 @@ public class MoCEntityData {
 
     public void setFrequency(int freq)
     {
-        if (freq <= 0)
-        {
-            this.frequency = 0;
-        }
-        else 
-        {
-            this.frequency = freq;
-        }
+        this.frequency = Math.max(freq, 0);
     }
 
     public int getMinSpawn()
@@ -109,14 +102,7 @@ public class MoCEntityData {
 
     public void setMinSpawn(int min)
     {
-        if (min <= 0)
-        {
-            this.minGroup = 0;
-        }
-        else 
-        {
-            this.minGroup = min;
-        }
+        this.minGroup = Math.max(min, 0);
     }
 
     public int getMaxSpawn()
@@ -126,14 +112,7 @@ public class MoCEntityData {
 
     public void setMaxSpawn(int max)
     {
-        if (max <= 0)
-        {
-            this.maxGroup = 0;
-        }
-        else 
-        {
-            this.maxGroup = max;
-        }
+        this.maxGroup = Math.max(max, 0);
     }
 
     public int getMaxInChunk()
@@ -143,14 +122,7 @@ public class MoCEntityData {
 
     public void setMaxInChunk(int max)
     {
-        if (max <= 0)
-        {
-            this.maxSpawnInChunk = 0;
-        }
-        else 
-        {
-            this.maxSpawnInChunk = max;
-        }
+        this.maxSpawnInChunk = Math.max(max, 0);
     }
 
     public String getEntityName()
