@@ -116,7 +116,7 @@ public class MoCProxy implements IGuiHandler {
     }
 
     //----------------CONFIG INITIALIZATION
-    public void ConfigInit(FMLPreInitializationEvent event) 
+    public void ConfigInit(FMLPreInitializationEvent event)
     {
         mocSettingsConfig = new MoCConfiguration(new File(event.getSuggestedConfigurationFile().getParent(), MoCreatures.MODID + File.separator + "MoCSettings.cfg"));
         mocEntityConfig = new MoCConfiguration(new File(event.getSuggestedConfigurationFile().getParent(), MoCreatures.MODID + File.separator + "MoCreatures.cfg"));
@@ -148,11 +148,11 @@ public class MoCProxy implements IGuiHandler {
     public void MaterializeFX(MoCEntityHorse entity) {}
 
     public void VacuumFX(MoCEntityGolem entity) {}
-    
+
     public void hammerFX(EntityPlayer entityplayer) {}
 
     public void teleportFX(EntityPlayer entity) {}
-    
+
     public boolean getAnimateTextures() {
         return false;
     }
@@ -199,6 +199,7 @@ public class MoCProxy implements IGuiHandler {
 
     public void readMocConfigValues()
     {
+        //todo need a rewrite to fix https://github.com/quentin452/Mo-Creatures-Continuation/issues/11
         if (MoCreatures.mocEntityMap != null && !MoCreatures.mocEntityMap.isEmpty())
         {
             for (MoCEntityData entityData : MoCreatures.mocEntityMap.values())
@@ -252,7 +253,7 @@ public class MoCProxy implements IGuiHandler {
     /**
      * Reads values from file
      */
-    public void readGlobalConfigValues() 
+    public void readGlobalConfigValues()
     {
         // client-side only
         displayPetHealth = mocSettingsConfig.get(CATEGORY_MOC_GENERAL_SETTINGS, "displayPetHealth", true, "Shows Pet Health").getBoolean(true);
@@ -322,7 +323,7 @@ public class MoCProxy implements IGuiHandler {
 
     /***
      * Dummy to know if is dedicated server or not
-     * 
+     *
      * @return
      */
     public int getProxyMode() {
@@ -331,7 +332,7 @@ public class MoCProxy implements IGuiHandler {
 
     /**
      * Sets the name client side. Name is synchronized with datawatchers
-     * 
+     *
      * @param player
      * @param mocanimal
      */

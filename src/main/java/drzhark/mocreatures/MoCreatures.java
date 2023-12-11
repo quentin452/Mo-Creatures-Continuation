@@ -433,7 +433,7 @@ public class MoCreatures {
          * 12623485 azul bse huevos acuaticos 5665535 azul brillane 33023 morado
          * fucsia 9320590 lila 7434694 morado lila 6053069
          */
-
+        //todo need a rewrite to fix https://github.com/quentin452/Mo-Creatures-Continuation/issues/11
         // ambients
         mocEntityMap.put("Ant", new MoCEntityData("Ant", 4, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityAnt.class, 7, 1, 4), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
         mocEntityMap.put("Bee", new MoCEntityData("Bee", 3, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityBee.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS))));
