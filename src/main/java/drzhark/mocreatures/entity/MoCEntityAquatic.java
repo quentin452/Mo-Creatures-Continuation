@@ -897,7 +897,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
     @Override
     public boolean getCanSpawnHere()
     {
-        return MoCreatures.entityMap.get(this.getClass()).getFrequency() > 0 && this.worldObj.checkNoEntityCollision(this.boundingBox);
+        return this.worldObj.checkNoEntityCollision(this.boundingBox);
     }
 
     @Override
@@ -917,7 +917,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
     {
         Entity entity = damagesource.getEntity();
         //this avoids damage done by Players to a tamed creature that is not theirs
-        if (MoCreatures.proxy.enableOwnership && getOwnerName() != null && !getOwnerName().equals("") && entity != null && entity instanceof EntityPlayer && !((EntityPlayer) entity).getCommandSenderName().equals(getOwnerName()) && !MoCTools.isThisPlayerAnOP(((EntityPlayer) entity))) { return false; }
+        if (MoCreatures.proxy.enableOwnership && getOwnerName() != null && !getOwnerName().isEmpty() && entity instanceof EntityPlayer && !((EntityPlayer) entity).getCommandSenderName().equals(getOwnerName()) && !MoCTools.isThisPlayerAnOP(((EntityPlayer) entity))) { return false; }
 
         //to prevent tamed aquatics from getting block damage
         if (getIsTamed() && damagesource.getDamageType().equalsIgnoreCase("inWall"))

@@ -3,6 +3,7 @@ package drzhark.mocreatures.dimension;
 import java.util.List;
 import java.util.Random;
 
+import drzhark.mocreatures.MoCProxy;
 import drzhark.mocreatures.entity.ambient.*;
 import drzhark.mocreatures.entity.aquatic.*;
 import drzhark.mocreatures.entity.item.MoCEntityEgg;
@@ -31,9 +32,16 @@ public class BiomeGenWyvernLair extends BiomeGenBase
         spawnableCreatureList.clear();
         spawnableMonsterList.clear();
         spawnableWaterCreatureList.clear();
-        spawnableCreatureList.add(new SpawnListEntry(MoCEntitySnake.class, 6, 1, 2));
-        spawnableCreatureList.add(new SpawnListEntry(MoCEntityWyvern.class, 60, 5, 15));
-        spawnableCreatureList.add(new SpawnListEntry(MoCEntityBunny.class, 8, 2, 3));
+        // todo add modded entities in the config
+        if(MoCProxy.SnakeSpawn){
+        spawnableCreatureList.add(new SpawnListEntry(MoCEntitySnake.class, MoCProxy.SnakeSpawnWeight, MoCProxy.SnakeMinChunk, MoCProxy.SnakeMaxChunk));
+        }
+        if(MoCProxy.WyvernSpawn){
+        spawnableCreatureList.add(new SpawnListEntry(MoCEntityWyvern.class, MoCProxy.WyvernSpawnWeight, MoCProxy.WyvernMinChunk, MoCProxy.WyvernMaxChunk));
+        }
+        if(MoCProxy.BunnySpawn){
+        spawnableCreatureList.add(new SpawnListEntry(MoCEntityBunny.class, MoCProxy.BunnySpawnWeight, MoCProxy.BunnyMinChunk, MoCProxy.BunnyMaxChunk));
+        }
         spawnableCaveCreatureList.add(new SpawnListEntry(EntityBat.class, 4, 1, 4));
         topBlock = MoCreatures.mocGrass;
         fillerBlock = MoCreatures.mocDirt;

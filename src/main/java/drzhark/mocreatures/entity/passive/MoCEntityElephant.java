@@ -1109,7 +1109,7 @@ public class MoCEntityElephant extends MoCEntityTameableAnimal {
     @Override
     public boolean getCanSpawnHere()
     {
-        return (MoCreatures.entityMap.get(this.getClass()).getFrequency() > 0) && getCanSpawnHereCreature() && getCanSpawnHereLiving();
+        return getCanSpawnHereLiving();
     }
 
     @Override

@@ -39,6 +39,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityList.EntityEggInfo;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -285,11 +286,9 @@ public class MoCreatures {
     public static Item fishbowl_9;
     public static Item fishbowl_10;
     private void checkForForbiddenMods() {
-
         if(FMLCommonHandler.instance().findContainerFor("increasemobs") != null) {
             throw new RuntimeException("Pls remove Increase Mobs when using Mo' Creatures cause extreme FPS + TPS lags due to high quantity of mobs spawning");
         }
-
     }
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -433,86 +432,99 @@ public class MoCreatures {
          * 12623485 azul bse huevos acuaticos 5665535 azul brillane 33023 morado
          * fucsia 9320590 lila 7434694 morado lila 6053069
          */
-        //todo need a rewrite to fix https://github.com/quentin452/Mo-Creatures-Continuation/issues/11
+        proxy.readMocConfigValues();
         // ambients
-        mocEntityMap.put("Ant", new MoCEntityData("Ant", 4, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityAnt.class, 7, 1, 4), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Bee", new MoCEntityData("Bee", 3, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityBee.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Roach", new MoCEntityData("Roach", 4, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityRoach.class, 4, 1, 4), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("ButterFly", new MoCEntityData("ButterFly", 3, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityButterfly.class, 8, 1, 3), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Crab", new MoCEntityData("Crab", 2, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityCrab.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.BEACH, Type.WATER))));
-        mocEntityMap.put("Cricket", new MoCEntityData("Cricket", 2, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityCricket.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP))));
-        mocEntityMap.put("DragonFly", new MoCEntityData("DragonFly", 2, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityDragonfly.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.BEACH))));
-        mocEntityMap.put("Firefly", new MoCEntityData("Firefly", 3, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityFirefly.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP))));
-        mocEntityMap.put("Fly", new MoCEntityData("Fly", 2, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityFly.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Maggot", new MoCEntityData("Maggot", 2, EnumCreatureType.ambient, new SpawnListEntry(MoCEntityMaggot.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SWAMP))));
-        mocEntityMap.put("Snail", new MoCEntityData("Snail", 2, EnumCreatureType.ambient, new SpawnListEntry(MoCEntitySnail.class, 7, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS))));
-        // creatures
-        mocEntityMap.put("Bear", new MoCEntityData("Bear", 4, EnumCreatureType.creature, new SpawnListEntry(MoCEntityBear.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.FROZEN))));
-        mocEntityMap.put("BigCat", new MoCEntityData("BigCat", 4, EnumCreatureType.creature, new SpawnListEntry(MoCEntityBigCat.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.FROZEN))));
-        mocEntityMap.put("Bird", new MoCEntityData("Bird", 4, EnumCreatureType.creature, new SpawnListEntry(MoCEntityBird.class, 15, 2, 3), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Boar", new MoCEntityData("Boar", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityBoar.class, 8, 2, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS))));
-        mocEntityMap.put("Bunny", new MoCEntityData("Bunny", 4, EnumCreatureType.creature, new SpawnListEntry(MoCEntityBunny.class, 8, 2, 3), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.FROZEN))));
-        mocEntityMap.put("Crocodile", new MoCEntityData("Crocodile", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityCrocodile.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.SWAMP))));
-        mocEntityMap.put("Deer", new MoCEntityData("Deer", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityDeer.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.PLAINS))));
-        mocEntityMap.put("Duck", new MoCEntityData("Duck", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityDuck.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS))));
-        mocEntityMap.put("Elephant", new MoCEntityData("Elephant", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityElephant.class, 4, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.PLAINS, Type.FROZEN))));
-        mocEntityMap.put("Ent", new MoCEntityData("Ent", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityEnt.class, 4, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS))));
-        mocEntityMap.put("Fox", new MoCEntityData("Fox", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityFox.class, 8, 1, 1), new ArrayList<>(Arrays.asList(Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.FROZEN))));
-        mocEntityMap.put("Goat", new MoCEntityData("Goat", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityGoat.class, 8, 1, 3), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Kitty", new MoCEntityData("Kitty", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityKitty.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.PLAINS))));
-        mocEntityMap.put("KomodoDragon", new MoCEntityData("KomodoDragon", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityKomodo.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.SWAMP))));
-        mocEntityMap.put("Mole", new MoCEntityData("Mole", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityMole.class, 7, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.PLAINS))));
-        mocEntityMap.put("Mouse", new MoCEntityData("Mouse", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityMouse.class, 7, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Ostrich", new MoCEntityData("Ostrich", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityOstrich.class, 4, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.PLAINS))));
-        mocEntityMap.put("Raccoon", new MoCEntityData("Raccoon", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityRaccoon.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Snake", new MoCEntityData("Snake", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntitySnake.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Turkey", new MoCEntityData("Turkey", 2, EnumCreatureType.creature, new SpawnListEntry(MoCEntityTurkey.class, 8, 1, 2), new ArrayList<>(Arrays.asList(Type.PLAINS))));
-        mocEntityMap.put("Turtle", new MoCEntityData("Turtle", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityTurtle.class, 6, 1, 2), new ArrayList<>(Arrays.asList(Type.JUNGLE, Type.SWAMP))));
-        mocEntityMap.put("WildHorse", new MoCEntityData("WildHorse", 4, EnumCreatureType.creature, new SpawnListEntry(MoCEntityHorse.class, 8, 1, 4), new ArrayList<>(Arrays.asList(Type.FOREST, Type.HILLS, Type.MOUNTAIN, Type.PLAINS))));
-        mocEntityMap.put("Wyvern", new MoCEntityData("Wyvern", 3, EnumCreatureType.creature, new SpawnListEntry(MoCEntityWyvern.class, 8, 1, 3), new ArrayList<>()));
-        // water creatures
-        mocEntityMap.put("Dolphin", new MoCEntityData("Dolphin", 3, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityDolphin.class, 6, 1, 1), new ArrayList<>(Arrays.asList(Type.BEACH, Type.WATER))));
-        mocEntityMap.put("Fishy", new MoCEntityData("Fishy", 6, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityFishy.class, 12, 1, 6), new ArrayList<>(Arrays.asList(Type.BEACH, Type.SWAMP, Type.WATER))));
-        mocEntityMap.put("JellyFish", new MoCEntityData("JellyFish", 4, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityJellyFish.class, 8, 1, 4), new ArrayList<>(Arrays.asList(Type.WATER))));
-        mocEntityMap.put("MediumFish", new MoCEntityData("MediumFish", 4, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityMediumFish.class, 10, 1, 4), new ArrayList<>(Arrays.asList(Type.BEACH, Type.SWAMP, Type.WATER))));
-        mocEntityMap.put("Piranha", new MoCEntityData("Piranha", 4, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityPiranha.class, 4, 1, 3), new ArrayList<>(Arrays.asList(Type.BEACH, Type.SWAMP, Type.WATER))));
-        mocEntityMap.put("Ray", new MoCEntityData("Ray", 3, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityRay.class, 10, 1, 2), new ArrayList<>(Arrays.asList(Type.SWAMP, Type.WATER))));
-        mocEntityMap.put("Shark", new MoCEntityData("Shark", 3, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntityShark.class, 6, 1, 1), new ArrayList<>(Arrays.asList(Type.WATER))));
-        mocEntityMap.put("SmallFish", new MoCEntityData("SmallFish", 6, EnumCreatureType.waterCreature, new SpawnListEntry(MoCEntitySmallFish.class, 12, 1, 6), new ArrayList<>(Arrays.asList(Type.BEACH, Type.SWAMP, Type.WATER))));
-        // monsters
-        mocEntityMap.put("BigGolem", new MoCEntityData("BigGolem", 1, EnumCreatureType.monster, new SpawnListEntry(MoCEntityGolem.class, 3, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("FlameWraith", new MoCEntityData("FlameWraith", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityFlameWraith.class, 5, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("HellRat", new MoCEntityData("HellRat", 4, EnumCreatureType.monster, new SpawnListEntry(MoCEntityHellRat.class, 6, 1, 4), new ArrayList<>(Arrays.asList(Type.NETHER))));
-        mocEntityMap.put("HorseMob", new MoCEntityData("HorseMob", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityHorseMob.class, 8, 1, 3), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("MiniGolem", new MoCEntityData("MiniGolem", 2, EnumCreatureType.monster, new SpawnListEntry(MoCEntityMiniGolem.class, 6, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Ogre", new MoCEntityData("Ogre", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityOgre.class, 8, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Rat", new MoCEntityData("Rat", 2, EnumCreatureType.monster, new SpawnListEntry(MoCEntityRat.class, 7, 1, 2), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Scorpion", new MoCEntityData("Scorpion", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityScorpion.class, 6, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("SilverSkeleton", new MoCEntityData("SilverSkeleton", 4, EnumCreatureType.monster, new SpawnListEntry(MoCEntitySilverSkeleton.class, 6, 1, 4), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Werewolf", new MoCEntityData("Werewolf", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityWerewolf.class, 8, 1, 4), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("Wraith", new MoCEntityData("Wraith", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityWraith.class, 1, 1, 1), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
-        mocEntityMap.put("WWolf", new MoCEntityData("WWolf", 3, EnumCreatureType.monster, new SpawnListEntry(MoCEntityWWolf.class, 8, 1, 3), new ArrayList<>(Arrays.asList(Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND))));
+        addSpawn(MoCEntityAnt.class, MoCProxy.AntSpawnWeight, MoCProxy.AntMinChunk, MoCProxy.AntMaxChunk, EnumCreatureType.ambient,MoCProxy.AntSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityBee.class, MoCProxy.BeeSpawnWeight, MoCProxy.BeeMinChunk, MoCProxy.BeeMaxChunk, EnumCreatureType.ambient,MoCProxy.BeeSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS);
+        addSpawn(MoCEntityRoach.class, MoCProxy.RoachSpawnWeight, MoCProxy.RoachMinChunk, MoCProxy.RoachMaxChunk, EnumCreatureType.ambient,MoCProxy.RoachSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityButterfly.class, MoCProxy.ButterFlySpawnWeight, MoCProxy.ButterFlyMinChunk, MoCProxy.ButterFlyMaxChunk, EnumCreatureType.ambient,MoCProxy.ButterFlySpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS);
+        addSpawn(MoCEntityCrab.class, MoCProxy.CrabSpawnWeight, MoCProxy.CrabMinChunk, MoCProxy.CrabMaxChunk, EnumCreatureType.ambient,MoCProxy.CrabSpawn, Type.BEACH, Type.WATER);
+        addSpawn(MoCEntityCricket.class, MoCProxy.CricketSpawnWeight, MoCProxy.CricketMinChunk, MoCProxy.CricketMaxChunk, EnumCreatureType.ambient,MoCProxy.CricketSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP);
+        addSpawn(MoCEntityDragonfly.class, MoCProxy.DragonflySpawnWeight, MoCProxy.DragonflyMinChunk, MoCProxy.DragonflyMaxChunk, EnumCreatureType.ambient,MoCProxy.DragonflySpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.BEACH);
+        addSpawn(MoCEntityFirefly.class, MoCProxy.FireflySpawnWeight, MoCProxy.FireflyMinChunk, MoCProxy.FireflyMaxChunk, EnumCreatureType.ambient,MoCProxy.FireflySpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP);
+        addSpawn(MoCEntityFly.class, MoCProxy.FlySpawnWeight, MoCProxy.FlyMinChunk, MoCProxy.FlyMaxChunk, EnumCreatureType.ambient,MoCProxy.FlySpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityMaggot.class, MoCProxy.MaggotSpawnWeight, MoCProxy.MaggotMinChunk, MoCProxy.MaggotMaxChunk, EnumCreatureType.ambient,MoCProxy.MaggotSpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.SWAMP);
+        addSpawn(MoCEntitySnail.class, MoCProxy.SnailSpawnWeight, MoCProxy.SnailMinChunk, MoCProxy.SnailMaxChunk, EnumCreatureType.ambient,MoCProxy.SnailSpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS);
 
-        for (MoCEntityData entityData : mocEntityMap.values()) {
-            if (entityData.getEntityName().equals("Wyvern")) continue;
-            SpawnListEntry spawnEntry = entityData.getSpawnListEntry();
-            for (BiomeDictionary.Type type : entityData.getBiomeTypes()) {
-                for (BiomeGenBase biome : BiomeDictionary.getBiomesForType(type)) {
-                    boolean match = false;
-                    for (String allowedBiomeMod : defaultBiomeSupport) {
-                        if (biome.getClass().getName().contains(allowedBiomeMod)) {
-                            match = true;
-                            break;
-                        }
+        // creatures
+        addSpawn(MoCEntityBear.class, MoCProxy.BearSpawnWeight, MoCProxy.BearMinChunk, MoCProxy.BearMaxChunk, EnumCreatureType.creature,MoCProxy.BearSpawn, Type.FOREST, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.FROZEN);
+        addSpawn(MoCEntityBigCat.class, MoCProxy.BigCatSpawnWeight, MoCProxy.BigCatMinChunk, MoCProxy.BigCatMaxChunk, EnumCreatureType.creature,MoCProxy.BigCatSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.FROZEN);
+        addSpawn(MoCEntityBird.class, MoCProxy.BirdSpawnWeight, MoCProxy.BirdMinChunk, MoCProxy.BirdMaxChunk, EnumCreatureType.creature,MoCProxy.BirdSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS);
+        addSpawn(MoCEntityBoar.class, MoCProxy.BoarSpawnWeight, MoCProxy.BoarMinChunk, MoCProxy.BoarMaxChunk, EnumCreatureType.creature,MoCProxy.BoarSpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS);
+        addSpawn(MoCEntityBunny.class, MoCProxy.BunnySpawnWeight, MoCProxy.BunnyMinChunk, MoCProxy.BunnyMaxChunk, EnumCreatureType.creature,MoCProxy.BunnySpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.FROZEN);
+        addSpawn(MoCEntityCrocodile.class, MoCProxy.CrocodileSpawnWeight, MoCProxy.CrocodileMinChunk, MoCProxy.CrocodileMaxChunk, EnumCreatureType.creature,MoCProxy.CrocodileSpawn, Type.SWAMP);
+        addSpawn(MoCEntityDeer.class, MoCProxy.DeerSpawnWeight, MoCProxy.DeerMinChunk, MoCProxy.DeerMaxChunk, EnumCreatureType.creature,MoCProxy.DeerSpawn, Type.FOREST, Type.PLAINS);
+        addSpawn(MoCEntityDuck.class, MoCProxy.DuckSpawnWeight, MoCProxy.DuckMinChunk, MoCProxy.DuckMaxChunk, EnumCreatureType.creature,MoCProxy.DuckSpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS);
+        addSpawn(MoCEntityElephant.class, MoCProxy.ElephantSpawnWeight, MoCProxy.ElephantMinChunk, MoCProxy.ElephantMaxChunk, EnumCreatureType.creature,MoCProxy.ElephantSpawn, Type.DESERT, Type.FOREST, Type.PLAINS, Type.FROZEN);
+        addSpawn(MoCEntityEnt.class, MoCProxy.EntSpawnWeight, MoCProxy.EntMinChunk, MoCProxy.EntMaxChunk, EnumCreatureType.creature,MoCProxy.EntSpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS);
+        addSpawn(MoCEntityFox.class, MoCProxy.FoxSpawnWeight, MoCProxy.FoxMinChunk, MoCProxy.FoxMaxChunk, EnumCreatureType.creature,MoCProxy.FoxSpawn, Type.FOREST, Type.JUNGLE, Type.PLAINS, Type.FROZEN);
+        addSpawn(MoCEntityGoat.class, MoCProxy.GoatSpawnWeight, MoCProxy.GoatMinChunk, MoCProxy.GoatMaxChunk, EnumCreatureType.creature,MoCProxy.GoatSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS);
+        addSpawn(MoCEntityKitty.class, MoCProxy.KittySpawnWeight, MoCProxy.KittyMinChunk, MoCProxy.KittyMaxChunk, EnumCreatureType.creature,MoCProxy.KittySpawn, Type.PLAINS);
+        addSpawn(MoCEntityKomodo.class, MoCProxy.KomodoSpawnWeight, MoCProxy.KomodoMinChunk, MoCProxy.KomodoMaxChunk, EnumCreatureType.creature,MoCProxy.KomodoSpawn, Type.SWAMP);
+        addSpawn(MoCEntityMole.class, MoCProxy.MoleSpawnWeight, MoCProxy.MoleMinChunk, MoCProxy.MoleMaxChunk, EnumCreatureType.creature,MoCProxy.MoleSpawn, Type.FOREST, Type.PLAINS);
+        addSpawn(MoCEntityMouse.class, MoCProxy.MooseSpawnWeight, MoCProxy.MooseMinChunk, MoCProxy.MooseMaxChunk, EnumCreatureType.creature,MoCProxy.MooseSpawn, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS);
+        addSpawn(MoCEntityOstrich.class, MoCProxy.OstrichSpawnWeight, MoCProxy.OstrichMinChunk, MoCProxy.OstrichMaxChunk, EnumCreatureType.creature,MoCProxy.OstrichSpawn, Type.DESERT, Type.PLAINS);
+        addSpawn(MoCEntityRaccoon.class, MoCProxy.RaccoonSpawnWeight, MoCProxy.RaccoonMinChunk, MoCProxy.RaccoonMaxChunk, EnumCreatureType.creature,MoCProxy.RaccoonSpawn, Type.FOREST, Type.HILLS, Type.MOUNTAIN, Type.PLAINS);
+        addSpawn(MoCEntitySnake.class, MoCProxy.SnakeSpawnWeight, MoCProxy.SnakeMinChunk, MoCProxy.SnakeMaxChunk, EnumCreatureType.creature,MoCProxy.SnakeSpawn, Type.DESERT, Type.FOREST, Type.HILLS, Type.JUNGLE, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityTurkey.class, MoCProxy.TurkeySpawnWeight, MoCProxy.TurkeyMinChunk, MoCProxy.TurkeyMaxChunk, EnumCreatureType.creature,MoCProxy.TurkeySpawn, Type.PLAINS);
+        addSpawn(MoCEntityTurtle.class, MoCProxy.TurtleSpawnWeight, MoCProxy.TurtleMinChunk, MoCProxy.TurtleMaxChunk, EnumCreatureType.creature,MoCProxy.TurtleSpawn, Type.JUNGLE, Type.SWAMP);
+        addSpawn(MoCEntityHorse.class, MoCProxy.HorseSpawnWeight, MoCProxy.HorseMinChunk, MoCProxy.HorseMaxChunk, EnumCreatureType.creature,MoCProxy.HorseSpawn, Type.FOREST, Type.HILLS, Type.MOUNTAIN, Type.PLAINS);
+
+        // water creatures
+        addSpawn(MoCEntityDolphin.class, MoCProxy.DolphinSpawnWeight, MoCProxy.DolphinMinChunk, MoCProxy.DolphinMaxChunk, EnumCreatureType.waterCreature,MoCProxy.DolphinSpawn, Type.BEACH, Type.WATER);
+        addSpawn(MoCEntityFishy.class, MoCProxy.FishySpawnWeight, MoCProxy.FishyMinChunk, MoCProxy.FishyMaxChunk, EnumCreatureType.waterCreature,MoCProxy.FishySpawn,Type.BEACH, Type.SWAMP, Type.WATER);
+        addSpawn(MoCEntityJellyFish.class, MoCProxy.JellyFishSpawnWeight, MoCProxy.JellyFishMinChunk, MoCProxy.JellyFishMaxChunk, EnumCreatureType.waterCreature,MoCProxy.JellyFishSpawn, Type.WATER);
+        addSpawn(MoCEntityMediumFish.class, MoCProxy.MediumFishSpawnWeight, MoCProxy.MediumFishMinChunk, MoCProxy.MediumFishMaxChunk, EnumCreatureType.waterCreature,MoCProxy.MediumFishSpawn,Type.BEACH, Type.SWAMP, Type.WATER);
+        addSpawn(MoCEntityPiranha.class, MoCProxy.PiranhaSpawnWeight, MoCProxy.PiranhaMinChunk, MoCProxy.PiranhaMaxChunk, EnumCreatureType.waterCreature,MoCProxy.PiranhaSpawn, Type.BEACH, Type.SWAMP, Type.WATER);
+        addSpawn(MoCEntityRay.class, MoCProxy.RaySpawnWeight, MoCProxy.RayMinChunk, MoCProxy.RayMaxChunk, EnumCreatureType.waterCreature,MoCProxy.RaySpawn, Type.SWAMP, Type.WATER);
+        addSpawn(MoCEntityShark.class, MoCProxy.SharkSpawnWeight, MoCProxy.SharkMinChunk, MoCProxy.SharkMaxChunk, EnumCreatureType.waterCreature,MoCProxy.SharkSpawn, Type.WATER);
+        addSpawn(MoCEntitySmallFish.class, MoCProxy.SmallFishSpawnWeight, MoCProxy.SmallFishMinChunk, MoCProxy.SmallFishMaxChunk, EnumCreatureType.waterCreature,MoCProxy.SmallFishSpawn,Type.BEACH, Type.SWAMP, Type.WATER );
+
+        // monsters
+        addSpawn(MoCEntityGolem.class, MoCProxy.GolemSpawnWeight, MoCProxy.GolemMinChunk, MoCProxy.GolemMaxChunk, EnumCreatureType.monster,MoCProxy.GolemSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityFlameWraith.class, MoCProxy.FlameWraithSpawnWeight, MoCProxy.FlameWraithMinChunk, MoCProxy.FlameWraithMaxChunk, EnumCreatureType.monster,MoCProxy.FlameWraithSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityHellRat.class, MoCProxy.HellRatSpawnWeight, MoCProxy.HellRatMinChunk, MoCProxy.HellRatMaxChunk, EnumCreatureType.monster,MoCProxy.HellRatSpawn,Type.NETHER);
+        addSpawn(MoCEntityHorseMob.class, MoCProxy.HorseMobSpawnWeight, MoCProxy.HorseMobMinChunk, MoCProxy.HorseMobMaxChunk, EnumCreatureType.monster,MoCProxy.HorseMobSpawn,Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityMiniGolem.class, MoCProxy.MiniGolemSpawnWeight, MoCProxy.MiniGolemMinChunk,MoCProxy.MiniGolemMaxChunk , EnumCreatureType.monster,MoCProxy.MiniGolemSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityOgre.class, MoCProxy.OgreSpawnWeight, MoCProxy.OgreMinChunk, MoCProxy.OgreMaxChunk, EnumCreatureType.monster,MoCProxy.OgreSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityRat.class, MoCProxy.RatSpawnWeight, MoCProxy.RatMinChunk,MoCProxy.RatMaxChunk , EnumCreatureType.monster,MoCProxy.RatSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityScorpion.class,MoCProxy. ScorpionSpawnWeight,MoCProxy.ScorpionMinChunk ,MoCProxy.ScorpionMaxChunk , EnumCreatureType.monster,MoCProxy.ScorpionSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.NETHER, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntitySilverSkeleton.class,MoCProxy. SilverSkeletonSpawnWeight,MoCProxy.SilverSkeletonMinChunk ,MoCProxy.SilverSkeletonMaxChunk , EnumCreatureType.monster,MoCProxy.SilverSkeletonSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityWerewolf.class,MoCProxy. WerewolfSpawnWeight, MoCProxy.WerewolfMinChunk,MoCProxy.WerewolfMaxChunk , EnumCreatureType.monster,MoCProxy.WerewolfSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityWraith.class,MoCProxy. WraithSpawnWeight, MoCProxy.WraithMinChunk, MoCProxy.WraithMaxChunk, EnumCreatureType.monster,MoCProxy.WraithSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+        addSpawn(MoCEntityWWolf.class,MoCProxy. WWolfSpawnWeight,MoCProxy.WWolfMinChunk , MoCProxy.WWolfMaxChunk, EnumCreatureType.monster,MoCProxy.WWolfSpawn,Type.DESERT, Type.FOREST, Type.FROZEN, Type.JUNGLE, Type.HILLS, Type.MOUNTAIN, Type.PLAINS, Type.SWAMP, Type.WASTELAND);
+    }
+    public static void addSpawn(Class<? extends EntityLiving> entityClass,
+                                int weightedProb, int min, int max,
+                                EnumCreatureType typeOfCreature,
+                                boolean shouldSpawn,
+                                BiomeDictionary.Type... biomeTypes) {
+        if (!shouldSpawn) {
+            return;
+        }
+
+        for (BiomeDictionary.Type biomeType : biomeTypes) {
+            for (BiomeGenBase biome : BiomeDictionary.getBiomesForType(biomeType)) {
+                @SuppressWarnings("unchecked")
+                List<SpawnListEntry> spawns = biome.getSpawnableList(typeOfCreature);
+                boolean found = false;
+                for (SpawnListEntry entry : spawns) {
+                    if (entry.entityClass == entityClass) {
+                        entry.itemWeight = weightedProb;
+                        entry.minGroupCount = min;
+                        entry.maxGroupCount = max;
+                        found = true;
+                        break;
                     }
-                    if (!biome.getSpawnableList(entityData.getType()).contains(spawnEntry) && match) {
-                        biome.getSpawnableList(entityData.getType()).add(spawnEntry);
-                    }
+                }
+                if (!found) {
+                    spawns.add(new SpawnListEntry(entityClass, weightedProb, min, max));
                 }
             }
         }
-        proxy.readMocConfigValues();
     }
+
+
 
     /**
      * For Litterbox and kittybeds

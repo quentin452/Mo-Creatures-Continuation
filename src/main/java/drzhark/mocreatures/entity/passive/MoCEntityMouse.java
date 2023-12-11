@@ -37,7 +37,7 @@ public class MoCEntityMouse extends MoCEntityAnimal
     public void selectType()
     {
         checkSpawningBiome();
-        
+
         if (getType() == 0)
         {
             setType(rand.nextInt(3)+1);
@@ -55,7 +55,7 @@ public class MoCEntityMouse extends MoCEntityAnimal
                 return MoCreatures.proxy.getTexture("miceb.png");
             case 3:
                 return MoCreatures.proxy.getTexture("micew.png");
-            
+
             default:
                 return MoCreatures.proxy.getTexture("miceg.png");
         }
@@ -128,15 +128,14 @@ public class MoCEntityMouse extends MoCEntityAnimal
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(boundingBox.minY);
         int k = MathHelper.floor_double(posZ);
-        return ( 
-                (MoCreatures.entityMap.get(this.getClass()).getFrequency() > 0) &&
-                worldObj.checkNoEntityCollision(boundingBox) 
-                && (worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0) 
-                && !worldObj.isAnyLiquid(boundingBox) 
-                && ((worldObj.getBlock(i, j - 1, k) == Blocks.cobblestone) 
-                || (worldObj.getBlock(i, j - 1, k) == Blocks.planks) 
-                || (worldObj.getBlock(i, j - 1, k) == Blocks.dirt) 
-                || (worldObj.getBlock(i, j - 1, k) == Blocks.stone) 
+        return (
+                worldObj.checkNoEntityCollision(boundingBox)
+                && (worldObj.getCollidingBoundingBoxes(this, boundingBox).isEmpty())
+                && !worldObj.isAnyLiquid(boundingBox)
+                && ((worldObj.getBlock(i, j - 1, k) == Blocks.cobblestone)
+                || (worldObj.getBlock(i, j - 1, k) == Blocks.planks)
+                || (worldObj.getBlock(i, j - 1, k) == Blocks.dirt)
+                || (worldObj.getBlock(i, j - 1, k) == Blocks.stone)
                 || (worldObj.getBlock(i, j - 1, k) == Blocks.grass)));
     }
 
@@ -176,12 +175,12 @@ public class MoCEntityMouse extends MoCEntityAnimal
         {
             return (yOffset - 1.7F);
         }
-            
+
         if ((ridingEntity instanceof EntityPlayer) && !MoCreatures.isServer())
         {
             return (yOffset - 0.1F);
         }
-        else 
+        else
             return yOffset;
     }
 
@@ -245,18 +244,18 @@ public class MoCEntityMouse extends MoCEntityAnimal
     }
 
     @Override
-    public boolean updateMount() 
+    public boolean updateMount()
     {
         return true;
     }
 
     @Override
-    public boolean forceUpdates() 
+    public boolean forceUpdates()
     {
         return true;
     }
 
-    
+
     @Override
     public boolean swimmerEntity()
     {

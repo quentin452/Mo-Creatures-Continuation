@@ -171,7 +171,7 @@ public abstract class MoCEntityMob extends EntityMob implements IMoCEntity//, IE
     @Override
     public boolean getCanSpawnHere()
     {
-        return (MoCreatures.entityMap.get(this.getClass()).getFrequency() > 0 && super.getCanSpawnHere());
+        return super.getCanSpawnHere();
     }
 
     public boolean getCanSpawnHereMob()

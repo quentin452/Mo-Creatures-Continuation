@@ -482,7 +482,7 @@ public abstract class MoCEntityAmbient extends EntityAnimal  implements IMoCEnti
 
     public boolean getCanSpawnHereLiving()
     {
-        return worldObj.checkNoEntityCollision(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).size() == 0 && !worldObj.isAnyLiquid(boundingBox);
+        return worldObj.checkNoEntityCollision(boundingBox) && worldObj.getCollidingBoundingBoxes(this, boundingBox).isEmpty() && !worldObj.isAnyLiquid(boundingBox);
     }
 
     public boolean getCanSpawnHereAquatic()
@@ -493,8 +493,6 @@ public abstract class MoCEntityAmbient extends EntityAnimal  implements IMoCEnti
     @Override
     public boolean getCanSpawnHere()
     {
-        if (MoCreatures.entityMap.get(this.getClass()).getFrequency() <= 0)
-            return false;
         int i = MathHelper.floor_double(posX);
         int j = MathHelper.floor_double(boundingBox.minY);
         int k = MathHelper.floor_double(posZ);

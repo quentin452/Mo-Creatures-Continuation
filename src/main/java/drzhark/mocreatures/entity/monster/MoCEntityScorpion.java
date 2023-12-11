@@ -372,7 +372,7 @@ public class MoCEntityScorpion extends MoCEntityMob {
 
     @Override
     public boolean getCanSpawnHere() {
-        return (isValidLightLevel() && MoCreatures.entityMap.get(this.getClass()).getFrequency() > 0) && getCanSpawnHereLiving() && getCanSpawnHereCreature();
+        return (isValidLightLevel() && getCanSpawnHereLiving() && getCanSpawnHereCreature());
     }
 
     @Override

@@ -640,8 +640,6 @@ public abstract class MoCEntityAnimal extends EntityAnimal implements IMoCEntity
 
     @Override
     public boolean getCanSpawnHere() {
-        if (MoCreatures.entityMap.get(this.getClass()).getFrequency() <= 0)
-            return false;
         if (worldObj.provider.dimensionId != 0) {
             return getCanSpawnHereCreature() && getCanSpawnHereLiving();
         }
