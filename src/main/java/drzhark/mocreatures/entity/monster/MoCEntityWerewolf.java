@@ -248,7 +248,7 @@ public class MoCEntityWerewolf extends MoCEntityMob {
     @Override
     protected String getLivingSound() {
         if (getIsHumanForm()) {
-            return "mocreatures:werehumangrunt";
+            return null; // todo add sound for the human form
         } else {
             return "mocreatures:werewolfgrunt";
         }
