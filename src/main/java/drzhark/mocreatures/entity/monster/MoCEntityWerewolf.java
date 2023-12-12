@@ -15,6 +15,8 @@ import net.minecraft.world.World;
 import drzhark.mocreatures.MoCreatures;
 import drzhark.mocreatures.entity.MoCEntityMob;
 
+import java.util.Objects;
+
 public class MoCEntityWerewolf extends MoCEntityMob {
     private boolean transforming;
     private boolean hunched;
@@ -149,24 +151,41 @@ public class MoCEntityWerewolf extends MoCEntityMob {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-    	if(damage > 1f && !getIsHumanForm()) {
-    		Entity entity = damageSource.getEntity();
-	        if (entity != null && entity instanceof EntityPlayer) {
-	            EntityPlayer entityplayer = (EntityPlayer) entity;
-	            ItemStack stack = entityplayer.getCurrentEquippedItem();
-	            if (stack != null) {
-	                if (stack.getItem().getUnlocalizedName().toLowerCase().contains("silver")) {
-	                	damage *= 1.5f;
-	                } else {
-	                	damage = Math.min(damage *= 0.5f, 4f);
-	                }
-	            }
-	        } else {
-	        	damage = Math.min(damage *= 0.5f, 4f);
-	        }
-    	}
-        return super.attackEntityFrom(damageSource, damage);
+    public boolean attackEntityFrom(DamageSource damagesource, float i)
+    {
+
+        Entity entity = damagesource.getEntity();
+        if (!getIsHumanForm() && (entity instanceof EntityPlayer))
+        {
+            EntityPlayer entityplayer = (EntityPlayer) entity;
+            ItemStack itemstack = entityplayer.getCurrentEquippedItem();
+            String unlocalizedName = Objects.requireNonNull(itemstack.getItem()).getUnlocalizedName();
+            i = 1;
+            if (itemstack.getItem() == Items.golden_hoe)
+            {
+                i = 6;
+            }
+            if (itemstack.getItem() == Items.golden_sword)
+            {
+                i = 7;
+            }
+            if (itemstack.getItem() == Items.golden_pickaxe)
+            {
+                i = 8;
+            }
+            if (itemstack.getItem() == Items.golden_axe)
+            {
+                i = 9;
+            }
+            if (unlocalizedName.toLowerCase().contains("silver")
+                ||unlocalizedName.contains("Silver")
+                ||itemstack.getItem() == MoCreatures.silversword
+                ||itemstack.getItem() == Items.golden_sword)
+            {
+                i = 10;
+            }
+        }
+        return super.attackEntityFrom(damagesource, i);
     }
 
     @Override
