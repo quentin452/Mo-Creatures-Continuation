@@ -142,25 +142,37 @@ public class MoCEntityScorpion extends MoCEntityMob {
     /**
      * finds shelter from sunlight
      */
-    protected void findSunLightShelter() {
-        Vec3 var1 = this.findPossibleShelter();
-        if (var1 == null) {
-            hideCounter++;
-            if (hideCounter > 200) {
-                hideCounter = 0;
-            }
-            int x = MathHelper.floor_double(posX + rand.nextInt(13)-6);
-            int z = MathHelper.floor_double(posZ + rand.nextInt(13)-6);
-            getNavigator().tryMoveToXYZ(x, posY, z, moveSpeed);
-        } else {
-            double x = var1.xCoord;
-            double y = var1.yCoord;
-            double z = var1.zCoord;
+    private int shelterSearchTime;
 
-            if (!Double.isNaN(x) && !Double.isNaN(y) && !Double.isNaN(z)) {
-                this.getNavigator().tryMoveToXYZ(x, y, z, this.getMoveSpeed() / 2F);
+    protected void findSunLightShelter() {
+        Vec3 shelter = this.findPossibleShelter();
+
+        if (shelter == null) {
+            shelterSearchTime++;
+            if (shelterSearchTime > 200) {
+                shelterSearchTime = 0;
+
+                if (worldObj.isDaytime()) {
+                    this.setOnFire(5);
+                } else {
+                    int x = MathHelper.floor_double(posX + rand.nextInt(13) - 6);
+                    int z = MathHelper.floor_double(posZ + rand.nextInt(13) - 6);
+                    getNavigator().tryMoveToXYZ(x, posY, z, moveSpeed);
+                }
+            }
+        } else {
+            double xCoord = shelter.xCoord;
+            double yCoord = shelter.yCoord;
+            double zCoord = shelter.zCoord;
+
+            if (!Double.isNaN(xCoord) && !Double.isNaN(yCoord) && !Double.isNaN(zCoord)) {
+                this.getNavigator().tryMoveToXYZ(xCoord, yCoord, zCoord, this.getMoveSpeed() / 2F);
             }
         }
+    }
+
+    private void setOnFire(int duration) {
+        this.setFire(duration);
     }
 
     /**
@@ -172,10 +184,20 @@ public class MoCEntityScorpion extends MoCEntityMob {
         return (worldObj.isDaytime()); //&& worldObj.canBlockSeeTheSky(MathHelper.floor_double(this.posX), (int) this.boundingBox.minY, MathHelper.floor_double(this.posZ)));
     }
 
+    private Vec3 lastDestination;
+    private int ticksCounter = 0;
+
     @Override
     public void onLivingUpdate() {
-        if (MoCreatures.isServer() && wantsToHide()) {
-            findSunLightShelter();
+        ticksCounter++;
+
+        if (MoCreatures.isServer() && wantsToHide() && ticksCounter % 20 == 0) {
+            Vec3 newDestination = findPossibleShelter();
+
+            if (newDestination != null && (lastDestination == null || !newDestination.equals(lastDestination))) {
+                lastDestination = newDestination;
+                findSunLightShelter();
+            }
         }
 
         if (!onGround && (ridingEntity != null)) {
