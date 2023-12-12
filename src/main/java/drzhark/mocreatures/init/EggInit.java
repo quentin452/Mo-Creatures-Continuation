@@ -66,7 +66,7 @@ public class EggInit {
     public static MoCSpawnEggsHandler EntityWereWolfEgg;
     @Mod.EventHandler
     public static void preInit(FMLPreInitializationEvent event) {
-        MoCSpawnEggsHandler EntityAntEggInit = new MoCSpawnEggsHandler(MoCEntityAnt.class);
+       /* MoCSpawnEggsHandler EntityAntEggInit = new MoCSpawnEggsHandler(MoCEntityAnt.class);
         EntityAntEggInit.setUnlocalizedName("entity_ant_egg");
         EntityAntEgg = EntityAntEggInit;
         GameRegistry.registerItem(EntityAntEgg, "Ant Egg");
@@ -335,5 +335,7 @@ public class EggInit {
         EntityWerewolfEggInit.setUnlocalizedName("entity_werewolf_egg");
         EntityWereWolfEgg = EntityWerewolfEggInit;
         GameRegistry.registerItem(EntityWereWolfEgg, "Werewolf Egg");
+
+        */
     }
 }
