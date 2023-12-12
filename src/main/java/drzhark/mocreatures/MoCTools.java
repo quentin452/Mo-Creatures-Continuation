@@ -176,7 +176,7 @@ public class MoCTools {
             try {
                 Class entityClass =MoCreatures.instaSpawnerMap.get(entityId);
                 entityliving = (EntityLiving) entityClass.getConstructor(new Class[] { World.class }).newInstance(new Object[] { worldObj });
-            }catch (Exception e) { 
+            }catch (Exception e) {
                 System.out.println(e);
             }
 
@@ -199,7 +199,7 @@ public class MoCTools {
             }catch (Exception e) {
             	System.out.println(e);
             }
-            
+
             if (entityToSpawn != null) {
                 IEntityLivingData entitylivingdata = null;
                 entityToSpawn.onSpawnWithEgg(entitylivingdata);
@@ -233,9 +233,9 @@ public class MoCTools {
                 myClass = MoCEntityPetScorpion.class;
             } else myClass = entityData.getEntityClass();
             entityToSpawn = (EntityLiving) myClass.getConstructor(new Class[] { World.class }).newInstance(new Object[] { worldObj });
-        } catch (Exception e) { 
+        } catch (Exception e) {
             if (MoCreatures.proxy.debug) MoCLog.logger.warn("Unable to find class for entity " + eName + ", " + e);}
-        return entityToSpawn;        
+        return entityToSpawn;
     }
 
     public static boolean NearMaterialWithDistance(Entity entity, Double double1, Material mat) {
@@ -256,25 +256,20 @@ public class MoCTools {
         }
         return false;
     }
+    public static boolean isNearBlockName(World world, Entity entity, Double dist, String blockName) {
+        int range = dist.intValue();
+        int x = MathHelper.floor_double(entity.posX);
+        int y = MathHelper.floor_double(entity.posY);
+        int z = MathHelper.floor_double(entity.posZ);
 
-    public static boolean isNearBlockName(Entity entity, Double dist, String blockName) {
-        AxisAlignedBB axisalignedbb = entity.boundingBox.expand(dist, dist / 2D, dist);
-        int i = MathHelper.floor_double(axisalignedbb.minX);
-        int j = MathHelper.floor_double(axisalignedbb.maxX + 1.0D);
-        int k = MathHelper.floor_double(axisalignedbb.minY);
-        int l = MathHelper.floor_double(axisalignedbb.maxY + 1.0D);
-        int i1 = MathHelper.floor_double(axisalignedbb.minZ);
-        int j1 = MathHelper.floor_double(axisalignedbb.maxZ + 1.0D);
-        for (int k1 = i; k1 < j; k1++) {
-            for (int l1 = k; l1 < l; l1++) {
-                for (int i2 = i1; i2 < j1; i2++) {
-                    Block block = entity.worldObj.getBlock(k1, l1, i2);
-
+        for (int i = -range; i <= range; i++) {
+            for (int j = -range; j <= range; j++) {
+                for (int k = -range; k <= range; k++) {
+                    Block block = world.getBlock(x + i, y + j, z + k);
                     if (block != Blocks.air) {
-                        String nameToCheck = "";
-                        nameToCheck = block.getUnlocalizedName();//.getBlockName();
-                        if (nameToCheck != null && nameToCheck != "") {
-                            if (nameToCheck.equals(blockName)) { return true; }
+                        String nameToCheck = block.getUnlocalizedName();
+                        if (nameToCheck != null && !nameToCheck.isEmpty() && nameToCheck.equals(blockName)) {
+                            return true;
                         }
                     }
                 }
@@ -456,7 +451,7 @@ public class MoCTools {
 
     /**
      * Gives angles in the range 0-360 i.e. 361 will be returned like 1
-     * 
+     *
      * @param origAngle
      * @return
      */
@@ -618,7 +613,7 @@ public class MoCTools {
 
     public static float distToPlayer(Entity entity)
     {
-        //TODO 
+        //TODO
         return 0.0F;
     }
 
@@ -653,7 +648,7 @@ public class MoCTools {
             return biomegenbase;
         }
     }
-    
+
     public static void destroyDrops(Entity entity, double d)
     {
 
@@ -695,7 +690,7 @@ public class MoCTools {
 
     /**
      * Drops the important stuff to get going fast
-     * 
+     *
      * @param worldObj
      * @param entity
      */
@@ -797,13 +792,13 @@ public class MoCTools {
     {
         return world.getGameRules().getGameRuleBooleanValue("mobGriefing");
     }
-    
+
     public static void DestroyBlast(Entity entity, double d, double d1, double d2, float f, boolean flag)
     {
         entity.worldObj.playSoundEffect(d, d1, d2, "destroy", 4F, (1.0F + ((entity.worldObj.rand.nextFloat() - entity.worldObj.rand.nextFloat()) * 0.2F)) * 0.7F);
 
         boolean mobGriefing = mobGriefing(entity.worldObj);
-        
+
         HashSet hashset = new HashSet();
         float f1 = f;
         int i = 16;
@@ -1013,7 +1008,7 @@ public class MoCTools {
     {
         int count = 0;
         EntityPlayer entityplayer = worldObj.getClosestPlayerToEntity(entityliving, -1D);
-        if (entityplayer != null) //entityliving.canDespawn() && 
+        if (entityplayer != null) //entityliving.canDespawn() &&
         {
             double d = ((Entity) (entityplayer)).posX - entityliving.posX;
             double d1 = ((Entity) (entityplayer)).posY - entityliving.posY;
@@ -1095,7 +1090,7 @@ public class MoCTools {
      * Finds a random block around the entity and returns the block's ID will
      * destroy the block in the process the block will be the top one of that
      * layer, without any other block around it
-     * 
+     *
      * @param entity
      *            = the Entity around which the block is searched
      * @param distance
@@ -1178,7 +1173,7 @@ public class MoCTools {
      * Finds a random block around the entity and returns the coordinates the
      * block will be the top one of that layer, without any other block around
      * it
-     * 
+     *
      * @param entity
      *            = the Entity around which the block is searched
      * @param distance
@@ -1244,19 +1239,19 @@ public class MoCTools {
      * Method called to tame an entity, it will check that the player has slots
      * for taming, increase the taming count of the player, add the
      * player.getCommandSenderName() as the owner of the entity, and name the entity.
-     * 
+     *
      * @param ep
      * @param storedCreature
      * @return
      */
-    public static boolean tameWithName(EntityPlayer ep, IMoCTameable storedCreature) 
+    public static boolean tameWithName(EntityPlayer ep, IMoCTameable storedCreature)
     {
         if (ep == null)
         {
             return false;
         }
 
-        if (MoCreatures.proxy.enableOwnership) 
+        if (MoCreatures.proxy.enableOwnership)
         {
             if (storedCreature == null)
             {
@@ -1269,11 +1264,11 @@ public class MoCTools {
             if (!MoCreatures.instance.mapData.isExistingPet(ep.getCommandSenderName(), storedCreature))
             {
                 int count = MoCTools.numberTamedByPlayer(ep);
-                if (isThisPlayerAnOP(ep)) 
+                if (isThisPlayerAnOP(ep))
                 {
                     max = MoCreatures.proxy.maxOPTamed;
                 }
-                if (count >= max) 
+                if (count >= max)
                 {
                     String message = "\2474" + ep.getCommandSenderName() + " can not tame more creatures, limit of " + max + " reached";
                     ep.addChatMessage(new ChatComponentTranslation(message));
@@ -1290,7 +1285,7 @@ public class MoCTools {
 
     /**
      * returns the number of entities already tamed by the player ep
-     * 
+     *
      * @param ep
      * @return
      */
@@ -1308,7 +1303,7 @@ public class MoCTools {
 
     /**
      * Destroys blocks in front of entity
-     * @param entity 
+     * @param entity
      * @param distance: used to calculate the distance where the target block is located
      * @param strength: int 1 - 3.  Checked against block hardness, also used to calculate how many blocks are recovered
      * @param height:  how many rows of blocks are destroyed in front of the entity
@@ -1358,11 +1353,11 @@ public class MoCTools {
     public static void dropInventory(Entity entity, MoCAnimalChest animalchest)
     {
         if (animalchest == null || !(MoCreatures.isServer()) ) return;
-        
+
         int i = MathHelper.floor_double(entity.posX);
         int j = MathHelper.floor_double(entity.boundingBox.minY);
         int k = MathHelper.floor_double(entity.posZ);
-        
+
         for (int l = 0; l < animalchest.getSizeInventory(); l++)
         {
             ItemStack itemstack = animalchest.getStackInSlot(l);
@@ -1393,7 +1388,7 @@ public class MoCTools {
         if (MoCreatures.isServer())
         {
             ItemStack stack = getProperAmulet(entity);
-            if (stack == null) 
+            if (stack == null)
             {
                 return;
             }
@@ -1405,21 +1400,21 @@ public class MoCTools {
 
             try
             {
-                nbtt.setInteger("SpawnClass", 21); 
+                nbtt.setInteger("SpawnClass", 21);
                 nbtt.setFloat("Health", entity.getHealth());
                 nbtt.setInteger("Edad", entity.getEdad());
                 nbtt.setString("Name", entity.getName());
                 nbtt.setBoolean("Rideable", entity.getIsRideable());
                 nbtt.setByte("Armor", entity.getArmorType());
                 nbtt.setInteger("CreatureType", entity.getType());
-                nbtt.setBoolean("Adult", entity.getIsAdult());          
+                nbtt.setBoolean("Adult", entity.getIsAdult());
                 nbtt.setString("OwnerName", entity.getOwnerName());
                 nbtt.setInteger("PetId", entity.getOwnerPetId());
             }
             catch (Exception e)
             {
             }
-            
+
             EntityPlayer epOwner = entity.worldObj.getPlayerEntityByName(entity.getOwnerName());
 
             if (epOwner != null && epOwner.inventory.getFirstEmptyStack() != -1) // don't attempt to set if player inventory is full
@@ -1442,7 +1437,7 @@ public class MoCTools {
     {
         if (MoCreatures.isServer())
         {
-            ItemStack stack = new ItemStack(MoCreatures.fishnet, 1, 1); 
+            ItemStack stack = new ItemStack(MoCreatures.fishnet, 1, 1);
             if (amuletType == 2)
             {
                stack = new ItemStack(MoCreatures.petamulet, 1, 1);
@@ -1521,7 +1516,7 @@ public class MoCTools {
         }
         return null;
     }
-    
+
     /**
      * Returns the right full empty based on the MoCEntityAnimal passed. Used when the amulet empties its contents
      * @param entity
@@ -1550,7 +1545,7 @@ public class MoCTools {
         }
         return null;
     }
-    
+
     public static int countPlayersInDimension(WorldServer worldObj, int dimension)
     {
         int playersInDimension = 0;
@@ -1565,11 +1560,11 @@ public class MoCTools {
         }
         return playersInDimension;
     }
-    
+
     public static boolean isThisPlayerAnOP(EntityPlayer player)
     {
-        if (!MoCreatures.isServer()) 
-        {    
+        if (!MoCreatures.isServer())
+        {
             return false;
         }
 

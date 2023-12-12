@@ -450,7 +450,7 @@ public class MoCEntityBear extends MoCEntityTameableAnimal {
             return true;
         }
 
-        if (currentbiome.biomeName.toLowerCase().contains("bamboo") || MoCTools.isNearBlockName(this, 12D, "tile.reeds"))
+        if (currentbiome.biomeName.toLowerCase().contains("bamboo") || MoCTools.isNearBlockName(worldObj,this, 12D,"tile.reeds"))
         {
             setType(3);//panda
             return true;
