@@ -151,38 +151,31 @@ public class MoCEntityWerewolf extends MoCEntityMob {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource damagesource, float i)
-    {
-
+    public boolean attackEntityFrom(DamageSource damagesource, float i) {
         Entity entity = damagesource.getEntity();
-        if (!getIsHumanForm() && (entity instanceof EntityPlayer))
-        {
+        if (!getIsHumanForm() && (entity instanceof EntityPlayer)) {
             EntityPlayer entityplayer = (EntityPlayer) entity;
             ItemStack itemstack = entityplayer.getCurrentEquippedItem();
-            String unlocalizedName = Objects.requireNonNull(itemstack.getItem()).getUnlocalizedName();
-            i = 1;
-            if (itemstack.getItem() == Items.golden_hoe)
-            {
-                i = 6;
-            }
-            if (itemstack.getItem() == Items.golden_sword)
-            {
-                i = 7;
-            }
-            if (itemstack.getItem() == Items.golden_pickaxe)
-            {
-                i = 8;
-            }
-            if (itemstack.getItem() == Items.golden_axe)
-            {
-                i = 9;
-            }
-            if (unlocalizedName.toLowerCase().contains("silver")
-                ||unlocalizedName.contains("Silver")
-                ||itemstack.getItem() == MoCreatures.silversword
-                ||itemstack.getItem() == Items.golden_sword)
-            {
-                i = 10;
+
+            if (itemstack != null && itemstack.getItem() != null) {
+                String unlocalizedName = itemstack.getItem().getUnlocalizedName();
+                i = 1;
+
+                // Check for null and then perform comparisons
+                Item item = itemstack.getItem();
+                if (item == Items.golden_hoe) {
+                    i = 6;
+                } else if (item == Items.golden_sword) {
+                    i = 7;
+                } else if (item == Items.golden_pickaxe) {
+                    i = 8;
+                } else if (item == Items.golden_axe) {
+                    i = 9;
+                } else if (unlocalizedName.toLowerCase().contains("silver")
+                    || unlocalizedName.contains("Silver")
+                    || item == MoCreatures.silversword) {
+                    i = 10;
+                }
             }
         }
         return super.attackEntityFrom(damagesource, i);
