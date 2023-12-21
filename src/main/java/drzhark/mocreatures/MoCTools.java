@@ -262,14 +262,30 @@ public class MoCTools {
         int y = MathHelper.floor_double(entity.posY);
         int z = MathHelper.floor_double(entity.posZ);
 
-        for (int i = -range; i <= range; i++) {
-            for (int j = -range; j <= range; j++) {
-                for (int k = -range; k <= range; k++) {
-                    Block block = world.getBlock(x + i, y + j, z + k);
-                    if (block != Blocks.air) {
-                        String nameToCheck = block.getUnlocalizedName();
-                        if (nameToCheck != null && !nameToCheck.isEmpty() && nameToCheck.equals(blockName)) {
-                            return true;
+        int chunkX = x >> 4;
+        int chunkZ = z >> 4;
+
+        if (!world.getChunkProvider().chunkExists(chunkX, chunkZ)) {
+            return false;
+        }
+
+        int startX = x - range;
+        int startY = Math.max(0, y - range);
+        int startZ = z - range;
+        int endX = x + range;
+        int endY = Math.min(255, y + range);
+        int endZ = z + range;
+
+        for (int i = startX; i <= endX; i++) {
+            for (int j = startY; j <= endY; j++) {
+                for (int k = startZ; k <= endZ; k++) {
+                    if (world.blockExists(i, j, k)) {
+                        Block block = world.getBlock(i, j, k);
+                        if (block != Blocks.air) {
+                            String nameToCheck = block.getUnlocalizedName();
+                            if (nameToCheck != null && !nameToCheck.isEmpty() && nameToCheck.equals(blockName)) {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -277,6 +293,7 @@ public class MoCTools {
         }
         return false;
     }
+
 
     public static TileEntityJukebox nearJukeBoxRecord(Entity entity, Double dist) {
         AxisAlignedBB axisalignedbb = entity.boundingBox.expand(dist, dist / 2D, dist);
